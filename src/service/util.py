@@ -2,6 +2,7 @@ import random
 import string
 
 from data.rule.rule_model import RuleModel
+from infrastructure.constants import score_deliminator
 
 
 def creat_rule(rule: RuleModel, code: str, min_val, max_val, score: int, desc: str):
@@ -11,6 +12,20 @@ def creat_rule(rule: RuleModel, code: str, min_val, max_val, score: int, desc: s
     rule.score = score
     rule.desc = desc
     return rule
+
+
+def get_score_from_dict(scores: {}):
+    return int(scores[0].split(score_deliminator)[0])
+
+
+def add_rule_model_to_dict(rdict: {}, r: RuleModel):
+    rdict.__setitem__((str(r.score) + score_deliminator + r.code), r.max)
+    return rdict
+
+
+def add_item_to_dict(rdict: {}, key, value):
+    rdict.__setitem__(key, value)
+    return rdict
 
 
 def filter_dict(dic: dict, filtered_item) -> dict:

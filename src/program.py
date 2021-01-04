@@ -1,9 +1,9 @@
 import mongoengine
 
+
 # from src.infrastructure.redis_caching import cache_rules
 # from infrastructure.redis_caching import RedisCaching
 # from infrastructure.caching.redis_caching import cache_rules
-from infrastructure.caching.redis_caching import RedisCaching
 
 
 def create_db_connection():

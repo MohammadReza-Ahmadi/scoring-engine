@@ -1,12 +1,13 @@
+from data.rule.done.rules_done_timely_trades_between_last_3_to_12_months import RuleDoneTimelyTradesOfLast3Months
 from src import program
 from src.data.rule.done.rules_done_arrear_trades_between_last_3_to_12_months import \
     RuleDoneArrearTradesBetweenLast3To12Months
 from src.data.rule.done.rules_done_arrear_trades_of_last_3_months import RuleDoneArrearTradesOfLast3Months
-from src.data.rule.done.rules_done_trades_average_delay_days_ratios import RuleDoneTradesAverageDelayDaysRatio
 from src.data.rule.done.rules_done_past_due_trades_between_last_3_to_12_months import \
     RuleDonePastDueTradesBetweenLast3To12Months
 from src.data.rule.done.rules_done_past_due_trades_of_last_3_months import RuleDonePastDueTradesOfLast3Months
 from src.data.rule.done.rules_done_timely_trades_of_last_3_months import RuleDoneTimelyTradesBetweenLast3To12Months
+from src.data.rule.done.rules_done_trades_average_delay_days_ratios import RuleDoneTradesAverageDelayDaysRatio
 from src.data.rule.done.rules_done_trades_total_balance_ratios import RuleDoneTradesTotalBalanceRatio
 from src.data.rule.rule_model import RuleModel
 
@@ -158,24 +159,24 @@ def import_rules_done_timely_trades_between_last_3_to_12_months():
 
 def import_rules_done_timely_trades_of_last_3_months():
     # Last3MSD = 0	00	H0601P0	کاربر در سه ماه گذشته هیچ تعامل موفقی با سایر کاربران نداشته است
-    rule = RuleDoneArrearTradesOfLast3Months()
+    rule = RuleDoneTimelyTradesOfLast3Months()
     rule.drop_collection()
     rule.save(creat_rule(rule, 'H0601P0', 0, 0, 0, 'کاربر در سه ماه گذشته هیچ تعامل موفقی با سایر کاربران نداشته است'))
 
     # Last3MSD = 1	10	H0602P10	کاربر در سه ماه گذشته 1 تعامل موفق با سایر کاربران داشته است
-    rule = RuleDoneArrearTradesOfLast3Months()
+    rule = RuleDoneTimelyTradesOfLast3Months()
     rule.save(creat_rule(rule, 'H0602P10', 1, 1, 10, 'کاربر در سه ماه گذشته 1 تعامل موفق با سایر کاربران داشته است'))
 
     # Last3MSD = 2	20	H0603P20	کاربر در سه ماه گذشته ۲ تعامل موفق با سایر کاربران داشته است
-    rule = RuleDoneArrearTradesOfLast3Months()
+    rule = RuleDoneTimelyTradesOfLast3Months()
     rule.save(creat_rule(rule, 'H0603P20', 2, 2, 20, 'کاربر در سه ماه گذشته ۲ تعامل موفق با سایر کاربران داشته است'))
 
     # Last3MSD = 3	30	H0604P30	کاربر در سه ماه گذشته 3 تعامل موفق با سایر کاربران داشته است
-    rule = RuleDoneArrearTradesOfLast3Months()
+    rule = RuleDoneTimelyTradesOfLast3Months()
     rule.save(creat_rule(rule, 'H0604P30', 3, 3, 30, 'کاربر در سه ماه گذشته 3 تعامل موفق با سایر کاربران داشته است'))
 
     # Last3MSD ≥ 4	40	H0605P40	کاربر در سه ماه گذشته بیش از 3 تعامل موفق با سایر کاربران داشته است
-    rule = RuleDoneArrearTradesOfLast3Months()
+    rule = RuleDoneTimelyTradesOfLast3Months()
     rule.save(
         creat_rule(rule, 'H0605P40', 4, 999, 40, 'کاربر در سه ماه گذشته بیش از 3 تعامل موفق با سایر کاربران داشته است'))
 

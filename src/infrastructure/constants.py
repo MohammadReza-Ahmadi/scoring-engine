@@ -3,6 +3,7 @@ redis_port = 6379
 redis_password = ""
 rules_min_val = 0
 rules_max_val = 999
+score_deliminator = ':'
 
 SET_RULES_DONE_ARREAR_TRADES_OF_LAST_3_MONTHS = 'set_rules_done_arrear_trades_of_last_3_months'
 SET_RULES_DONE_ARREAR_TRADES_BETWEEN_LAST_3_TO_12_MONTHS = 'set_rules_done_arrear_trades_between_last_3_to_12_months'
