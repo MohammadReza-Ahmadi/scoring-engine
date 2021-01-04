@@ -2,7 +2,7 @@ from data.done_trades import DoneTrade
 from service.util import get_random_digits_str
 
 
-def test_import_done_trades_data(self):
+def test_import_done_trades_data_11(self):
     DoneTrade.drop_collection()
     for i in range(1):
         dt = DoneTrade()
