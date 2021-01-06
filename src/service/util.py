@@ -14,12 +14,25 @@ def creat_rule(rule: RuleModel, code: str, min_val, max_val, score: int, desc: s
     return rule
 
 
+def creat_rule_by_status_code(rule: RuleModel, code: str, status_code: int, score: int, desc: str):
+    rule.code = code
+    rule.status_code = status_code
+    rule.score = score
+    rule.desc = desc
+    return rule
+
+
 def get_score_from_dict(scores: {}):
     return int(scores[0].split(score_deliminator)[0])
 
 
 def add_rule_model_to_dict(rdict: {}, r: RuleModel):
     rdict.__setitem__((str(r.score) + score_deliminator + r.code), r.max)
+    return rdict
+
+
+def add_rule_model_to_dict_by_rds_score(rdict: {}, r: RuleModel, rds_score: int):
+    rdict.__setitem__((str(r.score) + score_deliminator + r.code), rds_score)
     return rdict
 
 

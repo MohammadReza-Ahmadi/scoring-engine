@@ -149,12 +149,23 @@ class TestRedisCaching(unittest.TestCase):
     def test_read_and_find_speed_from_db(self):
         print('start reading ...')
         s = datetime.datetime.now()
-        for i in range(10):
+        for i in range(10000):
             rules: List[RuleDoneArrearTradesBetweenLast3To12Months] = RuleDoneArrearTradesBetweenLast3To12Months.objects()
             for r in rules:
                 if r.min <= 7 <= r.max:
                     socre = r.score
                     break
+
+        e = datetime.datetime.now()
+        print('end reading in: ', (e - s))
+
+    def test_read_and_find_speed_from_cache_class(self):
+        print('start reading ...')
+        s = datetime.datetime.now()
+        rc = RedisCachingRulesDoneTrades()
+        rc.cache_rules(RedisCaching().rds)
+        for i in range(10000):
+            score = rc.get_score_of_rules_done_arrear_trades_between_last_3_to_12_months(7)
 
         e = datetime.datetime.now()
         print('end reading in: ', (e - s))
@@ -182,19 +193,6 @@ class TestRedisCaching(unittest.TestCase):
     #
     #     e = datetime.datetime.now()
     #     print('end reading in: ', (e - s))
-
-    def test_read_and_find_speed_from_cache_class(self):
-        print('start reading ...')
-        rd = RedisCaching()
-        rc = RedisCachingRulesDoneTrades()
-        rc.rds = rd.rds
-        s = datetime.datetime.now()
-        # rc.cache_rules()
-        for i in range(10):
-            score = rc.get_score_of_rules_done_arrear_trades_between_last_3_to_12_months(7)
-
-        e = datetime.datetime.now()
-        print('end reading in: ', (e - s))
 
 
 if __name__ == '__main__':

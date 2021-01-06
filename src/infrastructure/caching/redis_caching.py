@@ -13,6 +13,8 @@ from data.rule.done.rules_done_timely_trades_of_last_3_months import RuleDoneTim
 from data.rule.done.rules_done_trades_average_delay_days_ratios import RuleDoneTradesAverageDelayDaysRatio
 from data.rule.done.rules_done_trades_total_balance_ratios import RuleDoneTradesTotalBalanceRatio
 from infrastructure.caching.redis_caching_rules_done_trades import RedisCachingRulesDoneTrades
+from infrastructure.caching.redis_caching_rules_profiles import RedisCachingRulesProfiles
+from infrastructure.caching.redis_caching_rules_undone_trades import RedisCachingRulesUndoneTrades
 from infrastructure.constants import redis_password, SET_RULES_DONE_ARREAR_TRADES_BETWEEN_LAST_3_TO_12_MONTHS, rules_max_val, rules_min_val, \
     SET_RULES_DONE_ARREAR_TRADES_OF_LAST_3_MONTHS, SET_RULES_DONE_PAST_DUE_TRADES_OF_LAST_3_MONTHS, \
     SET_RULES_DONE_PAST_DUE_TRADES_BETWEEN_LAST_3_TO_12_MONTHS, SET_RULES_DONE_TIMELY_TRADES_OF_LAST_3_MONTHS, \
@@ -34,8 +36,9 @@ class RedisCaching:
             print(e)
 
     def cache_rules(self):
-        # RedisCachingRulesDoneTrades().cache_rules(self.rds)
         RedisCachingRulesDoneTrades().cache_rules(self.rds)
+        RedisCachingRulesUndoneTrades().cache_rules(self.rds)
+        RedisCachingRulesProfiles().cache_rules(self.rds)
 
         # self.cache_rules_done_arrear_trades_of_last_3_months()
         # self.cache_rules_done_arrear_trades_between_last_3_to_12_months()

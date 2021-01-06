@@ -91,7 +91,7 @@ class RedisCachingRulesDoneTrades:
             for r in rules:
                 add_rule_model_to_dict(rdict, r)
             self.rds.zadd(SET_RULES_DONE_TIMELY_TRADES_OF_LAST_3_MONTHS, rdict)
-        print('caching rules_timely_due_trades_of_last_3_months are done.')
+        print('caching rules_done_timely_due_trades_of_last_3_months are done.')
 
     def cache_rules_done_timely_trades_between_last_3_to_12_months(self):
         if self.recreate_caches:

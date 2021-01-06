@@ -3,7 +3,16 @@ redis_port = 6379
 redis_password = ""
 rules_min_val = 0
 rules_max_val = 999
+rules_max_days_val = 10000
 score_deliminator = ':'
+
+SET_RULES_PROFILE_HAS_KYCS = 'set_rules_profile_has_kycs'
+SET_RULES_PROFILE_MILITARY_SERVICE_STATUS = 'set_rules_profile_military_service_status'
+SET_RULES_PROFILE_SIM_CARD_OWNERSHIPS = 'set_rules_profile_sim_card_ownerships'
+SET_RULES_PROFILE_ADDRESS_VERIFICATIONS = 'set_rules_profile_address_verifications'
+SET_RULES_PROFILE_MEMBERSHIP_DAYS_COUNTS = 'set_rules_profile_membership_days_counts'
+SET_RULES_PROFILE_RECOMMENDED_TO_OTHERS_COUNTS = 'set_rules_profile_recommended_to_others_counts'
+SET_RULES_PROFILE_STAR_COUNTS_AVGS = 'set_rules_profile_star_counts_avgs'
 
 SET_RULES_DONE_ARREAR_TRADES_OF_LAST_3_MONTHS = 'set_rules_done_arrear_trades_of_last_3_months'
 SET_RULES_DONE_ARREAR_TRADES_BETWEEN_LAST_3_TO_12_MONTHS = 'set_rules_done_arrear_trades_between_last_3_to_12_months'
@@ -13,3 +22,21 @@ SET_RULES_DONE_TIMELY_TRADES_OF_LAST_3_MONTHS = 'set_rules_done_timely_trades_of
 SET_RULES_DONE_TIMELY_TRADES_BETWEEN_LAST_3_TO_12_MONTHS = 'set_rules_done_timely_trades_between_last_3_to_12_months'
 SET_RULES_DONE_TRADES_AVERAGE_DELAY_DAYS = 'set_rules_trades_done_average_delay_days'
 SET_RULES_DONE_TRADES_AVERAGE_TOTAL_AMOUNT = 'set_rules_done_trades_total_amount'
+
+
+SET_RULES_UNDONE_ARREAR_TRADES_COUNTS = 'set_rules_undone_arrear_trades_counts'
+SET_RULES_UNDONE_ARREAR_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS = 'set_rules_undone_arrear_trades_total_balance_of_last_year_ratios'
+SET_RULES_UNDONE_PAST_DUE_TRADES_COUNTS = 'set_rules_undone_past_due_trades_counts'
+SET_RULES_UNDONE_PAST_DUE_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS = 'set_rules_undone_past_due_trades_total_balance_of_last_year_ratios'
+SET_RULES_UNDONE_UNDUE_TRADES_COUNTS = 'set_rules_undone_undue_trades_counts'
+SET_RULES_UNDONE_UNDUE_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS = 'set_rules_undone_undue_trades_total_balance_of_last_year_ratios'
+
+
+
+
+
+
+
+
+
+
