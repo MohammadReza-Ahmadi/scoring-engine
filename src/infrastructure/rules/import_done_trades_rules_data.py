@@ -8,7 +8,7 @@ from src.data.rule.done.rules_done_past_due_trades_between_last_3_to_12_months i
 from src.data.rule.done.rules_done_past_due_trades_of_last_3_months import RuleDonePastDueTradesOfLast3Months
 from src.data.rule.done.rules_done_timely_trades_of_last_3_months import RuleDoneTimelyTradesBetweenLast3To12Months
 from src.data.rule.done.rules_done_trades_average_delay_days_ratios import RuleDoneTradesAverageDelayDaysRatio
-from src.data.rule.done.rules_done_trades_total_balance_ratios import RuleDoneTradesTotalBalanceRatio
+from src.data.rule.done.rules_done_trades_average_total_balance_ratios import RuleDoneTradesAverageTotalBalanceRatio
 from src.data.rule.rule_model import RuleModel
 
 
@@ -95,6 +95,7 @@ def import_rules_done_past_due_trades_between_last_3_to_12_months():
         creat_rule(rule, 'T2306N20', 11, 999, -20, 'کاربر در یکسال گذشته بیش از 10 تعامل سررسید گذشته‌ داشته است'))
 
 
+# تعداد تعاملات موفق در 3 ماه گذشته
 def import_rules_done_past_due_trades_of_last_3_months():
     # B30DayDelayLast3M = 0	20	T2201P20	کاربر در سه ماه گذشته هیچ تعامل سررسید گذشته‌ای نداشته است
     rule = RuleDonePastDueTradesOfLast3Months()
@@ -183,28 +184,28 @@ def import_rules_done_timely_trades_of_last_3_months():
 
 def import_rules_done_trades_total_balance_ratios():
     # SDealAmountRatio = 0	00	V1201P0	کاربر تعاملی نداشته است
-    rule = RuleDoneTradesTotalBalanceRatio()
+    rule = RuleDoneTradesAverageTotalBalanceRatio()
     rule.drop_collection()
     rule.save(creat_rule(rule, 'V1201P0', 0, 0, 0, 'کاربر تعاملی نداشته است'))
 
     # 0.001 <= SDealAmountRatio ≤ 0.5	10	V1202P10	نسبت بین 0.001 و 0.5 می‌باشد
-    rule = RuleDoneTradesTotalBalanceRatio()
+    rule = RuleDoneTradesAverageTotalBalanceRatio()
     rule.save(creat_rule(rule, 'V1202P10', 0.001, 0.5, 10, 'نسبت بین 0.001 و 0.5 می‌باشد'))
 
     # 0.501 <= SDealAmountRatio ≤ 1	20	V1203P20	نسبت بین 0.501 و 1 می‌باشد
-    rule = RuleDoneTradesTotalBalanceRatio()
+    rule = RuleDoneTradesAverageTotalBalanceRatio()
     rule.save(creat_rule(rule, 'V1203P20', 0.501, 1, 20, 'نسبت بین 0.501 و 1 می‌باشد'))
 
     # 1.001 <= SDealAmountRatio ≤ 1.5	30	V1204P30	نسبت بین 1.001 و 1.5 می‌باشد
-    rule = RuleDoneTradesTotalBalanceRatio()
+    rule = RuleDoneTradesAverageTotalBalanceRatio()
     rule.save(creat_rule(rule, 'V1204P30', 1.001, 1.5, 30, 'نسبت بین 1.001 و 1.5 می‌باشد'))
 
     # 1.501 <= SDealAmountRatio ≤ 2	40	V1205P40	نسبت بین 1.501 و 2 می‌باشد
-    rule = RuleDoneTradesTotalBalanceRatio()
+    rule = RuleDoneTradesAverageTotalBalanceRatio()
     rule.save(creat_rule(rule, 'V1205P40', 1.501, 2, 40, 'نسبت بین 1.501 و 2 می‌باشد'))
 
     # SDealAmountRatio >= 2.001	50	V1206P50	نسبت بیش از 2 می‌باشد
-    rule = RuleDoneTradesTotalBalanceRatio()
+    rule = RuleDoneTradesAverageTotalBalanceRatio()
     rule.save(creat_rule(rule, 'V1206P50', 2.001, 999, 50, 'نسبت بیش از 2 می‌باشد'))
 
 

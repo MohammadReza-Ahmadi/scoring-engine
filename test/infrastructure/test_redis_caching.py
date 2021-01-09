@@ -129,19 +129,19 @@ class TestRedisCaching(unittest.TestCase):
         rc = RedisCachingRulesDoneTrades()
         rc.rds = rd.rds
         # test-1
-        actual = rc.get_score_of_rules_done_trades_average_total_amount(0.001)
+        actual = rc.get_score_of_rules_done_trades_average_total_balance_ratios(0.001)
         expected = 10
         self.assertEqual(expected, actual)
         # test-2
-        actual = rc.get_score_of_rules_done_trades_average_total_amount(0.501)
+        actual = rc.get_score_of_rules_done_trades_average_total_balance_ratios(0.501)
         expected = 20
         self.assertEqual(expected, actual)
         # test-3
-        actual = rc.get_score_of_rules_done_trades_average_total_amount(1)
+        actual = rc.get_score_of_rules_done_trades_average_total_balance_ratios(1)
         expected = 20
         self.assertEqual(expected, actual)
         # test-4
-        actual = rc.get_score_of_rules_done_trades_average_total_amount(1.001)
+        actual = rc.get_score_of_rules_done_trades_average_total_balance_ratios(1.001)
         expected = 30
         self.assertEqual(expected, actual)
 

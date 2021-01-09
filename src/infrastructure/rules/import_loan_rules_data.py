@@ -1,12 +1,12 @@
 from data.rule.loan.rules_arrear_loans_total_balance_ratios import RuleArrearLoansTotalBalanceRatio
-from data.rule.loan.rules_arrear_loans_total_count import RuleArrearLoansTotalCounts
-from data.rule.loan.rules_loan_monthly_installments_total_balance_ratio import RuleMonthlyInstallmentsTotalBalanceRatio
-from data.rule.loan.rules_loans_total_count import RuleLoansTotalCount
-from data.rule.loan.rules_overdue_loans_total_balance_ratio import RuleOverdueLoansTotalBalanceRatio
-from data.rule.loan.rules_past_due_loans_total_balance_ratio import RulePastDueLoansTotalBalanceRatio
-from data.rule.loan.rules_past_due_loans_total_count import RulePastDueLoansTotalCount
-from data.rule.loan.rules_suspicious_loans_total_balance_ratio import RuleSuspiciousLoansTotalBalanceRatio
-from data.rule.loan.rules_suspicious_loans_total_count import RuleSuspiciousLoansTotalCount
+from data.rule.loan.rules_arrear_loans_total_counts import RuleArrearLoansTotalCount
+from data.rule.loan.rules_loan_monthly_installments_total_balance_ratios import RuleLoanMonthlyInstallmentsTotalBalanceRatio
+from data.rule.loan.rules_loans_total_counts import RuleLoansTotalCount
+from data.rule.loan.rules_overdue_loans_total_balance_ratios import RuleOverdueLoansTotalBalanceRatio
+from data.rule.loan.rules_past_due_loans_total_balance_ratios import RulePastDueLoansTotalBalanceRatio
+from data.rule.loan.rules_past_due_loans_total_counts import RulePastDueLoansTotalCount
+from data.rule.loan.rules_suspicious_loans_total_balance_ratios import RuleSuspiciousLoansTotalBalanceRatio
+from data.rule.loan.rules_suspicious_loans_total_counts import RuleSuspiciousLoansTotalCount
 from service.util import creat_rule
 from src import program
 
@@ -44,28 +44,28 @@ def import_rules_loans_total_count():
 
 def import_rules_loan_monthly_installments_total_balance_ratio():
     # MonthlyInstallments = 0	00	V1601P0	کاربر پرداخت اقساط ندارد
-    rule = RuleMonthlyInstallmentsTotalBalanceRatio()
+    rule = RuleLoanMonthlyInstallmentsTotalBalanceRatio()
     rule.drop_collection()
     rule.save(creat_rule(rule, 'V1601P0', 0, 0, 0, 'کاربر پرداخت اقساط ندارد'))
 
     # 0.001 <= MonthlyInstallments ≤ 0.5	10	V1602P10	نسبت بین 0.001 و 0.5 می‌باشد
-    rule = RuleMonthlyInstallmentsTotalBalanceRatio()
+    rule = RuleLoanMonthlyInstallmentsTotalBalanceRatio()
     rule.save(creat_rule(rule, 'V1602P10', 0.001, 0.5, 10, 'نسبت بین 0.001 و 0.5 می‌باشد'))
 
     # 0.501 <= MonthlyInstallments ≤ 1	20	V1603P20	نسبت بین 0.501 و 1 می‌باشد
-    rule = RuleMonthlyInstallmentsTotalBalanceRatio()
+    rule = RuleLoanMonthlyInstallmentsTotalBalanceRatio()
     rule.save(creat_rule(rule, 'V1603P20', 0.501, 1, 20, 'نسبت بین 0.501 و 1 می‌باشد'))
 
     # 1.001 <= MonthlyInstallments ≤ 1.2	00	V1604P0	نسبت بین 1.001 و 1.2 می‌باشد
-    rule = RuleMonthlyInstallmentsTotalBalanceRatio()
+    rule = RuleLoanMonthlyInstallmentsTotalBalanceRatio()
     rule.save(creat_rule(rule, 'V1604P0', 1.001, 1.2, 0, 'نسبت بین 1.001 و 1.2 می‌باشد'))
 
     # 1.201 <= MonthlyInstallments ≤ 2	-10	V1605N10	نسبت بین 1.201 و 2 می‌باشد
-    rule = RuleMonthlyInstallmentsTotalBalanceRatio()
+    rule = RuleLoanMonthlyInstallmentsTotalBalanceRatio()
     rule.save(creat_rule(rule, 'V1605N10', 1.201, 2, -10, 'نسبت بین 1.201 و 2 می‌باشد'))
 
     # MonthlyInstallments >= 2.001	-20	V1606N20	نسبت بیش از 2 می‌باشد
-    rule = RuleMonthlyInstallmentsTotalBalanceRatio()
+    rule = RuleLoanMonthlyInstallmentsTotalBalanceRatio()
     rule.save(creat_rule(rule, 'V1606N20', 2.001, 999, -20, 'نسبت بیش از 2 می‌باشد'))
 
 
@@ -202,24 +202,24 @@ def import_rules_past_due_loans_total_count():
 
 def import_rules_arrear_loans_total_count():
     # DelayedLoans = 0	20	T3401P20	کاربر تسهیلات معوق ندارد
-    rule = RuleArrearLoansTotalCounts()
+    rule = RuleArrearLoansTotalCount()
     rule.drop_collection()
     rule.save(creat_rule(rule, 'T3401P20', 0, 0, 20, 'کاربر تسهیلات معوق ندارد'))
 
     # DelayedLoans = 1	-10	T3402N10	کاربر 1 تسهیلات معوق دارد
-    rule = RuleArrearLoansTotalCounts()
+    rule = RuleArrearLoansTotalCount()
     rule.save(creat_rule(rule, 'T3402N10', 1, 1, -10, 'کاربر 1 تسهیلات معوق دارد'))
 
     # DelayedLoans = 2	-20	T3403N20	کاربر ۲ تسهیلات معوق دارد
-    rule = RuleArrearLoansTotalCounts()
+    rule = RuleArrearLoansTotalCount()
     rule.save(creat_rule(rule, 'T3403N20', 2, 2, -20, 'کاربر ۲ تسهیلات معوق دارد'))
 
     # DelayedLoans = 3	-30	T3404N30	کاربر ۳ تسهیلات معوق دارد
-    rule = RuleArrearLoansTotalCounts()
+    rule = RuleArrearLoansTotalCount()
     rule.save(creat_rule(rule, 'T3404N30', 3, 3, -30, 'کاربر ۳ تسهیلات معوق دارد'))
 
     # DelayedLoans >= 4	-40	T3405N40	کاربر بیش از ۳ تسهیلات معوق دارد
-    rule = RuleArrearLoansTotalCounts()
+    rule = RuleArrearLoansTotalCount()
     rule.save(creat_rule(rule, 'T3405N40', 4, 999, -40, 'کاربر بیش از ۳ تسهیلات معوق دارد'))
 
 

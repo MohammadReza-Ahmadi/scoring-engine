@@ -9,11 +9,12 @@ from data.rule.done.rules_done_past_due_trades_of_last_3_months import RuleDoneP
 from data.rule.done.rules_done_timely_trades_between_last_3_to_12_months import RuleDoneTimelyTradesOfLast3Months
 from data.rule.done.rules_done_timely_trades_of_last_3_months import RuleDoneTimelyTradesBetweenLast3To12Months
 from data.rule.done.rules_done_trades_average_delay_days_ratios import RuleDoneTradesAverageDelayDaysRatio
-from data.rule.done.rules_done_trades_total_balance_ratios import RuleDoneTradesTotalBalanceRatio
+from data.rule.done.rules_done_trades_average_total_balance_ratios import RuleDoneTradesAverageTotalBalanceRatio
 from infrastructure.constants import SET_RULES_DONE_ARREAR_TRADES_BETWEEN_LAST_3_TO_12_MONTHS, rules_max_val, rules_min_val, \
     SET_RULES_DONE_ARREAR_TRADES_OF_LAST_3_MONTHS, SET_RULES_DONE_PAST_DUE_TRADES_OF_LAST_3_MONTHS, \
     SET_RULES_DONE_PAST_DUE_TRADES_BETWEEN_LAST_3_TO_12_MONTHS, SET_RULES_DONE_TIMELY_TRADES_OF_LAST_3_MONTHS, \
-    SET_RULES_DONE_TIMELY_TRADES_BETWEEN_LAST_3_TO_12_MONTHS, SET_RULES_DONE_TRADES_AVERAGE_DELAY_DAYS, SET_RULES_DONE_TRADES_AVERAGE_TOTAL_AMOUNT
+    SET_RULES_DONE_TIMELY_TRADES_BETWEEN_LAST_3_TO_12_MONTHS, SET_RULES_DONE_TRADES_AVERAGE_DELAY_DAYS, \
+    SET_RULES_DONE_TRADES_AVERAGE_TOTAL_BALANCE_RATIOS
 from service.util import add_rule_model_to_dict, get_score_from_dict
 
 
@@ -22,8 +23,11 @@ class RedisCachingRulesDoneTrades:
     recreate_caches = True
     rds: [StrictRedis] = None
 
-    def cache_rules(self, rds: StrictRedis):
+    def __init__(self, rds: StrictRedis) -> None:
         self.rds = rds
+        super().__init__()
+
+    def cache_rules(self):
         self.cache_rules_done_arrear_trades_of_last_3_months()
         self.cache_rules_done_arrear_trades_between_last_3_to_12_months()
         self.cache_rules_done_past_due_trades_of_last_3_months()
@@ -31,7 +35,7 @@ class RedisCachingRulesDoneTrades:
         self.cache_rules_done_timely_trades_of_last_3_months()
         self.cache_rules_done_timely_trades_between_last_3_to_12_months()
         self.cache_rules_done_trades_average_delay_days()
-        self.cache_rules_done_trades_average_total_amount()
+        self.cache_rules_done_trades_average_total_balance_ratios()
 
     # ---------------------------- set cache methods ----------------------------------- #
     def cache_rules_done_arrear_trades_of_last_3_months(self):
@@ -117,16 +121,16 @@ class RedisCachingRulesDoneTrades:
             self.rds.zadd(SET_RULES_DONE_TRADES_AVERAGE_DELAY_DAYS, rdict)
         print('caching rules_done_trades_average_delay_days are done.')
 
-    def cache_rules_done_trades_average_total_amount(self):
+    def cache_rules_done_trades_average_total_balance_ratios(self):
         if self.recreate_caches:
-            self.rds.delete(SET_RULES_DONE_TRADES_AVERAGE_TOTAL_AMOUNT)
+            self.rds.delete(SET_RULES_DONE_TRADES_AVERAGE_TOTAL_BALANCE_RATIOS)
 
-        if not bool(self.rds.zcount(SET_RULES_DONE_TRADES_AVERAGE_TOTAL_AMOUNT, rules_min_val, rules_max_val)):
-            rules: List[RuleDoneTradesTotalBalanceRatio] = RuleDoneTradesTotalBalanceRatio.objects()
+        if not bool(self.rds.zcount(SET_RULES_DONE_TRADES_AVERAGE_TOTAL_BALANCE_RATIOS, rules_min_val, rules_max_val)):
+            rules: List[RuleDoneTradesAverageTotalBalanceRatio] = RuleDoneTradesAverageTotalBalanceRatio.objects()
             rdict = {}
             for r in rules:
                 add_rule_model_to_dict(rdict, r)
-            self.rds.zadd(SET_RULES_DONE_TRADES_AVERAGE_TOTAL_AMOUNT, rdict)
+            self.rds.zadd(SET_RULES_DONE_TRADES_AVERAGE_TOTAL_BALANCE_RATIOS, rdict)
         print('caching rules_done_trades_average_total_amount are done.')
 
     # ---------------------------- read cache methods ----------------------------------- #
@@ -158,6 +162,6 @@ class RedisCachingRulesDoneTrades:
         scores = self.rds.zrangebyscore(SET_RULES_DONE_TRADES_AVERAGE_DELAY_DAYS, average_delay_days, rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_done_trades_average_total_amount(self, average_total_amount):
-        scores = self.rds.zrangebyscore(SET_RULES_DONE_TRADES_AVERAGE_TOTAL_AMOUNT, average_total_amount, rules_max_val)
+    def get_score_of_rules_done_trades_average_total_balance_ratios(self, average_total_balance_ratio):
+        scores = self.rds.zrangebyscore(SET_RULES_DONE_TRADES_AVERAGE_TOTAL_BALANCE_RATIOS, average_total_balance_ratio, rules_max_val)
         return get_score_from_dict(scores)

@@ -13,6 +13,7 @@ from infrastructure.constants import rules_max_val, rules_min_val, \
     SET_RULES_PROFILE_HAS_KYCS, SET_RULES_PROFILE_ADDRESS_VERIFICATIONS, SET_RULES_PROFILE_MEMBERSHIP_DAYS_COUNTS, \
     SET_RULES_PROFILE_MILITARY_SERVICE_STATUS, SET_RULES_PROFILE_RECOMMENDED_TO_OTHERS_COUNTS, SET_RULES_PROFILE_SIM_CARD_OWNERSHIPS, \
     SET_RULES_PROFILE_STAR_COUNTS_AVGS
+from infrastructure.scoring_enums import ProfileMilitaryServiceStatusEnum
 from service.util import get_score_from_dict, add_rule_model_to_dict_by_rds_score, add_rule_model_to_dict
 
 
@@ -21,8 +22,11 @@ class RedisCachingRulesProfiles:
     recreate_caches = True
     rds: [StrictRedis] = None
 
-    def cache_rules(self, rds: StrictRedis):
+    def __init__(self, rds: StrictRedis) -> None:
         self.rds = rds
+        super().__init__()
+
+    def cache_rules(self):
         self.cache_rules_profile_address_verifications()
         self.cache_rules_profile_has_kycs()
         self.cache_rules_profile_membership_days_counts()
@@ -110,30 +114,30 @@ class RedisCachingRulesProfiles:
         print('caching rules_profile_star_counts_avgs are done.')
 
     # ---------------------------- read cache methods ----------------------------------- #
-    def get_score_of_rules_profile_has_kycs(self, trades_count):
-        scores = self.rds.zrangebyscore(SET_RULES_PROFILE_HAS_KYCS, trades_count, rules_max_val)
+    def get_score_of_rules_profile_has_kycs(self, has_kyc):
+        scores = self.rds.zrangebyscore(SET_RULES_PROFILE_HAS_KYCS, int(has_kyc), rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_profile_address_verifications(self, trades_count):
-        scores = self.rds.zrangebyscore(SET_RULES_PROFILE_ADDRESS_VERIFICATIONS, trades_count, rules_max_val)
+    def get_score_of_rules_profile_address_verifications(self, address_verification):
+        scores = self.rds.zrangebyscore(SET_RULES_PROFILE_ADDRESS_VERIFICATIONS, int(address_verification), rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_profile_membership_days_counts(self, trades_count):
-        scores = self.rds.zrangebyscore(SET_RULES_PROFILE_MEMBERSHIP_DAYS_COUNTS, trades_count, rules_max_val)
+    def get_score_of_rules_profile_membership_days_counts(self, membership_days_count):
+        scores = self.rds.zrangebyscore(SET_RULES_PROFILE_MEMBERSHIP_DAYS_COUNTS, membership_days_count, rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_profile_military_service_status(self, trades_count):
-        scores = self.rds.zrangebyscore(SET_RULES_PROFILE_MILITARY_SERVICE_STATUS, trades_count, rules_max_val)
+    def get_score_of_rules_profile_military_service_status(self, military_service_status: ProfileMilitaryServiceStatusEnum):
+        scores = self.rds.zrangebyscore(SET_RULES_PROFILE_MILITARY_SERVICE_STATUS, military_service_status.value, rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_profile_recommended_to_others_counts(self, trades_count):
-        scores = self.rds.zrangebyscore(SET_RULES_PROFILE_RECOMMENDED_TO_OTHERS_COUNTS, trades_count, rules_max_val)
+    def get_score_of_rules_profile_recommended_to_others_counts(self, recommended_to_others_count):
+        scores = self.rds.zrangebyscore(SET_RULES_PROFILE_RECOMMENDED_TO_OTHERS_COUNTS, recommended_to_others_count, rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_profile_sim_card_ownerships(self, trades_count):
-        scores = self.rds.zrangebyscore(SET_RULES_PROFILE_SIM_CARD_OWNERSHIPS, trades_count, rules_max_val)
+    def get_score_of_rules_profile_sim_card_ownerships(self, sim_card_ownership):
+        scores = self.rds.zrangebyscore(SET_RULES_PROFILE_SIM_CARD_OWNERSHIPS, int(sim_card_ownership), rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_profile_star_counts_avgs(self, trades_count):
-        scores = self.rds.zrangebyscore(SET_RULES_PROFILE_STAR_COUNTS_AVGS, trades_count, rules_max_val)
+    def get_score_of_rules_profile_star_counts_avgs(self, star_count_avg):
+        scores = self.rds.zrangebyscore(SET_RULES_PROFILE_STAR_COUNTS_AVGS, star_count_avg, rules_max_val)
         return get_score_from_dict(scores)

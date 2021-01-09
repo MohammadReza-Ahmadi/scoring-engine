@@ -20,8 +20,11 @@ class RedisCachingRulesUndoneTrades:
     recreate_caches = True
     rds: [StrictRedis] = None
 
-    def cache_rules(self, rds: StrictRedis):
+    def __init__(self, rds: StrictRedis) -> None:
         self.rds = rds
+        super().__init__()
+
+    def cache_rules(self):
         self.cache_rules_undone_arrear_trades_counts()
         self.cache_rules_undone_arrear_trades_total_balance_of_last_year_ratios()
         self.cache_rules_undone_past_due_trades_counts()
@@ -97,22 +100,22 @@ class RedisCachingRulesUndoneTrades:
         print('caching rules_undone_undue_trades_total_balance_of_last_year_ratios are done.')
 
     # ---------------------------- read cache methods ----------------------------------- #
-    def get_score_of_rules_undone_arrear_trades_total_balance_of_last_year_ratios(self, trades_count):
-        scores = self.rds.zrangebyscore(SET_RULES_UNDONE_ARREAR_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS, trades_count, rules_max_val)
+    def get_score_of_rules_undone_arrear_trades_total_balance_of_last_year_ratios(self, arrear_total_balance_ratio):
+        scores = self.rds.zrangebyscore(SET_RULES_UNDONE_ARREAR_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS, arrear_total_balance_ratio, rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_undone_arrear_trades_counts(self, trades_count):
-        scores = self.rds.zrangebyscore(SET_RULES_UNDONE_ARREAR_TRADES_COUNTS, trades_count, rules_max_val)
+    def get_score_of_rules_undone_arrear_trades_counts(self, arrear_trades_count):
+        scores = self.rds.zrangebyscore(SET_RULES_UNDONE_ARREAR_TRADES_COUNTS, arrear_trades_count, rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_undone_past_due_trades_counts(self, trades_count):
-        scores = self.rds.zrangebyscore(SET_RULES_UNDONE_PAST_DUE_TRADES_COUNTS, trades_count, rules_max_val)
+    def get_score_of_rules_undone_past_due_trades_counts(self, past_due_trades_count):
+        scores = self.rds.zrangebyscore(SET_RULES_UNDONE_PAST_DUE_TRADES_COUNTS, past_due_trades_count, rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_undone_past_due_trades_total_balance_of_last_year_ratios(self, trades_count):
-        scores = self.rds.zrangebyscore(SET_RULES_UNDONE_PAST_DUE_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS, trades_count, rules_max_val)
+    def get_score_of_rules_undone_past_due_trades_total_balance_of_last_year_ratios(self, past_due_total_balance_ratio):
+        scores = self.rds.zrangebyscore(SET_RULES_UNDONE_PAST_DUE_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS, past_due_total_balance_ratio, rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_undone_undue_trades_total_balance_of_last_year_ratios(self, trades_count):
-        scores = self.rds.zrangebyscore(SET_RULES_UNDONE_UNDUE_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS, trades_count, rules_max_val)
+    def get_score_of_rules_undone_undue_trades_total_balance_of_last_year_ratios(self, undue_total_balance_ratio):
+        scores = self.rds.zrangebyscore(SET_RULES_UNDONE_UNDUE_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS, undue_total_balance_ratio, rules_max_val)
         return get_score_from_dict(scores)

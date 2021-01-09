@@ -5,6 +5,7 @@ class Loan(mongoengine.Document):
     user_id = mongoengine.LongField()
 
     loans_total_count = mongoengine.IntField()
+    loans_total_balance = mongoengine.DecimalField()
     past_due_loans_total_count = mongoengine.IntField()
     arrear_loans_total_count = mongoengine.IntField()
     suspicious_loans_total_count = mongoengine.IntField()

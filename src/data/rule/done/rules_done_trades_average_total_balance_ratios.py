@@ -3,7 +3,7 @@ import mongoengine
 from src.data.rule.rule_model import RuleModel
 
 
-class RuleDoneTradesTotalBalanceRatio(mongoengine.Document, RuleModel):
+class RuleDoneTradesAverageTotalBalanceRatio(mongoengine.Document, RuleModel):
     min = mongoengine.FloatField()
     max = mongoengine.FloatField()
 
