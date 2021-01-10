@@ -7,5 +7,5 @@ from src.data.rule.rule_model import RuleModel
 class RulePastDueLoansTotalCount(mongoengine.Document, RuleModel):
     meta = {
         'db_alias': 'core',
-        'collection': 'rulesPastDueLoansTotalCount'
+        'collection': 'rulesLoanPastDueTotalCount'
     }

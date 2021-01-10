@@ -9,5 +9,5 @@ class RuleUnfixedReturnedChequesTotalBalanceRatios(mongoengine.Document, RuleMod
 
     meta = {
         'db_alias': 'core',
-        'collection': 'rulesUnfixedReturnedChequesTotalBalanceRatios'
+        'collection': 'rulesChequeUnfixedReturnedTotalBalanceRatios'
     }

@@ -36,10 +36,10 @@ def import_done_trades_data(uid: long):
     dt.user_id = uid
     dt.calculation_start_date = datetime.now()
     dt.timely_trades_count_of_last_3_months = 1
-    dt.past_due_trades_count_of_last_3_months = 0
-    dt.arrear_trades_count_of_last_3_months = 0
     dt.timely_trades_count_between_last_3_to_12_months = 0
+    dt.past_due_trades_count_of_last_3_months = 0
     dt.past_due_trades_count_between_last_3_to_12_months = 0
+    dt.arrear_trades_count_of_last_3_months = 0
     dt.arrear_trades_count_between_last_3_to_12_months = 0
     dt.trades_total_balance = 45000000
     dt.total_delay_days = 0

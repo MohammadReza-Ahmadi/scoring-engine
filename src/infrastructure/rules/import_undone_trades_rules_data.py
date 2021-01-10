@@ -69,10 +69,11 @@ def import_rules_undone_past_due_trades_total_balance_of_last_year_ratios():
     rule = RuleUnDonePastDueTradesTotalBalanceOfLastYearRatio()
     rule.save(creat_rule(rule, 'V1303N10', 0.5001, 1, -10, 'نسبت بین 0.5001 و 1 می‌باشد'))
 
-    # If SDA (denominator) = 0	-20	V1304N20	کاربر در یکسال گذشته تعامل موفقی ندارد (اولین تعامل در حال انجام سررسید گذشته شده)
-    rule = RuleUnDonePastDueTradesTotalBalanceOfLastYearRatio()
-    # todo: should be checked, original val is: -20
-    rule.save(creat_rule(rule, 'V1304N20', 0, 0, 0, 'کاربر در یکسال گذشته تعامل موفقی ندارد (اولین تعامل در حال انجام سررسید گذشته شده)'))
+    # todo: this rule is commented and handled its score by duplicating V1303N10 score
+    # # If SDA (denominator) = 0	-20	V1304N20	کاربر در یکسال گذشته تعامل موفقی ندارد (اولین تعامل در حال انجام سررسید گذشته شده)
+    # rule = RuleUnDonePastDueTradesTotalBalanceOfLastYearRatio()
+    # # todo: should be checked, original val is: -20
+    # rule.save(creat_rule(rule, 'V1304N20', 0, 0, -20, 'کاربر در یکسال گذشته تعامل موفقی ندارد (اولین تعامل در حال انجام سررسید گذشته شده)'))
 
     # 1 < UnfinishedB30Din1YRatio ≤ 1.5	-20	V1305N20	نسبت بین 1.001 و 1.5 می‌باشد
     rule = RuleUnDonePastDueTradesTotalBalanceOfLastYearRatio()
@@ -101,10 +102,11 @@ def import_rules_undone_arrear_trades_total_balance_of_last_year_ratios():
     rule = RuleUnDoneArrearTradesTotalBalanceOfLastYearRatio()
     rule.save(creat_rule(rule, 'V1403N10', 0.5001, 1, -10, 'نسبت بین 0.5001 و 1 می‌باشد'))
 
-    # If SDA (denominator) = 0	-20	V1404N20	کاربر در یکسال گذشته تعامل موفقی ندارد (اولین تعامل در حال انجام معوق است)
-    # todo: should be checked, original val is: -20
-    rule = RuleUnDoneArrearTradesTotalBalanceOfLastYearRatio()
-    rule.save(creat_rule(rule, 'V1404N20', 0, 0, 0, 'کاربر در یکسال گذشته تعامل موفقی ندارد (اولین تعامل در حال انجام معوق است)'))
+    # todo: this rule is commented and handled its score by duplicating V1403N10 score
+    # # If SDA (denominator) = 0	-20	V1404N20	کاربر در یکسال گذشته تعامل موفقی ندارد (اولین تعامل در حال انجام معوق است)
+    # # todo: should be checked, original val is: -20
+    # rule = RuleUnDoneArrearTradesTotalBalanceOfLastYearRatio()
+    # rule.save(creat_rule(rule, 'V1404N20', 0, 0, 0, 'کاربر در یکسال گذشته تعامل موفقی ندارد (اولین تعامل در حال انجام معوق است)'))
 
     # 1 < UnfinishedB30Din1YRatio ≤ 1.5	-20	V1405N20	نسبت بین 1.001 و 1.5 می‌باشد
     rule = RuleUnDoneArrearTradesTotalBalanceOfLastYearRatio()

@@ -9,5 +9,5 @@ class RulePastDueLoansTotalBalanceRatio(mongoengine.Document, RuleModel):
     max = mongoengine.FloatField()
     meta = {
         'db_alias': 'core',
-        'collection': 'rulesPastDueLoansTotalBalanceRatios'
+        'collection': 'rulesLoanPastDueTotalBalanceRatios'
     }

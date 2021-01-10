@@ -12,7 +12,7 @@ from infrastructure.constants import rules_max_val, rules_min_val, \
     SET_RULES_UNDONE_ARREAR_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS, SET_RULES_UNDONE_ARREAR_TRADES_COUNTS, SET_RULES_UNDONE_PAST_DUE_TRADES_COUNTS, \
     SET_RULES_UNDONE_PAST_DUE_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS, SET_RULES_UNDONE_UNDUE_TRADES_COUNTS, \
     SET_RULES_UNDONE_UNDUE_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS
-from service.util import get_score_from_dict, add_rule_model_to_dict
+from service.util import get_score_from_dict, add_rule_model_to_dict, get_score_code_from_dict
 
 
 # noinspection DuplicatedCode
@@ -104,6 +104,10 @@ class RedisCachingRulesUndoneTrades:
         scores = self.rds.zrangebyscore(SET_RULES_UNDONE_ARREAR_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS, arrear_total_balance_ratio, rules_max_val)
         return get_score_from_dict(scores)
 
+    def get_score_code_of_rules_undone_arrear_trades_total_balance_of_last_year_ratios(self, arrear_total_balance_ratio):
+        scores = self.rds.zrangebyscore(SET_RULES_UNDONE_ARREAR_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS, arrear_total_balance_ratio, rules_max_val)
+        return get_score_code_from_dict(scores)
+
     def get_score_of_rules_undone_arrear_trades_counts(self, arrear_trades_count):
         scores = self.rds.zrangebyscore(SET_RULES_UNDONE_ARREAR_TRADES_COUNTS, arrear_trades_count, rules_max_val)
         return get_score_from_dict(scores)
@@ -114,6 +118,14 @@ class RedisCachingRulesUndoneTrades:
 
     def get_score_of_rules_undone_past_due_trades_total_balance_of_last_year_ratios(self, past_due_total_balance_ratio):
         scores = self.rds.zrangebyscore(SET_RULES_UNDONE_PAST_DUE_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS, past_due_total_balance_ratio, rules_max_val)
+        return get_score_from_dict(scores)
+
+    def get_score_code_of_rules_undone_past_due_trades_total_balance_of_last_year_ratios(self, past_due_total_balance_ratio):
+        scores = self.rds.zrangebyscore(SET_RULES_UNDONE_PAST_DUE_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS, past_due_total_balance_ratio, rules_max_val)
+        return get_score_code_from_dict(scores)
+
+    def get_score_of_rules_undone_undue_trades_counts(self, undue_trades_counts):
+        scores = self.rds.zrangebyscore(SET_RULES_UNDONE_UNDUE_TRADES_COUNTS, undue_trades_counts, rules_max_val)
         return get_score_from_dict(scores)
 
     def get_score_of_rules_undone_undue_trades_total_balance_of_last_year_ratios(self, undue_total_balance_ratio):

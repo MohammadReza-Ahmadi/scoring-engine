@@ -9,5 +9,5 @@ class RuleArrearLoansTotalBalanceRatio(mongoengine.Document, RuleModel):
     max = mongoengine.FloatField()
     meta = {
         'db_alias': 'core',
-        'collection': 'rulesArrearLoansTotalBalanceRatios'
+        'collection': 'rulesLoanArrearTotalBalanceRatios'
     }

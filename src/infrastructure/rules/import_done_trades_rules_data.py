@@ -233,7 +233,7 @@ def import_rules_done_trades_average_delay_days_ratios():
 
     # AverageDelayRatio >= 2.001	-30	T2806N30	نسبت بیش از 2 می‌باشد
     rule = RuleDoneTradesAverageDelayDaysRatio()
-    rule.save(creat_rule(rule, 'T2806N30', 2.001, 999, 0, 'نسبت بیش از 2 می‌باشد'))
+    rule.save(creat_rule(rule, 'T2806N30', 2.001, 999, -30, 'نسبت بیش از 2 می‌باشد'))
 
 
 def creat_rule(rule: RuleModel, code: str, min_val, max_val, score: int, desc: str):
