@@ -6,6 +6,11 @@ rules_max_val = 999
 rules_max_days_val = 10000
 score_deliminator = ':'
 
+# general average parameters
+GENERAL_AVG_BALANCE = 100000000
+GENERAL_AVG_DELAY_DAYS = 0
+AVG_OF_ALL_USERS_UNFIXED_RETURNED_CHEQUES_TOTAL_BALANCE = 40000000000
+
 # profile set keys
 SET_RULES_PROFILE_HAS_KYCS = 'set_rules_profile_has_kycs'
 SET_RULES_PROFILE_MILITARY_SERVICE_STATUS = 'set_rules_profile_military_service_status'

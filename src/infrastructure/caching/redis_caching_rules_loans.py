@@ -6,8 +6,8 @@ from data.rule.loan.rules_loan_arrear_total_balance_ratios import RuleArrearLoan
 from data.rule.loan.rules_loan_arrear_total_counts import RuleArrearLoansTotalCount
 from data.rule.loan.rules_loan_monthly_installments_total_balance_ratios import RuleLoanMonthlyInstallmentsTotalBalanceRatio
 from data.rule.loan.rules_loan_total_counts import RuleLoansTotalCount
-from data.rule.loan.rules_loan_overdue_total_balance_ratios import RuleOverdueLoansTotalBalanceRatio
-from data.rule.loan.rules_loan_past_due_total_balance_ratios import RulePastDueLoansTotalBalanceRatio
+from data.rule.loan.rules_loan_overdue_total_balance_ratios import RuleLoanOverdueTotalBalanceRatio
+from data.rule.loan.rules_loan_past_due_total_balance_ratios import RuleLoanPastDueTotalBalanceRatio
 from data.rule.loan.rules_loan_past_due_total_counts import RulePastDueLoansTotalCount
 from data.rule.loan.rules_loan_suspicious_total_balance_ratios import RuleSuspiciousLoansTotalBalanceRatio
 from data.rule.loan.rules_loan_suspicious_total_counts import RuleSuspiciousLoansTotalCount
@@ -87,7 +87,7 @@ class RedisCachingRulesLoans:
         if self.recreate_caches:
             self.rds.delete(SET_RULES_LOAN_OVERDUE_TOTAL_BALANCE_RATIOS)
         if not bool(self.rds.zcount(SET_RULES_LOAN_OVERDUE_TOTAL_BALANCE_RATIOS, rules_min_val, rules_max_val)):
-            rules: List[RuleOverdueLoansTotalBalanceRatio] = RuleOverdueLoansTotalBalanceRatio.objects()
+            rules: List[RuleLoanOverdueTotalBalanceRatio] = RuleLoanOverdueTotalBalanceRatio.objects()
             rdict = {}
             for r in rules:
                 add_rule_model_to_dict(rdict, r)
@@ -98,7 +98,7 @@ class RedisCachingRulesLoans:
         if self.recreate_caches:
             self.rds.delete(SET_RULES_LOAN_PAST_DUE_TOTAL_BALANCE_RATIOS)
         if not bool(self.rds.zcount(SET_RULES_LOAN_PAST_DUE_TOTAL_BALANCE_RATIOS, rules_min_val, rules_max_val)):
-            rules: List[RulePastDueLoansTotalBalanceRatio] = RulePastDueLoansTotalBalanceRatio.objects()
+            rules: List[RuleLoanPastDueTotalBalanceRatio] = RuleLoanPastDueTotalBalanceRatio.objects()
             rdict = {}
             for r in rules:
                 add_rule_model_to_dict(rdict, r)

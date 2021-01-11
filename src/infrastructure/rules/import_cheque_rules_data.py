@@ -7,7 +7,7 @@ from service.util import creat_rule
 from src import program
 
 
-def import_rules_unfixed_returned_cheques_total_balance_ratio():
+def import_rules_unfixed_returned_cheques_total_balance_ratio_v17():
     # DCAmountRatio = 0	20	V1701P20	کاربر چک برگشتی رفع سو اثر نشده ندارد
     rule = RuleUnfixedReturnedChequesTotalBalanceRatios()
     rule.drop_collection()
@@ -34,7 +34,7 @@ def import_rules_unfixed_returned_cheques_total_balance_ratio():
     rule.save(creat_rule(rule, 'V1706N40', 2.001, 999, -40, 'نسبت بیش از 2 می‌باشد'))
 
 
-def import_rules_unfixed_returned_cheques_count_of_last_3_months():
+def import_rules_unfixed_returned_cheques_count_of_last_3_months_t29():
     # DishonouredChequesL3M = 0	20	T2901P20	کاربر چک برگشتی ندارد
     rule = RuleUnfixedReturnedChequesCountOfLast3Months()
     rule.drop_collection()
@@ -57,7 +57,7 @@ def import_rules_unfixed_returned_cheques_count_of_last_3_months():
     rule.save(creat_rule(rule, 'T2905N40', 4, 999, -40, 'کاربر بیش از ۳ چک برگشتی دارد'))
 
 
-def import_rules_unfixed_returned_cheques_count_between_last_3_to_12_months():
+def import_rules_unfixed_returned_cheques_count_between_last_3_to_12_months_t30():
     # DishonouredChequesL3-12M = 0	20	T3001P20	کاربر چک برگشتی ندارد
     rule = RuleUnfixedReturnedChequesCountBetweenLast3To12Months()
     rule.drop_collection()
@@ -80,7 +80,7 @@ def import_rules_unfixed_returned_cheques_count_between_last_3_to_12_months():
     rule.save(creat_rule(rule, 'T3005N60', 4, 999, -60, 'کاربر بیش از ۳ چک برگشتی دارد'))
 
 
-def import_rules_unfixed_returned_cheques_count_of_more_12_months():
+def import_rules_unfixed_returned_cheques_count_of_more_12_months_t31():
     # DishonouredChequesA12M = 0	20	T3101P20	کاربر چک برگشتی ندارد
     rule = RuleUnfixedReturnedChequesCountOfMore12Months()
     rule.drop_collection()
@@ -103,33 +103,33 @@ def import_rules_unfixed_returned_cheques_count_of_more_12_months():
     rule.save(creat_rule(rule, 'T3105N70', 4, 999, -70, 'کاربر بیش از ۳ چک برگشتی دارد'))
 
 
-def import_rules_unfixed_returned_cheques_count_of_last_5_years():
-    # DishonouredChequesA12M = 0	20	T3101P20	کاربر چک برگشتی ندارد
+def import_rules_unfixed_returned_cheques_count_of_last_5_years_t32():
+    # AllDishonouredCheques = 0	20	T3201P20	کاربر چک برگشتی ندارد
     rule = RuleUnfixedReturnedChequesCountOfLast5Years()
     rule.drop_collection()
-    rule.save(creat_rule(rule, 'T3101P20', 0, 0, 20, 'کاربر چک برگشتی ندارد'))
+    rule.save(creat_rule(rule, 'T3201P20', 0, 0, 20, 'کاربر چک برگشتی ندارد'))
 
-    # DishonouredChequesA12M = 1	-40	T3102N40	کاربر ۱ چک برگشتی دارد
+    #  1 ≤ AllDishonouredCheques ≤ 3	00	T3202P0	کاربر بین 1 تا 3 چک برگشتی دارد
     rule = RuleUnfixedReturnedChequesCountOfLast5Years()
-    rule.save(creat_rule(rule, 'T3102N40', 1, 1, -40, 'کاربر ۱ چک برگشتی دارد'))
+    rule.save(creat_rule(rule, 'T3202P0', 1, 3, 0, 'کاربر بین 1 تا 3 چک برگشتی دارد'))
 
-    # DishonouredChequesA12M = 2	-50	T3103N50	کاربر ۲ چک برگشتی دارد
+    # 4 <= AllDishonouredCheques ≤ 6	-10	T3203N10	کاربر بین 4 تا 6 چک برگشتی دارد
     rule = RuleUnfixedReturnedChequesCountOfLast5Years()
-    rule.save(creat_rule(rule, 'T3103N50', 2, 2, -50, 'کاربر ۲ چک برگشتی دارد'))
+    rule.save(creat_rule(rule, 'T3203N10', 4, 6, -10, 'کاربر بین 4 تا 6 چک برگشتی دارد'))
 
-    # DishonouredChequesA12M = 3	-60	T3104N60	کاربر ۳ چک برگشتی دارد
+    # 7 <= AllDishonouredCheques ≤ 10	-20	T3204N20	کاربر کاربر بین 7 تا 10 چک برگشتی دارد
     rule = RuleUnfixedReturnedChequesCountOfLast5Years()
-    rule.save(creat_rule(rule, 'T3104N60', 3, 3, -60, 'کاربر ۳ چک برگشتی دارد'))
+    rule.save(creat_rule(rule, 'T3204N20', 7, 10, -20, 'کاربر کاربر بین 7 تا 10 چک برگشتی دارد'))
 
-    # DishonouredChequesA12M >= 4	-70	T3105N70	کاربر بیش از ۳ چک برگشتی دارد
+    # DishonouredCheques >= 11	-30	T3205N30	کاربر بیش از 10 چک برگشتی دارد
     rule = RuleUnfixedReturnedChequesCountOfLast5Years()
-    rule.save(creat_rule(rule, 'T3105N70', 4, 999, -70, 'کاربر بیش از ۳ چک برگشتی دارد'))
+    rule.save(creat_rule(rule, 'T3205N30', 11, 999, -30, 'کاربر بیش از 10 چک برگشتی دارد'))
 
 
 if __name__ == '__main__':
     program.launch_app()
-    import_rules_unfixed_returned_cheques_count_between_last_3_to_12_months()
-    import_rules_unfixed_returned_cheques_count_of_last_3_months()
-    import_rules_unfixed_returned_cheques_count_of_last_5_years()
-    import_rules_unfixed_returned_cheques_count_of_more_12_months()
-    import_rules_unfixed_returned_cheques_total_balance_ratio()
+    import_rules_unfixed_returned_cheques_count_of_last_3_months_t29()
+    import_rules_unfixed_returned_cheques_count_between_last_3_to_12_months_t30()
+    import_rules_unfixed_returned_cheques_count_of_more_12_months_t31()
+    import_rules_unfixed_returned_cheques_count_of_last_5_years_t32()
+    import_rules_unfixed_returned_cheques_total_balance_ratio_v17()

@@ -14,7 +14,8 @@ from infrastructure.caching.redis_caching_rules_loans import RedisCachingRulesLo
 from infrastructure.caching.redis_caching_rules_profiles import RedisCachingRulesProfiles
 from infrastructure.caching.redis_caching_rules_undone_trades import RedisCachingRulesUndoneTrades
 from infrastructure.constants import SCORE_CODE_RULES_UNDONE_PAST_DUE_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS, \
-    SCORE_CODE_RULES_UNDONE_ARREAR_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS
+    SCORE_CODE_RULES_UNDONE_ARREAR_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS, GENERAL_AVG_BALANCE, GENERAL_AVG_DELAY_DAYS, \
+    AVG_OF_ALL_USERS_UNFIXED_RETURNED_CHEQUES_TOTAL_BALANCE
 
 
 class ScoreCalculationService:
@@ -32,8 +33,13 @@ class ScoreCalculationService:
         print('<><><><><><><> final score = {} <><><><><><><>'.format(final_score))
         return final_score
 
-    def calculate_user_profile_score(self, user_id: long, reset_cache=False):
-        profile = Profile.objects(user_id=user_id).first()
+    def calculate_user_profile_score(self, user_id: long, reset_cache=False, profile_object: Profile = None):
+        profile: Profile
+        if profile_object is not None:
+            profile = profile_object
+        else:
+            profile = Profile.objects(user_id=user_id).first()
+
         rds: RedisCachingRulesProfiles = self.rds.get_redis_caching_rules_profile_service(reset_cache)
         profile_score = 0
         score = rds.get_score_of_rules_profile_address_verifications(profile.address_verification)
@@ -63,8 +69,12 @@ class ScoreCalculationService:
         print('............. profile score = {} ................\n'.format(profile_score))
         return profile_score
 
-    def calculate_user_done_trades_score(self, user_id: long, reset_cache=False):
-        done_trade: DoneTrade = DoneTrade.objects(user_id=user_id).first()
+    def calculate_user_done_trades_score(self, user_id: long, reset_cache=False, done_trade_object: DoneTrade = None):
+        if done_trade_object is not None:
+            done_trade = done_trade_object
+        else:
+            done_trade: DoneTrade = DoneTrade.objects(user_id=user_id).first()
+
         rds: RedisCachingRulesDoneTrades = self.rds.get_redis_caching_rules_done_trades_service(reset_cache)
         done_trades_score = 0
 
@@ -97,7 +107,7 @@ class ScoreCalculationService:
 
         # calculate average of total balance
         # todo: should calculate all users' trades total balance
-        avg_total_balance = done_trade.trades_total_balance / 100000000
+        avg_total_balance = 0 if GENERAL_AVG_BALANCE == 0 else done_trade.trades_total_balance / GENERAL_AVG_BALANCE
         avg_total_balance = float(avg_total_balance)
         score = rds.get_score_of_rules_done_trades_average_total_balance_ratios(avg_total_balance)
         done_trades_score += score
@@ -105,8 +115,8 @@ class ScoreCalculationService:
 
         # calculate average of all users delay days
         # todo: should calculate all users' average of done trades delay days (general_avg_delay_days)
-        general_avg_delay_days = 0
-        avg_delay_days = 0 if general_avg_delay_days == 0 else done_trade.total_delay_days / general_avg_delay_days
+        # general_avg_delay_days = 0
+        avg_delay_days = 0 if GENERAL_AVG_DELAY_DAYS == 0 else done_trade.total_delay_days / GENERAL_AVG_DELAY_DAYS
         score = rds.get_score_of_rules_done_trades_average_delay_days(avg_delay_days)
         done_trades_score += score
         print('score= {}, doneTrades:[avg_delay_days]= {}'.format(score, done_trade.total_delay_days))
@@ -114,9 +124,17 @@ class ScoreCalculationService:
         print('............. doneTrades score = {} ................\n'.format(done_trades_score))
         return done_trades_score
 
-    def calculate_user_undone_trades_score(self, user_id: long, reset_cache=False):
-        undone_trade: UndoneTrade = UndoneTrade.objects(user_id=user_id).first()
-        done_trade: DoneTrade = DoneTrade.objects(user_id=user_id).first()
+    def calculate_user_undone_trades_score(self, user_id: long, reset_cache=False, undone_trade_object: UndoneTrade = None,
+                                           done_trade_object: DoneTrade = None):
+        if undone_trade_object is not None:
+            undone_trade = undone_trade_object
+        else:
+            undone_trade: UndoneTrade = UndoneTrade.objects(user_id=user_id).first()
+
+        if done_trade_object is not None:
+            done_trade = done_trade_object
+        else:
+            done_trade: DoneTrade = DoneTrade.objects(user_id=user_id).first()
         rds: RedisCachingRulesUndoneTrades = self.rds.get_redis_caching_rules_undone_trades_service(reset_cache)
         undone_trades_score = 0
 
@@ -161,8 +179,12 @@ class ScoreCalculationService:
         print('............. undoneTrades score = {} ................\n'.format(undone_trades_score))
         return undone_trades_score
 
-    def calculate_user_loans_score(self, user_id: long, reset_cache=False):
-        loan: Loan = Loan.objects(user_id=user_id).first()
+    def calculate_user_loans_score(self, user_id: long, reset_cache=False, loan_object: Loan = None):
+        if loan_object is not None:
+            loan = loan_object
+        else:
+            loan: Loan = Loan.objects(user_id=user_id).first()
+
         rds: RedisCachingRulesLoans = self.rds.get_redis_caching_rules_loans_service(reset_cache)
         loans_score = 0
 
@@ -172,7 +194,9 @@ class ScoreCalculationService:
 
         # should be calculate avg_of_all_users_monthly_installment_total_balance
         avg_of_all_users_monthly_installment_total_balance = 4000000
-        installments_total_balance_ratio = float(loan.monthly_installments_total_balance / avg_of_all_users_monthly_installment_total_balance)
+        installments_total_balance_ratio = 0 if avg_of_all_users_monthly_installment_total_balance == 0 else float(
+            loan.monthly_installments_total_balance / avg_of_all_users_monthly_installment_total_balance)
+
         score = rds.get_score_of_rules_loan_monthly_installments_total_balance_ratios(installments_total_balance_ratio)
         loans_score += score
         print('score= {}, loans:[installments_total_balance_ratio]= {}'.format(score, installments_total_balance_ratio))
@@ -216,8 +240,11 @@ class ScoreCalculationService:
         print('............. loans score = {} ................\n'.format(loans_score))
         return loans_score
 
-    def calculate_user_cheques_score(self, user_id: long, reset_cache=False):
-        cheque: Cheque = Cheque.objects(user_id=user_id).first()
+    def calculate_user_cheques_score(self, user_id: long, reset_cache=False, cheque_object: Cheque = None):
+        if cheque_object is not None:
+            cheque = cheque_object
+        else:
+            cheque: Cheque = Cheque.objects(user_id=user_id).first()
         rds: RedisCachingRulesCheques = self.rds.get_redis_caching_rules_cheques_service(reset_cache)
         cheque_score = 0
 
@@ -246,8 +273,7 @@ class ScoreCalculationService:
               .format(score, cheque.unfixed_returned_cheques_count_of_more_12_months))
 
         # should be calculate avg_of_all_users_unfixed_returned_cheques_total_balance
-        avg_of_all_users_unfixed_returned_cheques_total_balance = 40000000000
-        total_balance_ratio = float(cheque.unfixed_returned_cheques_total_balance / avg_of_all_users_unfixed_returned_cheques_total_balance)
+        total_balance_ratio = float(cheque.unfixed_returned_cheques_total_balance / AVG_OF_ALL_USERS_UNFIXED_RETURNED_CHEQUES_TOTAL_BALANCE)
         score = rds.get_score_of_rules_unfixed_returned_cheques_total_balance_ratios(total_balance_ratio)
         cheque_score += score
         print('score= {}, cheques:[total_balance_ratio]= {}'.format(score, total_balance_ratio))

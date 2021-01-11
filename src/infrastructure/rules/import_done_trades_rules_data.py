@@ -12,7 +12,7 @@ from src.data.rule.done.rules_done_trades_average_total_balance_ratios import Ru
 from src.data.rule.rule_model import RuleModel
 
 
-def import_rules_done_arrear_trades_between_last_3_to_12_months():
+def import_rules_done_arrear_trades_between_last_3_to_12_months_t25():
     # 0 <= A30DayDelay3-12M <= 0  20	T2501P20	کاربر در یکسال گذشته هیچ تعامل معوقی نداشته است
     rule = RuleDoneArrearTradesBetweenLast3To12Months()
     rule.drop_collection()
@@ -39,7 +39,7 @@ def import_rules_done_arrear_trades_between_last_3_to_12_months():
     rule.save(creat_rule(rule, 'T2506N30', 11, 999, -30, 'کاربر در یکسال گذشته 10 تعامل معوق داشته است'))
 
 
-def import_rules_done_arrear_trades_of_last_3_months():
+def import_rules_done_arrear_trades_of_last_3_months_t24():
     # A30DayDelayLast3M = 0	20	T2401P20	کاربر در سه ماه گذشته هیچ تعامل معوقی نداشته است
     rule = RuleDoneArrearTradesOfLast3Months()
     rule.drop_collection()
@@ -66,7 +66,7 @@ def import_rules_done_arrear_trades_of_last_3_months():
     rule.save(creat_rule(rule, 'T2406N40', 11, 999, -40, 'کاربر در سه ماه گذشته بیش از 10 تعامل معوق داشته است'))
 
 
-def import_rules_done_past_due_trades_between_last_3_to_12_months():
+def import_rules_done_past_due_trades_between_last_3_to_12_months_t23():
     # B30DayDelayLast3-12M = 0	20	T2301P20	کاربر در یکسال گذشته هیچ تعامل سررسید گذشته‌ای نداشته است
     rule = RuleDonePastDueTradesBetweenLast3To12Months()
     rule.drop_collection()
@@ -96,7 +96,7 @@ def import_rules_done_past_due_trades_between_last_3_to_12_months():
 
 
 # تعداد تعاملات موفق در 3 ماه گذشته
-def import_rules_done_past_due_trades_of_last_3_months():
+def import_rules_done_past_due_trades_of_last_3_months_t22():
     # B30DayDelayLast3M = 0	20	T2201P20	کاربر در سه ماه گذشته هیچ تعامل سررسید گذشته‌ای نداشته است
     rule = RuleDonePastDueTradesOfLast3Months()
     rule.drop_collection()
@@ -125,7 +125,7 @@ def import_rules_done_past_due_trades_of_last_3_months():
         creat_rule(rule, 'T2206N30', 11, 999, -30, 'کاربر در سه ماه گذشته بیش از 10 تعامل سررسید گذشته‌ داشته است'))
 
 
-def import_rules_done_timely_trades_between_last_3_to_12_months():
+def import_rules_done_timely_trades_between_last_3_to_12_months_h7():
     # Last1YSD = 0	00	H0701P0	کاربر در یکسال گذشته هیچ تعامل موفقی با سایر کاربران نداشته است
     rule = RuleDoneTimelyTradesBetweenLast3To12Months()
     rule.drop_collection()
@@ -158,7 +158,7 @@ def import_rules_done_timely_trades_between_last_3_to_12_months():
                    'کاربر در یکسال گذشته بیش از 10 تعامل موفق با سایر کاربران داشته است'))
 
 
-def import_rules_done_timely_trades_of_last_3_months():
+def import_rules_done_timely_trades_of_last_3_months_h6():
     # Last3MSD = 0	00	H0601P0	کاربر در سه ماه گذشته هیچ تعامل موفقی با سایر کاربران نداشته است
     rule = RuleDoneTimelyTradesOfLast3Months()
     rule.drop_collection()
@@ -182,7 +182,7 @@ def import_rules_done_timely_trades_of_last_3_months():
         creat_rule(rule, 'H0605P40', 4, 999, 40, 'کاربر در سه ماه گذشته بیش از 3 تعامل موفق با سایر کاربران داشته است'))
 
 
-def import_rules_done_trades_total_balance_ratios():
+def import_rules_done_trades_total_balance_ratios_v12():
     # SDealAmountRatio = 0	00	V1201P0	کاربر تعاملی نداشته است
     rule = RuleDoneTradesAverageTotalBalanceRatio()
     rule.drop_collection()
@@ -209,7 +209,7 @@ def import_rules_done_trades_total_balance_ratios():
     rule.save(creat_rule(rule, 'V1206P50', 2.001, 999, 50, 'نسبت بیش از 2 می‌باشد'))
 
 
-def import_rules_done_trades_average_delay_days_ratios():
+def import_rules_done_trades_average_delay_days_ratios_t28():
     # AverageDelayRatio = 0	20	T2801P20	کاربر در انجام تعاملات تاخیر نداشته است
     rule = RuleDoneTradesAverageDelayDaysRatio()
     rule.drop_collection()
@@ -247,11 +247,11 @@ def creat_rule(rule: RuleModel, code: str, min_val, max_val, score: int, desc: s
 
 if __name__ == '__main__':
     program.launch_app()
-    import_rules_done_arrear_trades_between_last_3_to_12_months()
-    import_rules_done_arrear_trades_of_last_3_months()
-    import_rules_done_past_due_trades_between_last_3_to_12_months()
-    import_rules_done_past_due_trades_of_last_3_months()
-    import_rules_done_timely_trades_between_last_3_to_12_months()
-    import_rules_done_timely_trades_of_last_3_months()
-    import_rules_done_trades_average_delay_days_ratios()
-    import_rules_done_trades_total_balance_ratios()
+    import_rules_done_timely_trades_of_last_3_months_h6()
+    import_rules_done_timely_trades_between_last_3_to_12_months_h7()
+    import_rules_done_past_due_trades_of_last_3_months_t22()
+    import_rules_done_past_due_trades_between_last_3_to_12_months_t23()
+    import_rules_done_arrear_trades_of_last_3_months_t24()
+    import_rules_done_arrear_trades_between_last_3_to_12_months_t25()
+    import_rules_done_trades_average_delay_days_ratios_t28()
+    import_rules_done_trades_total_balance_ratios_v12()

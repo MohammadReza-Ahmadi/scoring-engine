@@ -8,35 +8,35 @@ from service.util import creat_rule
 from src import program
 
 
-def import_rules_undone_undue_trades_counts():
+def import_rules_undone_undue_trades_counts_h10():
     # NumNotDueDeal = 0 00 	H1001P0	کاربر تعامل سررسید نشده ندارد
     rule = RuleUnDoneUndueTradesCount()
     rule.drop_collection()
     rule.save(creat_rule(rule, 'H1001P0', 0, 0, 0, 'کاربر تعامل سررسید نشده ندارد'))
 
-    # NumNotDueDeal = 1 01	H1002P2	کاربر 1 تعامل سررسید نشده دارد
+    # NumNotDueDeal = 1 02	H1002P2	کاربر 1 تعامل سررسید نشده دارد
     rule = RuleUnDoneUndueTradesCount()
-    rule.save(creat_rule(rule, 'H1002P2', 1, 1, 1, 'کاربر 1 تعامل سررسید نشده دارد'))
+    rule.save(creat_rule(rule, 'H1002P2', 1, 1, 2, 'کاربر 1 تعامل سررسید نشده دارد'))
 
     # NumNotDueDeal = 2	05	H1003P5	کاربر 2 تعامل سررسید نشده دارد
     rule = RuleUnDoneUndueTradesCount()
     rule.save(creat_rule(rule, 'H1003P5', 2, 2, 5, 'کاربر 2 تعامل سررسید نشده دارد'))
 
-    # NumNotDueDeal = 3	10	H1004P10	کاربر 3 تعامل سررسید نشده دارد
+    # NumNotDueDeal = 3	7	H1004P7	کاربر 3 تعامل سررسید نشده دارد
     rule = RuleUnDoneUndueTradesCount()
-    rule.save(creat_rule(rule, 'H1004P10', 3, 3, 10, 'کاربر 3 تعامل سررسید نشده دارد'))
+    rule.save(creat_rule(rule, 'H1004P7', 3, 3, 7, 'کاربر 3 تعامل سررسید نشده دارد'))
 
-    # NumNotDueDeal = 4	20	H1005P20	کاربر 4 تعامل سررسید نشده دارد
+    # NumNotDueDeal = 4	10	H1005P10	کاربر 4 تعامل سررسید نشده دارد
     rule = RuleUnDoneUndueTradesCount()
-    rule.save(creat_rule(rule, 'H1005P20', 4, 4, 20, 'کاربر 4 تعامل سررسید نشده دارد'))
+    rule.save(creat_rule(rule, 'H1005P10', 4, 4, 10, 'کاربر 4 تعامل سررسید نشده دارد'))
 
-    # NumNotDueDeal = 5	10	H1006P10	کاربر 5 تعامل سررسید نشده دارد
+    # NumNotDueDeal = 5	03	H1006P3	کاربر 5 تعامل سررسید نشده دارد
     rule = RuleUnDoneUndueTradesCount()
-    rule.save(creat_rule(rule, 'H1006P10', 5, 5, 10, 'کاربر 5 تعامل سررسید نشده دارد'))
+    rule.save(creat_rule(rule, 'H1006P3', 5, 5, 3, 'کاربر 5 تعامل سررسید نشده دارد'))
 
-    # NumNotDueDeal = 6	00	H1007P0	کاربر 6 تعامل سررسید نشده دارد
+    # NumNotDueDeal = 6	-1	H1007N1	کاربر 6 تعامل سررسید نشده دارد
     rule = RuleUnDoneUndueTradesCount()
-    rule.save(creat_rule(rule, 'H1007P0', 6, 6, 0, 'کاربر 6 تعامل سررسید نشده دارد'))
+    rule.save(creat_rule(rule, 'H1007N1', 6, 6, -1, 'کاربر 6 تعامل سررسید نشده دارد'))
 
     # 7 <= NumNotDueDeal ≤ 10	-10	H1008N10	کاربر بین 7 تا 10 تعامل سررسید نشده دارد
     rule = RuleUnDoneUndueTradesCount()
@@ -55,7 +55,7 @@ def import_rules_undone_undue_trades_counts():
     rule.save(creat_rule(rule, 'H1011N50', 31, 999, -50, 'کاربر بیش از 30 تعامل سررسید نشده دارد'))
 
 
-def import_rules_undone_past_due_trades_total_balance_of_last_year_ratios():
+def import_rules_undone_past_due_trades_total_balance_of_last_year_ratios_v13():
     # UnfinishedB30Din1YRatio = 0	20	V1301P20	کاربر تعامل سررسید گذشته خاتمه نیافته ندارد
     rule = RuleUnDonePastDueTradesTotalBalanceOfLastYearRatio()
     rule.drop_collection()
@@ -88,7 +88,7 @@ def import_rules_undone_past_due_trades_total_balance_of_last_year_ratios():
     rule.save(creat_rule(rule, 'V1307N40', 3, 999, -40, 'نسبت بیش از 2 می‌باشد'))
 
 
-def import_rules_undone_arrear_trades_total_balance_of_last_year_ratios():
+def import_rules_undone_arrear_trades_total_balance_of_last_year_ratios_v14():
     # UnfinishedB30Din1YRatio = 0	30	V1401P30	کاربر تعامل معوق خاتمه نیافته ندارد
     rule = RuleUnDoneArrearTradesTotalBalanceOfLastYearRatio()
     rule.drop_collection()
@@ -121,19 +121,19 @@ def import_rules_undone_arrear_trades_total_balance_of_last_year_ratios():
     rule.save(creat_rule(rule, 'V1407N40', 3, 999, -40, 'نسبت بیش از 2 می‌باشد'))
 
 
-def import_rules_undone_undue_trades_total_balance_of_last_year_ratios():
+def import_rules_undone_undue_trades_total_balance_of_last_year_ratios_v15():
     # If SDA(denominator) = 0	00	V1501P0	کاربر در یکسال گذشته تعامل موفقی ندارد (اولین تعامل در حال انجام است)
     rule = RuleUnDoneUndueTradesTotalBalanceOfLastYearRatio()
     rule.drop_collection()
     rule.save(creat_rule(rule, 'V1501P0', 0, 0, 0, 'کاربر در یکسال گذشته تعامل موفقی ندارد (اولین تعامل در حال انجام است)'))
 
-    # 0 ≤ NotDueDealAmountRatio ≤ 1	00	V1502P0	نسبت بین 0 و ۱ می‌باشد
+    # 0.001 ≤ NotDueDealAmountRatio ≤ 1	-2	V1502N2	نسبت بین 0 و ۱ می‌باشد
     rule = RuleUnDoneUndueTradesTotalBalanceOfLastYearRatio()
-    rule.save(creat_rule(rule, 'V1502P0', 0, 1, 0, 'نسبت بین 0 و ۱ می‌باشد'))
+    rule.save(creat_rule(rule, 'V1502N2', 0.001, 1, -2, 'نسبت بین 0 و ۱ می‌باشد'))
 
     # 1.001 < NotDueDealAmountRatio ≤ 1.5	-05	V1503N5	نسبت بین 1 و 1.5 می‌باشد
     rule = RuleUnDoneUndueTradesTotalBalanceOfLastYearRatio()
-    rule.save(creat_rule(rule, 'V1503N5', 0.001, 1.5, -5, 'نسبت بین 1 و 1.5 می‌باشد'))
+    rule.save(creat_rule(rule, 'V1503N5', 1.001, 1.5, -5, 'نسبت بین 1 و 1.5 می‌باشد'))
 
     # 1.501 <= NotDueDealAmountRatio ≤ 2	-10	V1504N10	نسبت بین 1.5 و ۲ می‌باشد
     rule = RuleUnDoneUndueTradesTotalBalanceOfLastYearRatio()
@@ -148,7 +148,7 @@ def import_rules_undone_undue_trades_total_balance_of_last_year_ratios():
     rule.save(creat_rule(rule, 'V1506N30', 3.001, 999, -30, 'نسبت بیش از ۳ می‌باشد'))
 
 
-def rules_undone_past_due_trades_counts():
+def rules_undone_past_due_trades_counts_t26():
     # UnfinishedB30DayDelay = 0	10	T2601P10	کاربر در سه ماه گذشته هیچ تعامل سررسید گذشته‌ای نداشته است
     rule = RuleUnDonePastDueTradesCount()
     rule.drop_collection()
@@ -175,7 +175,7 @@ def rules_undone_past_due_trades_counts():
     rule.save(creat_rule(rule, 'T2606N60', 11, 999, -60, 'کاربر در سه ماه گذشته بیش از 10 تعامل سررسید گذشته‌ داشته است'))
 
 
-def rules_undone_arrear_trades_counts():
+def rules_undone_arrear_trades_counts_t27():
     # UnfinishedA30DayDelay = 0	20	T2701P20	کاربر در سه ماه گذشته هیچ تعامل سررسید گذشته‌ای نداشته است
     rule = RuleUnDoneArrearTradesCount()
     rule.drop_collection()
@@ -204,9 +204,9 @@ def rules_undone_arrear_trades_counts():
 
 if __name__ == '__main__':
     program.launch_app()
-    import_rules_undone_arrear_trades_total_balance_of_last_year_ratios()
-    import_rules_undone_past_due_trades_total_balance_of_last_year_ratios()
-    import_rules_undone_undue_trades_counts()
-    import_rules_undone_undue_trades_total_balance_of_last_year_ratios()
-    rules_undone_arrear_trades_counts()
-    rules_undone_past_due_trades_counts()
+    import_rules_undone_undue_trades_counts_h10()
+    import_rules_undone_past_due_trades_total_balance_of_last_year_ratios_v13()
+    import_rules_undone_arrear_trades_total_balance_of_last_year_ratios_v14()
+    import_rules_undone_undue_trades_total_balance_of_last_year_ratios_v15()
+    rules_undone_past_due_trades_counts_t26()
+    rules_undone_arrear_trades_counts_t27()

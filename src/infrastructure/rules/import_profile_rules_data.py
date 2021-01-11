@@ -11,7 +11,7 @@ from src import program
 from src.infrastructure.scoring_enums import ProfileMilitaryServiceStatusEnum
 
 
-def import_rules_profile_has_kycs():
+def import_rules_profile_has_kycs_i0():
     # KYC = Yes	40	I0101P40	احراز هویت نهایی از طریق استعلام ثبت احوال
     rule = RuleProfileHasKyc()
     rule.drop_collection()
@@ -22,7 +22,7 @@ def import_rules_profile_has_kycs():
     rule.save(creat_rule_by_status_code(rule, 'I0102P0', 0, 0, 'عدم احراز هویت'))
 
 
-def import_rules_profile_military_service_status():
+def import_rules_profile_military_service_status_i0():
     # MilServiceFinished/Exempted/Ongoing	20	I0201P20	پایان خدمت
     rule = RuleProfileMilitaryServiceStatus()
     rule.drop_collection()
@@ -45,7 +45,7 @@ def import_rules_profile_military_service_status():
     rule.save(creat_rule_by_status_code(rule, 'I0205N50', ProfileMilitaryServiceStatusEnum.ABSENT.value, -50, 'غایب'))
 
 
-def import_rules_profile_sim_card_ownerships():
+def import_rules_profile_sim_card_ownerships_i0():
     # SimCardOwnership = Yes	20	I0301P20	تطابق هویت واقعی کاربر با مشخصات مالک خط تلفن همراه در سامانه شاهکار
     rule = RuleProfileSimCardOwnership()
     rule.drop_collection()
@@ -56,7 +56,7 @@ def import_rules_profile_sim_card_ownerships():
     rule.save(creat_rule_by_status_code(rule, 'I0302P0', 0, 0, 'عدم تطابق هویت واقعی کاربر با مشخصات مالک خط تلفن همراه'))
 
 
-def import_rules_profile_address_verifications():
+def import_rules_profile_address_verifications_i0():
     # AddressVerification = Yes	20	I0401P20	احراز اصالت نشانی محل سکونت کاربر از طریق وارد کردن رمز پستی
     rule = RuleProfileAddressVerification()
     rule.drop_collection()
@@ -67,7 +67,7 @@ def import_rules_profile_address_verifications():
     rule.save(creat_rule_by_status_code(rule, 'I0402P0', 0, 0, 'عدم احراز اصالت نشانی محل سکونت کاربر'))
 
 
-def import_rules_profile_membership_days_counts():
+def import_rules_profile_membership_days_counts_h5():
     # Just Registered MembershipDaysWithAtleast1SD == 0 	00	H0501P0	عضو جدید
     rule = RuleProfileMembershipDaysCount()
     rule.drop_collection()
@@ -98,7 +98,7 @@ def import_rules_profile_membership_days_counts():
     rule.save(creat_rule(rule, 'H0507P60', 1081, rules_max_days_val, 60, ' عضویت بیش از 1081 روز'))
 
 
-def import_rules_profile_recommended_to_others_counts():
+def import_rules_profile_recommended_to_others_counts_h8():
     # Recommendation = 0	00	H0801P0	کاربر توسط کسی پیشنهاد نشده است
     rule = RuleProfileRecommendedToOthersCount()
     rule.drop_collection()
@@ -125,7 +125,7 @@ def import_rules_profile_recommended_to_others_counts():
     rule.save(creat_rule(rule, 'H0806P50', 30, rules_max_val, 50, 'پیشنهاد شده توسط بیش از 30 نفر'))
 
 
-def import_rules_profile_star_counts_avgs():
+def import_rules_profile_star_counts_avgs_h9():
     # WeightedAveStars <= 1	00	H0901P0	کاربر به طور متوسط کمتر مساوی ۱ ستاره کسب کرده است
     rule = RuleProfileStarCountAvg()
     rule.drop_collection()
@@ -150,10 +150,10 @@ def import_rules_profile_star_counts_avgs():
 
 if __name__ == '__main__':
     program.launch_app()
-    import_rules_profile_address_verifications()
-    import_rules_profile_has_kycs()
-    import_rules_profile_membership_days_counts()
-    import_rules_profile_military_service_status()
-    import_rules_profile_recommended_to_others_counts()
-    import_rules_profile_sim_card_ownerships()
-    import_rules_profile_star_counts_avgs()
+    import_rules_profile_address_verifications_i0()
+    import_rules_profile_has_kycs_i0()
+    import_rules_profile_military_service_status_i0()
+    import_rules_profile_sim_card_ownerships_i0()
+    import_rules_profile_membership_days_counts_h5()
+    import_rules_profile_recommended_to_others_counts_h8()
+    import_rules_profile_star_counts_avgs_h9()
