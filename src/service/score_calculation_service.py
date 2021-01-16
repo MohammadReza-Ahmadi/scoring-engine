@@ -116,7 +116,7 @@ class ScoreCalculationService:
         # calculate average of all users delay days
         # todo: should calculate all users' average of done trades delay days (general_avg_delay_days)
         # general_avg_delay_days = 0
-        avg_delay_days = 0 if GENERAL_AVG_DELAY_DAYS == 0 else done_trade.total_delay_days / GENERAL_AVG_DELAY_DAYS
+        avg_delay_days = 0 if GENERAL_AVG_DELAY_DAYS == 0 else int(done_trade.total_delay_days) / GENERAL_AVG_DELAY_DAYS
         score = rds.get_score_of_rules_done_trades_average_delay_days(avg_delay_days)
         done_trades_score += score
         print('score= {}, doneTrades:[avg_delay_days]= {}'.format(score, done_trade.total_delay_days))
@@ -193,7 +193,7 @@ class ScoreCalculationService:
         print('score= {}, loans:[loans_total_count]= {}'.format(score, loan.loans_total_count))
 
         # should be calculate avg_of_all_users_monthly_installment_total_balance
-        avg_of_all_users_monthly_installment_total_balance = 4000000
+        avg_of_all_users_monthly_installment_total_balance = 25000000
         installments_total_balance_ratio = 0 if avg_of_all_users_monthly_installment_total_balance == 0 else float(
             loan.monthly_installments_total_balance / avg_of_all_users_monthly_installment_total_balance)
 

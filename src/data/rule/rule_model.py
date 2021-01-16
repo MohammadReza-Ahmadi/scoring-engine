@@ -7,4 +7,3 @@ class RuleModel:
     max = mongoengine.IntField()
     score = mongoengine.IntField()
     desc = mongoengine.StringField()
-

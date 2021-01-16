@@ -77,11 +77,11 @@ def calculate_score(scenarios_dicts: []):
 
         ln = Loan()
         ln.loans_total_count = scn_dict['Loans']
-        ln.loans_total_balance = 15000000
+        ln.loans_total_balance = 70000000
         ln.past_due_loans_total_count = int(scn_dict['PastDueLoans'])
         ln.arrear_loans_total_count = int(scn_dict['DelayedLoans'])
         ln.suspicious_loans_total_count = int(scn_dict['DoubfulCollectionLoans'])
-        ln.monthly_installments_total_balance = int(scn_dict['MonthlyInstallments'])
+        ln.monthly_installments_total_balance = float(scn_dict['MonthlyInstallments'])
         ln.overdue_loans_total_balance = round(float(scn_dict['CurrentLoanAmountRatio']) * ln.loans_total_balance)
         ln.past_due_loans_total_balance = round(float(scn_dict['PastDueLoanAmountRatio']) * ln.loans_total_balance)
         ln.arrear_loans_total_balance = round(float(scn_dict['DelayedLoanAmountRatio']) * ln.loans_total_balance)
@@ -101,6 +101,6 @@ def calculate_score(scenarios_dicts: []):
 
 
 if __name__ == '__main__':
-    csv_file_path = '/home/vsq-docs-live/scoring/_@RISK-Files/Vscore-sample-scenario.csv'
+    csv_file_path = '/home/vsq-docs-live/scoring/_@RISK-Files/Vscore-sample-scenario-2.csv'
     sd = read_scenarios_dicts_from_csv(csv_file_path)
     calculate_score(sd)

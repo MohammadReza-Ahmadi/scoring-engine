@@ -2,10 +2,24 @@ import random
 import string
 
 from data.rule.rule_model import RuleModel
+from data.rule.rules import Rule
 from infrastructure.constants import score_deliminator
 
 
-def creat_rule(rule: RuleModel, code: str, min_val, max_val, score: int, desc: str):
+def create_new_rule(rule: Rule, level, parent: str, code: str, title: str, impact_percent: float, score: int = None, min_val: float = None,
+                    max_val: float = None):
+    rule.level = level
+    rule.parent = parent
+    rule.code = code
+    rule.title = title
+    rule.impact_percent = impact_percent
+    rule.score = score
+    rule.min = min_val
+    rule.max = min_val if max_val is None else max_val
+    return rule
+
+
+def create_rule(rule: RuleModel, code: str, min_val, max_val, score: int, impact_percent: float, desc: str):
     rule.code = code
     rule.min = min_val
     rule.max = max_val
@@ -14,7 +28,7 @@ def creat_rule(rule: RuleModel, code: str, min_val, max_val, score: int, desc: s
     return rule
 
 
-def creat_rule_by_status_code(rule: RuleModel, code: str, status_code: int, score: int, desc: str):
+def create_rule_by_status_code(rule: RuleModel, code: str, status_code: int, score: int, impact_percent: float, desc: str):
     rule.code = code
     rule.status_code = status_code
     rule.score = score
