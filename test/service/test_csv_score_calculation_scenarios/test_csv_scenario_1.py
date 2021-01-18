@@ -33,14 +33,6 @@ def calculate_score(scenarios_dicts: []):
     rds = RedisCaching()
     cs = ScoreCalculationService(rds)
 
-    # Vscore, KYC, Military, SimCard, Address, Membership, Last3MSD, Last1YSD, Recommendation, 
-    # WeightedAveStars, NumNotDueDeal, Loans, SDealAmountRatio, UnfinishedB30Din1YRatio, 
-    # UnfinishedA30Din1YRatio, NotDueDealAmountRatio, MonthlyInstallments, DCAmountRatio, 
-    # CurrentLoanAmountRatio, PastDueLoanAmountRatio, DelayedLoanAmountRatio, B30DayDelayLast3M, \
-    # B30DayDelayLast3-12M, A30DayDelayLast3M, A30DayDelay3-12M, \
-    # UnfinishedB30DayDelay, UnfinishedA30DayDelay, AverageDelayRatio, DishonouredChequesL3M, DishonouredChequesL3-12M, \
-    # DishonouredChequesA12M, AllDishonouredCheques, PastDueLoans, DelayedLoans, DoubfulCollectionLoans
-
     for scn_dict in scenarios_dicts:
         expected_score = scn_dict['Vscore']
 
@@ -101,6 +93,6 @@ def calculate_score(scenarios_dicts: []):
 
 
 if __name__ == '__main__':
-    csv_file_path = '/home/vsq-docs-live/scoring/_@RISK-Files/Vscore-sample-scenario-2.csv'
+    csv_file_path = '/home/vsq-docs-live/scoring/_@RISK-Files/Vscore-sample-scenario.csv'
     sd = read_scenarios_dicts_from_csv(csv_file_path)
     calculate_score(sd)

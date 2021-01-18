@@ -1,3 +1,5 @@
+from mongoengine.queryset.visitor import Q
+
 from data.rule.rules import Rule
 from infrastructure.constants import rules_max_days_val
 from service.util import create_new_rule
@@ -5,11 +7,21 @@ from src import program
 
 
 def import_rule_volume_master():
+    # Delete all volumes(V) rules
+    l2_rules: [Rule] = Rule.objects(Q(parent='V'))
+    for r in l2_rules:
+        l3_rules: [Rule] = Rule.objects(Q(parent=r.code))
+        l3_rules.delete()
+    l2_rules.delete()
+    l1_rule = Rule.objects(Q(code='V'))
+    l1_rule.delete()
+    print('Volumes(V) rules are deleted.')
     # define Volume(V)' rules master: level 1
     rule = Rule()
-    rule.drop_collection()
+    # rule.drop_collection()
     rule = create_new_rule(rule, 1, None, 'V', 'حجم تعاملات', 25, 195)
     rule.save()
+    print('Volumes(V) master rule is created.')
 
 
 def import_rules_volume_done_trades_total_balance_ratios_v12():
@@ -48,6 +60,7 @@ def import_rules_volume_done_trades_total_balance_ratios_v12():
     rule = Rule()
     rule = create_new_rule(rule, 3, 'V12', 'V1206P50', 'نسبت بیش از 2 می‌باشد', 6.41, 50, 2.001, rules_max_days_val)
     rule.save()
+    print('Volumes(V) done_trades_total_balance_ratios_v12 rules are created.')
 
 
 def import_rules_volume_undone_past_due_trades_total_balance_of_last_year_ratios_v13():
@@ -93,6 +106,7 @@ def import_rules_volume_undone_past_due_trades_total_balance_of_last_year_ratios
     rule = Rule()
     rule = create_new_rule(rule, 3, 'V13', 'V1307N40', 'نسبت بیش از 2 می‌باشد', -5.13, -40, 3, rules_max_days_val)
     rule.save()
+    print('Volumes(V) undone_past_due_trades_total_balance_of_last_year_ratios_v13 rules are created.')
 
 
 def import_rules_volume_undone_arrear_trades_total_balance_of_last_year_ratios_v14():
@@ -138,6 +152,7 @@ def import_rules_volume_undone_arrear_trades_total_balance_of_last_year_ratios_v
     rule = Rule()
     rule = create_new_rule(rule, 3, 'V14', 'V1407N40', 'نسبت بیش از 2 می‌باشد', -5.13, -40, 3, rules_max_days_val)
     rule.save()
+    print('Volumes(V) undone_arrear_trades_total_balance_of_last_year_ratios_v14 rules are created.')
 
 
 def import_rules_volume_undone_undue_trades_total_balance_of_last_year_ratios_v15():
@@ -177,6 +192,7 @@ def import_rules_volume_undone_undue_trades_total_balance_of_last_year_ratios_v1
     rule = Rule()
     rule = create_new_rule(rule, 3, 'V15', 'V1506N30', 'نسبت بیش از ۳ می‌باشد', -3.85, -30, 3.001, rules_max_days_val)
     rule.save()
+    print('Volumes(V) undone_undue_trades_total_balance_of_last_year_ratios_v15 rules are created.')
 
 
 def import_rules_volume_loan_monthly_installments_total_balance_ratio_v16():
@@ -216,6 +232,7 @@ def import_rules_volume_loan_monthly_installments_total_balance_ratio_v16():
     rule = Rule()
     rule = create_new_rule(rule, 3, 'V16', 'V1606N20', 'نسبت بیش از 2 می‌باشد', -2.56, -20, 2.001, rules_max_days_val)
     rule.save()
+    print('Volumes(V) loan_monthly_installments_total_balance_ratio_v16 rules are created.')
 
 
 def import_rules_volume_unfixed_returned_cheques_total_balance_ratio_v17():
@@ -256,6 +273,7 @@ def import_rules_volume_unfixed_returned_cheques_total_balance_ratio_v17():
     rule = Rule()
     rule = create_new_rule(rule, 3, 'V17', 'V1706N40', 'نسبت بیش از 2 می‌باشد', -5.13, -40, 2.001, rules_max_days_val)
     rule.save()
+    print('Volumes(V) unfixed_returned_cheques_total_balance_ratio_v17 rules are created.')
 
 
 def import_rules_volume_overdue_loans_total_balance_ratio_v18():
@@ -296,6 +314,7 @@ def import_rules_volume_overdue_loans_total_balance_ratio_v18():
     rule = Rule()
     rule = create_new_rule(rule, 3, 'V18', 'V1806N20', 'نسبت بیش از 2 می‌باشد', -2.56, -20, 2.001, rules_max_days_val)
     rule.save()
+    print('Volumes(V) overdue_loans_total_balance_ratio_v18 rules are created.')
 
 
 def import_rules_volume_past_due_loans_total_balance_ratio_v19():
@@ -336,6 +355,7 @@ def import_rules_volume_past_due_loans_total_balance_ratio_v19():
     rule = Rule()
     rule = create_new_rule(rule, 3, 'V19', 'V1906N40', 'نسبت بیش از 0.5 می‌باشد', -5.13, -40, 0.501, rules_max_days_val)
     rule.save()
+    print('Volumes(V) past_due_loans_total_balance_ratio_v19 rules are created.')
 
 
 def import_rules_volume_arrear_loans_total_balance_ratios_v20():
@@ -376,6 +396,7 @@ def import_rules_volume_arrear_loans_total_balance_ratios_v20():
     rule = Rule()
     rule = create_new_rule(rule, 3, 'V20', 'V2006N50', 'نسبت بیش از 0.5 می‌باشد', -6.41, -50, 0.501, rules_max_days_val)
     rule.save()
+    print('Volumes(V) arrear_loans_total_balance_ratios_v20 rules are created.')
 
 
 def import_rules_volume_suspicious_loans_total_balance_ratio_v21():
@@ -416,11 +437,12 @@ def import_rules_volume_suspicious_loans_total_balance_ratio_v21():
     rule = Rule()
     rule = create_new_rule(rule, 3, 'V21', 'V2106N60', 'نسبت بیش از 0.5 می‌باشد', -7.69, -60, 0.501, rules_max_days_val)
     rule.save()
+    print('Volumes(V) suspicious_loans_total_balance_ratio_v21 rules are created.')
 
 
-if __name__ == '__main__':
+def import_rules_volumes():
     program.launch_app()
-    import_rule_history_master()
+    import_rule_volume_master()
     import_rules_volume_done_trades_total_balance_ratios_v12()
     import_rules_volume_undone_past_due_trades_total_balance_of_last_year_ratios_v13()
     import_rules_volume_undone_arrear_trades_total_balance_of_last_year_ratios_v14()

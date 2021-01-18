@@ -1,3 +1,5 @@
+from mongoengine.queryset.visitor import Q
+
 from data.rule.rules import Rule
 from service.util import create_new_rule
 from src import program
@@ -5,11 +7,20 @@ from src.infrastructure.scoring_enums import ProfileMilitaryServiceStatusEnum
 
 
 def import_rule_identity_master():
+    # Delete all histories(H) rules
+    l2_rules: [Rule] = Rule.objects(Q(parent='I'))
+    for r in l2_rules:
+        l3_rules: [Rule] = Rule.objects(Q(parent=r.code))
+        l3_rules.delete()
+    l2_rules.delete()
+    l1_rule = Rule.objects(Q(code='I'))
+    l1_rule.delete()
+    print('Identities(I) rules are deleted.')
     # define Identities(I)' rules master: level 1
     rule = Rule()
-    rule.drop_collection()
     rule = create_new_rule(rule, 1, None, 'I', 'اطلاعات هویتی', 10)
     rule.save()
+    print('Identities(I) master rule is created.')
 
 
 def import_rules_identity_has_kycs_i1():
@@ -21,13 +32,14 @@ def import_rules_identity_has_kycs_i1():
     # define Identities(I)' rules of kycs details: level 3
     # KYC = Yes	40	I0101P40    %4	احراز هویت نهایی از طریق استعلام ثبت احوال
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'I1', 'I0101P40', 'احراز هویت نهایی از طریق استعلام ثبت احوال', 4, 40)
+    rule = create_new_rule(rule, 3, 'I1', 'I0101P40', 'احراز هویت نهایی از طریق استعلام ثبت احوال', 4, 40, 1)
     rule.save()
 
     # KYC = No	00	I0102P0 0%	عدم احراز هویت
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'I1', 'I0102P0', 'عدم احراز هویت', 0, 0)
+    rule = create_new_rule(rule, 3, 'I1', 'I0102P0', 'عدم احراز هویت', 0, 0, 0)
     rule.save()
+    print('Identities(I) has_kycs_i1 rules are created.')
 
 
 def import_rules_identity_military_service_status_i2():
@@ -59,8 +71,9 @@ def import_rules_identity_military_service_status_i2():
 
     # MilServiceAbsent	-50	I0205N50        -5% 	غایب
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'I2', 'I0205N50', 'غایب', -5, -50, ProfileMilitaryServiceStatusEnum.SUBJECTED.value)
+    rule = create_new_rule(rule, 3, 'I2', 'I0205N50', 'غایب', -5, -50, ProfileMilitaryServiceStatusEnum.ABSENT.value)
     rule.save(rule)
+    print('Identities(I) military_service_status_i2 rules are created.')
 
 
 def import_rules_identity_sim_card_ownerships_i3():
@@ -79,6 +92,7 @@ def import_rules_identity_sim_card_ownerships_i3():
     rule = Rule()
     rule = create_new_rule(rule, 3, 'I3', 'I0302P0', 'عدم تطابق هویت واقعی کاربر با مشخصات مالک خط تلفن همراه', 0, 0, 0)
     rule.save(rule)
+    print('Identities(I) sim_card_ownerships_i3 rules are created.')
 
 
 def import_rules_identity_address_verifications_i4():
@@ -97,9 +111,10 @@ def import_rules_identity_address_verifications_i4():
     rule = Rule()
     rule = create_new_rule(rule, 3, 'I4', 'I0402P0', 'تطابق هویت واقعی کاربر با مشخصات مالک خط تلفن همراه در سامانه شاهکار', 0, 0, 0)
     rule.save(rule)
+    print('Identities(I) address_verifications_i4 rules are created.')
 
 
-if __name__ == '__main__':
+def import_rules_identities():
     program.launch_app()
     import_rule_identity_master()
     import_rules_identity_has_kycs_i1()

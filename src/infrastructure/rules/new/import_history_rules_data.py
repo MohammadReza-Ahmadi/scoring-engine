@@ -1,3 +1,5 @@
+from mongoengine.queryset.visitor import Q
+
 from data.rule.rules import Rule
 from infrastructure.constants import rules_max_days_val
 from service.util import create_new_rule
@@ -5,11 +7,21 @@ from src import program
 
 
 def import_rule_history_master():
+    # Delete all histories(H) rules
+    l2_rules: [Rule] = Rule.objects(Q(parent='H'))
+    for r in l2_rules:
+        l3_rules: [Rule] = Rule.objects(Q(parent=r.code))
+        l3_rules.delete()
+    l2_rules.delete()
+    l1_rule = Rule.objects(Q(code='H'))
+    l1_rule.delete()
+    print('Histories(H) rules are deleted.')
     # define Identities(I)' rules master: level 1
     rule = Rule()
-    rule.drop_collection()
+    # rule.drop_collection()
     rule = create_new_rule(rule, 1, None, 'H', 'سوابق تعاملات', 30, 270)
     rule.save()
+    print('Histories(H) master rule is created.')
 
 
 def import_rules_history_membership_days_counts_h5():
@@ -21,7 +33,7 @@ def import_rules_history_membership_days_counts_h5():
     # define History(H)' rules of membership_days details: level 3
     # Just Registered MembershipDaysWithAtleast1SD == 0 	00	H0501P0	عضو جدید
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'H5', 'H0501P0', 'عضو جدید', 0, 0)
+    rule = create_new_rule(rule, 3, 'H5', 'H0501P0', 'عضو جدید', 0, 0, 0)
     rule.save()
 
     #  1 <=  MembershipDaysWithAtleast1SD ≤ 90	    10	H0502P10	 عضویت بین 1 تا 90 روز
@@ -53,6 +65,7 @@ def import_rules_history_membership_days_counts_h5():
     rule = Rule()
     rule = create_new_rule(rule, 3, 'H5', 'H0507P60', ' عضویت بیش از 1081 روز', 6.67, 60, 1081, rules_max_days_val)
     rule.save()
+    print('Histories(H) membership_days_counts_h5 rules are created.')
 
 
 def import_rules_history_done_timely_trades_of_last_3_months_h6():
@@ -86,6 +99,7 @@ def import_rules_history_done_timely_trades_of_last_3_months_h6():
     rule = Rule()
     rule = create_new_rule(rule, 3, 'H6', 'H0605P40', 'کاربر در سه ماه گذشته بیش از 3 تعامل موفق با سایر کاربران داشته است', 4.44, 40, 4, 4)
     rule.save()
+    print('Histories(H) done_timely_trades_of_last_3_months_h6 rules are created.')
 
 
 def import_rules_history_done_timely_trades_between_last_3_to_12_months_h7():
@@ -125,6 +139,7 @@ def import_rules_history_done_timely_trades_between_last_3_to_12_months_h7():
     rule = create_new_rule(rule, 3, 'H7', 'H0706P40', 'کاربر در یکسال گذشته بیش از 10 تعامل موفق با سایر کاربران داشته است', 4.44, 40, 11,
                            rules_max_days_val)
     rule.save()
+    print('Histories(H) done_timely_trades_between_last_3_to_12_months_h7 rules are created.')
 
 
 def import_rules_history_recommended_to_others_counts_h8():
@@ -163,6 +178,7 @@ def import_rules_history_recommended_to_others_counts_h8():
     rule = Rule()
     rule = create_new_rule(rule, 3, 'H8', 'H0806P50', 'پیشنهاد شده توسط بیش از 30 نفر', 5.56, 50, 30, rules_max_days_val)
     rule.save()
+    print('Histories(H) recommended_to_others_counts_h8 rules are created.')
 
 
 def import_rules_history_star_counts_avgs_h9():
@@ -196,6 +212,7 @@ def import_rules_history_star_counts_avgs_h9():
     rule = Rule()
     rule = create_new_rule(rule, 3, 'H9', 'H0905P50', 'کاربر به طور متوسط بیش از ۴ و کمتر مساوی ۵ ستاره کسب کرده است', 5.56, 50, 4.001, 5)
     rule.save()
+    print('Histories(H) star_counts_avgs_h9 rules are created.')
 
 
 def import_rules_history_undone_undue_trades_counts_h10():
@@ -259,6 +276,7 @@ def import_rules_history_undone_undue_trades_counts_h10():
     rule = Rule()
     rule = create_new_rule(rule, 3, 'H10', 'H1011N50', 'کاربر بیش از 30 تعامل سررسید نشده دارد', -5.56, -50, 31, 999)
     rule.save()
+    print('Histories(H) undone_undue_trades_counts_h10 rules are created.')
 
 
 def import_rules_history_loans_total_count_h11():
@@ -302,9 +320,10 @@ def import_rules_history_loans_total_count_h11():
     rule = Rule()
     rule = create_new_rule(rule, 3, 'H11', 'H1107N50', 'کاربر بیش از ۵ تسهیلات در جریان دارد', -5.56, -50, 6, rules_max_days_val)
     rule.save()
+    print('Histories(H) loans_total_count_h11 rules are created.')
 
 
-if __name__ == '__main__':
+def import_rules_histories():
     program.launch_app()
     import_rule_history_master()
     import_rules_history_membership_days_counts_h5()

@@ -8,8 +8,8 @@ class Rule(mongoengine.Document):
     title = mongoengine.StringField()
     impact_percent = mongoengine.FloatField()
     score = mongoengine.IntField()
-    min = mongoengine.IntField()
-    max = mongoengine.IntField()
+    min = mongoengine.FloatField()
+    max = mongoengine.FloatField()
 
     # parameterized constructor
     # def __init__(self, level, code: str, title: str, impact_percent: float, score: int = None, min_val: float = None, max_val: float = None):

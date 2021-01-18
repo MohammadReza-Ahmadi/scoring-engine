@@ -1,3 +1,5 @@
+from mongoengine.queryset.visitor import Q
+
 from data.rule.rules import Rule
 from infrastructure.constants import rules_max_days_val
 from service.util import create_new_rule
@@ -5,11 +7,21 @@ from src import program
 
 
 def import_rule_timeliness_master():
+    # Delete all histories(H) rules
+    l2_rules: [Rule] = Rule.objects(Q(parent='T'))
+    for r in l2_rules:
+        l3_rules: [Rule] = Rule.objects(Q(parent=r.code))
+        l3_rules.delete()
+    l2_rules.delete()
+    l1_rule = Rule.objects(Q(code='T'))
+    l1_rule.delete()
+    print('Timeliness(T) rules are deleted.')
     # define Timeliness(T)' rules master: level 1
     rule = Rule()
-    rule.drop_collection()
+    # rule.drop_collection()
     rule = create_new_rule(rule, 1, None, 'T', 'انجام به موقع تعهدات', 35, 270)
     rule.save()
+    print('Timeliness(T) master rule is created.')
 
 
 # تعداد تعاملات موفق در 3 ماه گذشته
@@ -50,6 +62,7 @@ def import_rules_timeliness_done_past_due_trades_of_last_3_months_t22():
     rule = create_new_rule(rule, 3, 'T22', 'T2206N30', 'کاربر در سه ماه گذشته بیش از 10 تعامل سررسید گذشته‌ داشته است', -3.89, -30, 11,
                            rules_max_days_val)
     rule.save()
+    print('Timeliness(T) done_past_due_trades_of_last_3_months_t22 rules are created.')
 
 
 def import_rules_timeliness_done_past_due_trades_between_last_3_to_12_months_t23():
@@ -89,6 +102,7 @@ def import_rules_timeliness_done_past_due_trades_between_last_3_to_12_months_t23
     rule = create_new_rule(rule, 3, 'T23', 'T2306N20', 'کاربر در یکسال گذشته بیش از 10 تعامل سررسید گذشته‌ داشته است', -2.59, -20, 11,
                            rules_max_days_val)
     rule.save()
+    print('Timeliness(T) done_past_due_trades_between_last_3_to_12_months_t23 rules are created.')
 
 
 def import_rules_timeliness_done_arrear_trades_of_last_3_months_t24():
@@ -127,6 +141,7 @@ def import_rules_timeliness_done_arrear_trades_of_last_3_months_t24():
     rule = Rule()
     rule = create_new_rule(rule, 3, 'T24', 'T2406N40', 'کاربر در سه ماه گذشته بیش از 10 تعامل معوق داشته است', -5.19, -40, 11, 999)
     rule.save()
+    print('Timeliness(T) done_arrear_trades_of_last_3_months_t24 rules are created.')
 
 
 def import_rules_timeliness_done_arrear_trades_between_last_3_to_12_months_t25():
@@ -165,6 +180,7 @@ def import_rules_timeliness_done_arrear_trades_between_last_3_to_12_months_t25()
     rule = Rule()
     rule = create_new_rule(rule, 3, 'T25', 'T2506N30', 'کاربر در یکسال گذشته 10 تعامل معوق داشته است', -3.89, -30, 11, rules_max_days_val)
     rule.save()
+    print('Timeliness(T) arrear_trades_between_last_3_to_12_months_t25 rules are created.')
 
 
 def import_rules_timeliness_undone_past_due_trades_counts_t26():
@@ -204,6 +220,7 @@ def import_rules_timeliness_undone_past_due_trades_counts_t26():
     rule = create_new_rule(rule, 3, 'T26', 'T2606N60', 'کاربر در سه ماه گذشته بیش از 10 تعامل سررسید گذشته‌ داشته است', -7.78, -60, 11,
                            rules_max_days_val)
     rule.save()
+    print('Timeliness(T) timeliness_undone_past_due_trades_counts_t26 rules are created.')
 
 
 def import_rules_timeliness_undone_arrear_trades_counts_t27():
@@ -243,6 +260,7 @@ def import_rules_timeliness_undone_arrear_trades_counts_t27():
     rule = create_new_rule(rule, 3, 'T27', 'T2706N60', 'کاربر در سه ماه گذشته بیش از 10 تعامل سررسید گذشته‌ داشته است', -7.78, -60, 11,
                            rules_max_days_val)
     rule.save()
+    print('Timeliness(T) undone_arrear_trades_counts_t27 rules are created.')
 
 
 def import_rules_timeliness_done_trades_average_delay_days_ratios_t28():
@@ -281,6 +299,7 @@ def import_rules_timeliness_done_trades_average_delay_days_ratios_t28():
     rule = Rule()
     rule = create_new_rule(rule, 3, 'T28', 'T2806N30', 'نسبت بیش از 2 می‌باشد', -3.89, -30, 2.001, rules_max_days_val)
     rule.save()
+    print('Timeliness(T) done_trades_average_delay_days_ratios_t28 rules are created.')
 
 
 def import_rules_timeliness_unfixed_returned_cheques_count_of_last_3_months_t29():
@@ -314,6 +333,7 @@ def import_rules_timeliness_unfixed_returned_cheques_count_of_last_3_months_t29(
     rule = Rule()
     rule = create_new_rule(rule, 3, 'T29', 'T2905N40', 'کاربر بیش از ۳ چک برگشتی دارد', -5.19, -40, 4, rules_max_days_val)
     rule.save()
+    print('Timeliness(T) unfixed_returned_cheques_count_of_last_3_months_t29 rules are created.')
 
 
 def import_rules_timeliness_unfixed_returned_cheques_count_between_last_3_to_12_months_t30():
@@ -347,6 +367,7 @@ def import_rules_timeliness_unfixed_returned_cheques_count_between_last_3_to_12_
     rule = Rule()
     rule = create_new_rule(rule, 3, 'T30', 'T3005N60', 'کاربر بیش از ۳ چک برگشتی دارد', -7.78, -60, 4, rules_max_days_val)
     rule.save()
+    print('Timeliness(T) unfixed_returned_cheques_count_between_last_3_to_12_months_t30 rules are created.')
 
 
 def import_rules_timeliness_unfixed_returned_cheques_count_of_more_12_months_t31():
@@ -380,6 +401,7 @@ def import_rules_timeliness_unfixed_returned_cheques_count_of_more_12_months_t31
     rule = Rule()
     rule = create_new_rule(rule, 3, 'T31', 'T3105N70', 'کاربر بیش از ۳ چک برگشتی دارد', -9.07, -70, 4, rules_max_days_val)
     rule.save()
+    print('Timeliness(T) unfixed_returned_cheques_count_of_more_12_months_t31 rules are created.')
 
 
 def import_rules_timeliness_unfixed_returned_cheques_count_of_last_5_years_t32():
@@ -414,6 +436,7 @@ def import_rules_timeliness_unfixed_returned_cheques_count_of_last_5_years_t32()
     rule = Rule()
     rule = create_new_rule(rule, 3, 'T32', 'T3205N30', 'کاربر بیش از 10 چک برگشتی دارد', -3.89, -30, 11, rules_max_days_val)
     rule.save()
+    print('Timeliness(T) unfixed_returned_cheques_count_of_last_5_years_t32 rules are created.')
 
 
 def import_rules_timeliness_past_due_loans_total_count_t33():
@@ -447,6 +470,7 @@ def import_rules_timeliness_past_due_loans_total_count_t33():
     rule = Rule()
     rule = create_new_rule(rule, 3, 'T33', 'T3305N30', 'کاربر بیش از ۳ تسهیلات سررسید گذشته دارد', -3.89, -30, 4, rules_max_days_val)
     rule.save()
+    print('Timeliness(T) past_due_loans_total_count_t33 rules are created.')
 
 
 def import_rules_timeliness_arrear_loans_total_count_t34():
@@ -480,6 +504,7 @@ def import_rules_timeliness_arrear_loans_total_count_t34():
     rule = Rule()
     rule = create_new_rule(rule, 3, 'T34', 'T3405N40', 'کاربر بیش از ۳ تسهیلات معوق دارد', -5.19, -40, 4, rules_max_days_val)
     rule.save()
+    print('Timeliness(T) arrear_loans_total_count_t34 rules are created.')
 
 
 def import_rules_timeliness_suspicious_loans_total_count_t35():
@@ -513,9 +538,10 @@ def import_rules_timeliness_suspicious_loans_total_count_t35():
     rule = Rule()
     rule = create_new_rule(rule, 3, 'T35', 'T3505N50', 'کاربر بیش از ۳ تسهیلات مشکوک الوصول دارد', -6.48, -50, 4, rules_max_days_val)
     rule.save()
+    print('Timeliness(T) suspicious_loans_total_count_t35 rules are created.')
 
 
-if __name__ == '__main__':
+def import_rules_timeliness():
     program.launch_app()
     import_rule_timeliness_master()
     import_rules_timeliness_arrear_loans_total_count_t34()

@@ -1,18 +1,19 @@
 from datetime import date
-
+from mongoengine.queryset.visitor import Q
 from numpy import long
 
 from data.cheques import Cheque
 from data.done_trades import DoneTrade
 from data.loans import Loan
 from data.profile import Profile
+from data.rule.rules import Rule
 from data.undone_trades import UndoneTrade
-from infrastructure.caching.redis_caching import RedisCaching
-from infrastructure.caching.redis_caching_rules_cheques import RedisCachingRulesCheques
-from infrastructure.caching.redis_caching_rules_done_trades import RedisCachingRulesDoneTrades
-from infrastructure.caching.redis_caching_rules_loans import RedisCachingRulesLoans
-from infrastructure.caching.redis_caching_rules_profiles import RedisCachingRulesProfiles
-from infrastructure.caching.redis_caching_rules_undone_trades import RedisCachingRulesUndoneTrades
+from infrastructure.caching.new.redis_caching import RedisCaching
+from infrastructure.caching.new.redis_caching_rules_cheques import RedisCachingRulesCheques
+from infrastructure.caching.new.redis_caching_rules_done_trades import RedisCachingRulesDoneTrades
+from infrastructure.caching.new.redis_caching_rules_loans import RedisCachingRulesLoans
+from infrastructure.caching.new.redis_caching_rules_profiles import RedisCachingRulesProfiles
+from infrastructure.caching.new.redis_caching_rules_undone_trades import RedisCachingRulesUndoneTrades
 from infrastructure.constants import SCORE_CODE_RULES_UNDONE_PAST_DUE_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS, \
     SCORE_CODE_RULES_UNDONE_ARREAR_TRADES_TOTAL_BALANCE_OF_LAST_YEAR_RATIOS, GENERAL_AVG_BALANCE, GENERAL_AVG_DELAY_DAYS, \
     AVG_OF_ALL_USERS_UNFIXED_RETURNED_CHEQUES_TOTAL_BALANCE
@@ -78,29 +79,31 @@ class ScoreCalculationService:
         rds: RedisCachingRulesDoneTrades = self.rds.get_redis_caching_rules_done_trades_service(reset_cache)
         done_trades_score = 0
 
-        score = rds.get_score_of_rules_done_timely_trades_of_last_3_months(done_trade.timely_trades_count_of_last_3_months)
+        score = rds.get_score_of_rules_done_timely_trades_of_last_3_months_h6(done_trade.timely_trades_count_of_last_3_months)
+        rules: [Rule] = Rule.objects(Q(code=H6_RULES_DONE_TIMELY_TRADES_OF_LAST_3_MONTHS))
+        # normalized_score = score * 
         done_trades_score += score
         print('score= {}, doneTrades:[timely_trades_count_of_last_3_months]= {}'.format(score, done_trade.timely_trades_count_of_last_3_months))
 
-        score = rds.get_score_of_rules_done_timely_trades_between_last_3_to_12_months(done_trade.timely_trades_count_between_last_3_to_12_months)
+        score = rds.get_score_of_rules_done_timely_trades_between_last_3_to_12_months_h7(done_trade.timely_trades_count_between_last_3_to_12_months)
         done_trades_score += score
         print('score= {}, doneTrades:[timely_trades_count_between_last_3_to_12_months]= {}'
               .format(score, done_trade.timely_trades_count_between_last_3_to_12_months))
 
-        score = rds.get_score_of_rules_done_past_due_trades_of_last_3_months(done_trade.past_due_trades_count_of_last_3_months)
+        score = rds.get_score_of_rules_done_past_due_trades_of_last_3_months_t22(done_trade.past_due_trades_count_of_last_3_months)
         done_trades_score += score
         print('score= {}, doneTrades:[past_due_trades_count_of_last_3_months]= {}'.format(score, done_trade.past_due_trades_count_of_last_3_months))
 
-        score = rds.get_score_of_rules_done_past_due_trades_between_last_3_to_12_months(done_trade.past_due_trades_count_between_last_3_to_12_months)
+        score = rds.get_score_of_rules_done_past_due_trades_between_last_3_to_12_months_t23(done_trade.past_due_trades_count_between_last_3_to_12_months)
         done_trades_score += score
         print('score= {}, doneTrades:[past_due_trades_count_between_last_3_to_12_months]= {}'.
               format(score, done_trade.past_due_trades_count_between_last_3_to_12_months))
 
-        score = rds.get_score_of_rules_done_arrear_trades_of_last_3_months(done_trade.arrear_trades_count_of_last_3_months)
+        score = rds.get_score_of_rules_done_arrear_trades_of_last_3_months_t24(done_trade.arrear_trades_count_of_last_3_months)
         done_trades_score += score
         print('score= {}, doneTrades:[arrear_trades_count_of_last_3_months]= {}'.format(score, done_trade.arrear_trades_count_of_last_3_months))
 
-        score = rds.get_score_of_rules_done_arrear_trades_between_last_3_to_12_months(done_trade.arrear_trades_count_between_last_3_to_12_months)
+        score = rds.get_score_of_rules_done_arrear_trades_between_last_3_to_12_months_t25(done_trade.arrear_trades_count_between_last_3_to_12_months)
         done_trades_score += score
         print('score= {}, doneTrades:[arrear_trades_count_between_last_3_to_12_months]= {}'
               .format(score, done_trade.arrear_trades_count_between_last_3_to_12_months))
@@ -109,7 +112,7 @@ class ScoreCalculationService:
         # todo: should calculate all users' trades total balance
         avg_total_balance = 0 if GENERAL_AVG_BALANCE == 0 else done_trade.trades_total_balance / GENERAL_AVG_BALANCE
         avg_total_balance = float(avg_total_balance)
-        score = rds.get_score_of_rules_done_trades_average_total_balance_ratios(avg_total_balance)
+        score = rds.get_score_of_rules_done_trades_average_total_balance_ratios_v12(avg_total_balance)
         done_trades_score += score
         print('score= {}, doneTrades:[avg_total_balance]= {}'.format(score, avg_total_balance))
 
@@ -117,7 +120,7 @@ class ScoreCalculationService:
         # todo: should calculate all users' average of done trades delay days (general_avg_delay_days)
         # general_avg_delay_days = 0
         avg_delay_days = 0 if GENERAL_AVG_DELAY_DAYS == 0 else int(done_trade.total_delay_days) / GENERAL_AVG_DELAY_DAYS
-        score = rds.get_score_of_rules_done_trades_average_delay_days(avg_delay_days)
+        score = rds.get_score_of_rules_done_trades_average_delay_days_t28(avg_delay_days)
         done_trades_score += score
         print('score= {}, doneTrades:[avg_delay_days]= {}'.format(score, done_trade.total_delay_days))
 

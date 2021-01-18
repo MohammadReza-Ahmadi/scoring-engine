@@ -44,6 +44,11 @@ def get_score_code_from_dict(scores: {}):
     return scores[0].split(score_deliminator)[1]
 
 
+def add_rule_to_dict(rdict: {}, r: Rule):
+    rdict.__setitem__((str(r.score) + score_deliminator + r.code), r.max)
+    return rdict
+
+
 def add_rule_model_to_dict(rdict: {}, r: RuleModel):
     rdict.__setitem__((str(r.score) + score_deliminator + r.code), r.max)
     return rdict
