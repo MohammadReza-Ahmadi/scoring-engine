@@ -2,6 +2,7 @@ import redis
 from redis import StrictRedis
 
 import program
+from infrastructure.caching.new_2.redis_caching_rules_histories import RedisCachingRulesHistories
 from infrastructure.caching.new_2.redis_caching_rules_identities import RedisCachingRulesIdentities
 from infrastructure.caching.redis_caching_rules_cheques import RedisCachingRulesCheques
 from infrastructure.caching.redis_caching_rules_done_trades import RedisCachingRulesDoneTrades
@@ -67,11 +68,8 @@ class RedisCaching:
         return self.rds_rules_loans_service
 
     def cache_rules(self):
-        # RedisCachingRulesDoneTrades(self.rds).cache_rules()
-        # RedisCachingRulesUndoneTrades(self.rds).cache_rules()
         RedisCachingRulesIdentities(self.rds).cache_rules()
-        # RedisCachingRulesLoans(self.rds).cache_rules()
-        # RedisCachingRulesCheques(self.rds).cache_rules()
+        RedisCachingRulesHistories(self.rds).cache_rules()
 
 
 if __name__ == '__main__':

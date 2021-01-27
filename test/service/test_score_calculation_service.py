@@ -6,8 +6,8 @@ from service.score_calculation_service import ScoreCalculationService
 
 
 class TestScoreCalculationService(unittest.TestCase):
-    # uid = 23
-    uid = 1
+    uid = 23
+    # uid = 1
 
     # FINAL SCORE CALCULATION #
     def test_calculate_final_score(self):

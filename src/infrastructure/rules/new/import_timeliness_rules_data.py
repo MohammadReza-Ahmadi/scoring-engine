@@ -1,7 +1,7 @@
 from mongoengine.queryset.visitor import Q
 
 from data.rule.rules import Rule
-from infrastructure.constants import rules_max_days_val
+from infrastructure.constants import rules_max_val
 from service.util import create_new_rule
 from src import program
 
@@ -49,18 +49,18 @@ def import_rules_timeliness_done_past_due_trades_of_last_3_months_t22():
 
     # 4 <= B30DayDelayLast3M ≤ 6	-10	T2204N10	کاربر در سه ماه گذشته بین 4 تا 6 تعامل سررسید گذشته‌ داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T22', 'T2204N10', 'کاربر در سه ماه گذشته بین 4 تا 6 تعامل سررسید گذشته‌ داشته است', -1.30, -10, 4, 6)
+    rule = create_new_rule(rule, 3, 'T22', 'T2204N10', 'کاربر در سه ماه گذشته بین 4 تا 6 تعامل سررسید گذشته‌ داشته است', 1.30, -10, 4, 6)
     rule.save()
 
     # 7 <= B30DayDelayLast3M ≤ 10	-20	T2205N20	کاربر در سه ماه گذشته بین 7 تا 10 تعامل سررسید گذشته‌ داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T22', 'T2205N20', 'کاربر در سه ماه گذشته بین 7 تا 10 تعامل سررسید گذشته‌ داشته است', -2.59, -20, 7, 10)
+    rule = create_new_rule(rule, 3, 'T22', 'T2205N20', 'کاربر در سه ماه گذشته بین 7 تا 10 تعامل سررسید گذشته‌ داشته است', 2.59, -20, 7, 10)
     rule.save()
 
     # B30DayDelayLast3M >= 11	-30	T2206N30	کاربر در سه ماه گذشته بیش از 10 تعامل سررسید گذشته‌ داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T22', 'T2206N30', 'کاربر در سه ماه گذشته بیش از 10 تعامل سررسید گذشته‌ داشته است', -3.89, -30, 11,
-                           rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'T22', 'T2206N30', 'کاربر در سه ماه گذشته بیش از 10 تعامل سررسید گذشته‌ داشته است', 3.89, -30, 11,
+                           rules_max_val)
     rule.save()
     print('Timeliness(T) done_past_due_trades_of_last_3_months_t22 rules are created.')
 
@@ -89,18 +89,18 @@ def import_rules_timeliness_done_past_due_trades_between_last_3_to_12_months_t23
 
     # 4 <= B30DayDelayLast3-12M ≤ 6	-10	T2304N10	کاربر در یکسال گذشته بین 4 تا 6 تعامل سررسید گذشته‌ داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T23', 'T2304N10', 'کاربر در یکسال گذشته بین 4 تا 6 تعامل سررسید گذشته‌ داشته است', -1.30, -10, 4, 6)
+    rule = create_new_rule(rule, 3, 'T23', 'T2304N10', 'کاربر در یکسال گذشته بین 4 تا 6 تعامل سررسید گذشته‌ داشته است', 1.30, -10, 4, 6)
     rule.save()
 
     # 7 <= B30DayDelayLast3-12M ≤ 10	-15	T2305N15	کاربر در یکسال گذشته بین 7 تا 10 تعامل سررسید گذشته‌ داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T23', 'T2305N15', 'کاربر در یکسال گذشته بین 7 تا 10 تعامل سررسید گذشته‌ داشته است', -1.94, -15, 7, 10)
+    rule = create_new_rule(rule, 3, 'T23', 'T2305N15', 'کاربر در یکسال گذشته بین 7 تا 10 تعامل سررسید گذشته‌ داشته است', 1.94, -15, 7, 10)
     rule.save()
 
     # B30DayDelayLast3-12M >= 11	-20	T2306N20	کاربر در یکسال گذشته بیش از 10 تعامل سررسید گذشته‌ داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T23', 'T2306N20', 'کاربر در یکسال گذشته بیش از 10 تعامل سررسید گذشته‌ داشته است', -2.59, -20, 11,
-                           rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'T23', 'T2306N20', 'کاربر در یکسال گذشته بیش از 10 تعامل سررسید گذشته‌ داشته است', 2.59, -20, 11,
+                           rules_max_val)
     rule.save()
     print('Timeliness(T) done_past_due_trades_between_last_3_to_12_months_t23 rules are created.')
 
@@ -124,22 +124,22 @@ def import_rules_timeliness_done_arrear_trades_of_last_3_months_t24():
 
     # 2 <= A30DayDelayLast3M ≤ 3	-10	T2403N10	کاربر در سه ماه گذشته بین 2 تا 3 تعامل معوق داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T24', 'T2403N10', 'کاربر در سه ماه گذشته بین 2 تا 3 تعامل معوق داشته است', -1.30, -10, 2, 3)
+    rule = create_new_rule(rule, 3, 'T24', 'T2403N10', 'کاربر در سه ماه گذشته بین 2 تا 3 تعامل معوق داشته است', 1.30, -10, 2, 3)
     rule.save()
 
     # 4 <= A30DayDelayLast3M ≤ 6	-20	T2404N20	کاربر در سه ماه گذشته بین 4 تا 6 تعامل معوق داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T24', 'T2404N20', 'کاربر در سه ماه گذشته بین 4 تا 6 تعامل معوق داشته است', -2.59, -20, 4, 6)
+    rule = create_new_rule(rule, 3, 'T24', 'T2404N20', 'کاربر در سه ماه گذشته بین 4 تا 6 تعامل معوق داشته است', 2.59, -20, 4, 6)
     rule.save()
 
     # 7 <= A30DayDelayLast3M ≤ 10	-30	T2405N30	کاربر در سه ماه گذشته بین 7 تا 10 تعامل معوق داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T24', 'T2405N30', 'کاربر در سه ماه گذشته بین 7 تا 10 تعامل معوق داشته است', -3.89, -30, 7, 10)
+    rule = create_new_rule(rule, 3, 'T24', 'T2405N30', 'کاربر در سه ماه گذشته بین 7 تا 10 تعامل معوق داشته است', 3.89, -30, 7, 10)
     rule.save()
 
     # 11 <= A30DayDelayLast3M <= 999 -40 T2406N40	کاربر در سه ماه گذشته بیش از 10 تعامل معوق داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T24', 'T2406N40', 'کاربر در سه ماه گذشته بیش از 10 تعامل معوق داشته است', -5.19, -40, 11, 999)
+    rule = create_new_rule(rule, 3, 'T24', 'T2406N40', 'کاربر در سه ماه گذشته بیش از 10 تعامل معوق داشته است', 5.19, -40, 11, 999)
     rule.save()
     print('Timeliness(T) done_arrear_trades_of_last_3_months_t24 rules are created.')
 
@@ -163,22 +163,22 @@ def import_rules_timeliness_done_arrear_trades_between_last_3_to_12_months_t25()
 
     # 2 <= A30DayDelay3-12M ≤ 3	 -05	T2503N5 	کاربر در یکسال گذشته بین 2 تا 3 تعامل معوق داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T25', 'T2503N5', 'کاربر در یکسال گذشته بین 2 تا 3 تعامل معوق داشته است', -0.65, -5, 2, 3)
+    rule = create_new_rule(rule, 3, 'T25', 'T2503N5', 'کاربر در یکسال گذشته بین 2 تا 3 تعامل معوق داشته است', 0.65, -5, 2, 3)
     rule.save()
 
     # 4 <= A30DayDelay3-12M ≤ 6	 -10	T2504N10	کاربر در یکسال گذشته بین 4 تا 6 تعامل معوق داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T25', 'T2504N10', 'کاربر در یکسال گذشته بین 4 تا 6 تعامل معوق داشته است', -1.30, -10, 4, 6)
+    rule = create_new_rule(rule, 3, 'T25', 'T2504N10', 'کاربر در یکسال گذشته بین 4 تا 6 تعامل معوق داشته است', 1.30, -10, 4, 6)
     rule.save()
 
     # 7 <= A30DayDelay3-12M ≤ 10 -20	T2505N20	کاربر در یکسال گذشته بین 7 تا 10 تعامل معوق داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T25', 'T2505N20', 'کاربر در یکسال گذشته بین 7 تا 10 تعامل معوق داشته است', -2.59, -20, 7, 10)
+    rule = create_new_rule(rule, 3, 'T25', 'T2505N20', 'کاربر در یکسال گذشته بین 7 تا 10 تعامل معوق داشته است', 2.59, -20, 7, 10)
     rule.save()
 
     # 11 <= A30DayDelay3-12M <= 999	-30	T2506N30	کاربر در یکسال گذشته بیش از 10 تعامل معوق داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T25', 'T2506N30', 'کاربر در یکسال گذشته 10 تعامل معوق داشته است', -3.89, -30, 11, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'T25', 'T2506N30', 'کاربر در یکسال گذشته 10 تعامل معوق داشته است', 3.89, -30, 11, rules_max_val)
     rule.save()
     print('Timeliness(T) arrear_trades_between_last_3_to_12_months_t25 rules are created.')
 
@@ -197,28 +197,28 @@ def import_rules_timeliness_undone_past_due_trades_counts_t26():
 
     # UnfinishedB30DayDelay = 1	-20	T2602N20	کاربر در سه ماه گذشته یک تعامل سررسید گذشته‌ داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T26', 'T2602N20', 'کاربر در سه ماه گذشته یک تعامل سررسید گذشته‌ داشته است', -2.59, -20, 1, 1)
+    rule = create_new_rule(rule, 3, 'T26', 'T2602N20', 'کاربر در سه ماه گذشته یک تعامل سررسید گذشته‌ داشته است', 2.59, -20, 1, 1)
     rule.save()
 
     # 2 <= UnfinishedB30DayDelay ≤ 3	-30	T2603N30	کاربر در سه ماه گذشته بین ۲ تا 3 تعامل سررسید گذشته‌ داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T26', 'T2603N30', 'کاربر در سه ماه گذشته بین ۲ تا 3 تعامل سررسید گذشته‌ داشته است', -3.89, -30, 2, 3)
+    rule = create_new_rule(rule, 3, 'T26', 'T2603N30', 'کاربر در سه ماه گذشته بین ۲ تا 3 تعامل سررسید گذشته‌ داشته است', 3.89, -30, 2, 3)
     rule.save()
 
     # 4 <= UnfinishedB30DayDelay ≤ 6	-40	T2604N40	کاربر در سه ماه گذشته بین ۴ تا 6 تعامل سررسید گذشته‌ داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T26', 'T2604N40', 'کاربر در سه ماه گذشته بین ۴ تا 6 تعامل سررسید گذشته‌ داشته است', -5.19, -40, 4, 6)
+    rule = create_new_rule(rule, 3, 'T26', 'T2604N40', 'کاربر در سه ماه گذشته بین ۴ تا 6 تعامل سررسید گذشته‌ داشته است', 5.19, -40, 4, 6)
     rule.save()
 
     # 7 <= UnfinishedB30DayDelay ≤ 10	-50	T2605N50	کاربر در سه ماه گذشته بین ۷ تا 10 تعامل سررسید گذشته‌ داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T26', 'T2605N50', 'کاربر در سه ماه گذشته بین ۷ تا 10 تعامل سررسید گذشته‌ داشته است', -6.48, -50, 7, 10)
+    rule = create_new_rule(rule, 3, 'T26', 'T2605N50', 'کاربر در سه ماه گذشته بین ۷ تا 10 تعامل سررسید گذشته‌ داشته است', 6.48, -50, 7, 10)
     rule.save()
 
     # UnfinishedB30DayDelay >= 11	-60	T2606N60	کاربر در سه ماه گذشته بیش از 10 تعامل سررسید گذشته‌ داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T26', 'T2606N60', 'کاربر در سه ماه گذشته بیش از 10 تعامل سررسید گذشته‌ داشته است', -7.78, -60, 11,
-                           rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'T26', 'T2606N60', 'کاربر در سه ماه گذشته بیش از 10 تعامل سررسید گذشته‌ داشته است', 7.78, -60, 11,
+                           rules_max_val)
     rule.save()
     print('Timeliness(T) timeliness_undone_past_due_trades_counts_t26 rules are created.')
 
@@ -237,28 +237,28 @@ def import_rules_timeliness_undone_arrear_trades_counts_t27():
 
     # UnfinishedA30DayDelay = 1	-20	T2702N20	کاربر در سه ماه گذشته یک سررسید گذشته‌ داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T27', 'T2702N20', 'کاربر در سه ماه گذشته یک سررسید گذشته‌ داشته است', -2.59, -20, 1, 1)
+    rule = create_new_rule(rule, 3, 'T27', 'T2702N20', 'کاربر در سه ماه گذشته یک سررسید گذشته‌ داشته است', 2.59, -20, 1, 1)
     rule.save()
 
     # 2 <= UnfinishedA30DayDelay ≤ 3	-30	T2703N30	کاربر در سه ماه گذشته بین 2 تا 3 تعامل سررسید گذشته‌ داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T27', 'T2703N30', 'کاربر در سه ماه گذشته بین 2 تا 3 تعامل سررسید گذشته‌ داشته است', -3.89, -30, 2, 3)
+    rule = create_new_rule(rule, 3, 'T27', 'T2703N30', 'کاربر در سه ماه گذشته بین 2 تا 3 تعامل سررسید گذشته‌ داشته است', 3.89, -30, 2, 3)
     rule.save()
 
     # 4 <= UnfinishedA30DayDelay ≤ 6	-40	T2704N40	کاربر در سه ماه گذشته بین 4 تا 6 تعامل سررسید گذشته‌ داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T27', 'T2704N40', 'کاربر در سه ماه گذشته بین 4 تا 6 تعامل سررسید گذشته‌ داشته است', -5.19, -40, 4, 6)
+    rule = create_new_rule(rule, 3, 'T27', 'T2704N40', 'کاربر در سه ماه گذشته بین 4 تا 6 تعامل سررسید گذشته‌ داشته است', 5.19, -40, 4, 6)
     rule.save()
 
     # 7 <= UnfinishedA30DayDelay ≤ 10	-50	T2705N50	کاربر در سه ماه گذشته بین 7 تا 10 تعامل سررسید گذشته‌ داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T27', 'T2705N50', 'کاربر در سه ماه گذشته بین 7 تا 10 تعامل سررسید گذشته‌ داشته است', -6.48, -50, 7, 10)
+    rule = create_new_rule(rule, 3, 'T27', 'T2705N50', 'کاربر در سه ماه گذشته بین 7 تا 10 تعامل سررسید گذشته‌ داشته است', 6.48, -50, 7, 10)
     rule.save()
 
     # UnfinishedA30DayDelay >= 11	-60	T2706N60	کاربر در سه ماه گذشته بیش از 10 تعامل سررسید گذشته‌ داشته است
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T27', 'T2706N60', 'کاربر در سه ماه گذشته بیش از 10 تعامل سررسید گذشته‌ داشته است', -7.78, -60, 11,
-                           rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'T27', 'T2706N60', 'کاربر در سه ماه گذشته بیش از 10 تعامل سررسید گذشته‌ داشته است', 7.78, -60, 11,
+                           rules_max_val)
     rule.save()
     print('Timeliness(T) undone_arrear_trades_counts_t27 rules are created.')
 
@@ -287,17 +287,17 @@ def import_rules_timeliness_done_trades_average_delay_days_ratios_t28():
 
     # 1.001 <= AverageDelayRatio ≤ 1.5	-10	T2804N10	نسبت بین 1.001 و 1.5 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T28', 'T2804N10', 'نسبت بین 1.001 و 1.5 می‌باشد', -1.30, -10, 1.001, 1.5)
+    rule = create_new_rule(rule, 3, 'T28', 'T2804N10', 'نسبت بین 1.001 و 1.5 می‌باشد', 1.30, -10, 1.001, 1.5)
     rule.save()
 
     # 1.501 <= AverageDelayRatio ≤ 2	-20	T2805N20	نسبت بین 1.501 و 2 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T28', 'T2805N20', 'نسبت بین 1.501 و 2 می‌باشد', -2.59, -20, 1.501, 2)
+    rule = create_new_rule(rule, 3, 'T28', 'T2805N20', 'نسبت بین 1.501 و 2 می‌باشد', 2.59, -20, 1.501, 2)
     rule.save()
 
     # AverageDelayRatio >= 2.001	-30	T2806N30	نسبت بیش از 2 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T28', 'T2806N30', 'نسبت بیش از 2 می‌باشد', -3.89, -30, 2.001, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'T28', 'T2806N30', 'نسبت بیش از 2 می‌باشد', 3.89, -30, 2.001, rules_max_val)
     rule.save()
     print('Timeliness(T) done_trades_average_delay_days_ratios_t28 rules are created.')
 
@@ -316,22 +316,22 @@ def import_rules_timeliness_unfixed_returned_cheques_count_of_last_3_months_t29(
 
     # DishonouredChequesL3M = 1	-10	T2902N10	کاربر ۱ چک برگشتی دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T29', 'T2902N10', 'کاربر ۱ چک برگشتی دارد', -1.30, -10, 1, 1)
+    rule = create_new_rule(rule, 3, 'T29', 'T2902N10', 'کاربر ۱ چک برگشتی دارد', 1.30, -10, 1, 1)
     rule.save()
 
     # DishonouredChequesL3M = 2	-20	T2903N20	کاربر ۲ چک برگشتی دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T29', 'T2903N20', 'کاربر 2 چک برگشتی دارد', -2.59, -20, 2, 2)
+    rule = create_new_rule(rule, 3, 'T29', 'T2903N20', 'کاربر 2 چک برگشتی دارد', 2.59, -20, 2, 2)
     rule.save()
 
     # DishonouredChequesL3M = 3	-30	T2904N30	کاربر ۳ چک برگشتی دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T29', 'T2904N30', 'کاربر 3 چک برگشتی دارد', -3.89, -30, 3, 3)
+    rule = create_new_rule(rule, 3, 'T29', 'T2904N30', 'کاربر 3 چک برگشتی دارد', 3.89, -30, 3, 3)
     rule.save()
 
     # DishonouredChequesL3M > 3	-40	T2905N40	کاربر بیش از ۳ چک برگشتی دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T29', 'T2905N40', 'کاربر بیش از ۳ چک برگشتی دارد', -5.19, -40, 4, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'T29', 'T2905N40', 'کاربر بیش از ۳ چک برگشتی دارد', 5.19, -40, 4, rules_max_val)
     rule.save()
     print('Timeliness(T) unfixed_returned_cheques_count_of_last_3_months_t29 rules are created.')
 
@@ -350,22 +350,22 @@ def import_rules_timeliness_unfixed_returned_cheques_count_between_last_3_to_12_
 
     # DishonouredChequesL3-12M = 1	-10	T3002N30	کاربر ۱ چک برگشتی دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T30', 'T3002N30', 'کاربر ۱ چک برگشتی دارد', -3.89, -30, 1, 1)
+    rule = create_new_rule(rule, 3, 'T30', 'T3002N30', 'کاربر ۱ چک برگشتی دارد', 3.89, -30, 1, 1)
     rule.save()
 
     # DishonouredChequesL3-12M = 2	-20	T3003N40	کاربر ۲ چک برگشتی دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T30', 'T3003N40', 'کاربر 2 چک برگشتی دارد', -5.19, -40, 2, 2)
+    rule = create_new_rule(rule, 3, 'T30', 'T3003N40', 'کاربر 2 چک برگشتی دارد', 5.19, -40, 2, 2)
     rule.save()
 
     # DishonouredChequesL3-12M = 3	-30	T3004N50	کاربر ۳ چک برگشتی دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T30', 'T3004N50', 'کاربر 3 چک برگشتی دارد', -6.48, -50, 3, 3)
+    rule = create_new_rule(rule, 3, 'T30', 'T3004N50', 'کاربر 3 چک برگشتی دارد', 6.48, -50, 3, 3)
     rule.save()
 
     # DishonouredChequesL3-12M > 3	-40	T3005N60	کاربر بیش از ۳ چک برگشتی دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T30', 'T3005N60', 'کاربر بیش از ۳ چک برگشتی دارد', -7.78, -60, 4, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'T30', 'T3005N60', 'کاربر بیش از ۳ چک برگشتی دارد', 7.78, -60, 4, rules_max_val)
     rule.save()
     print('Timeliness(T) unfixed_returned_cheques_count_between_last_3_to_12_months_t30 rules are created.')
 
@@ -384,22 +384,22 @@ def import_rules_timeliness_unfixed_returned_cheques_count_of_more_12_months_t31
 
     # DishonouredChequesA12M = 1	-40	T3102N40	کاربر ۱ چک برگشتی دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T31', 'T3102N40', 'کاربر ۱ چک برگشتی دارد', -5.19, -40, 1, 1)
+    rule = create_new_rule(rule, 3, 'T31', 'T3102N40', 'کاربر ۱ چک برگشتی دارد', 5.19, -40, 1, 1)
     rule.save()
 
     # DishonouredChequesA12M = 2	-50	T3103N50	کاربر ۲ چک برگشتی دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T31', 'T3103N50', 'کاربر ۲ چک برگشتی دارد', -6.48, -50, 2, 2)
+    rule = create_new_rule(rule, 3, 'T31', 'T3103N50', 'کاربر ۲ چک برگشتی دارد', 6.48, -50, 2, 2)
     rule.save()
 
     # DishonouredChequesA12M = 3	-60	T3104N60	کاربر ۳ چک برگشتی دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T31', 'T3104N60', 'کاربر ۳ چک برگشتی دارد', -7.78, -60, 3, 3)
+    rule = create_new_rule(rule, 3, 'T31', 'T3104N60', 'کاربر ۳ چک برگشتی دارد', 7.78, -60, 3, 3)
     rule.save()
 
     # DishonouredChequesA12M >= 4	-70	T3105N70	کاربر بیش از ۳ چک برگشتی دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T31', 'T3105N70', 'کاربر بیش از ۳ چک برگشتی دارد', -9.07, -70, 4, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'T31', 'T3105N70', 'کاربر بیش از ۳ چک برگشتی دارد', 9.07, -70, 4, rules_max_val)
     rule.save()
     print('Timeliness(T) unfixed_returned_cheques_count_of_more_12_months_t31 rules are created.')
 
@@ -424,17 +424,17 @@ def import_rules_timeliness_unfixed_returned_cheques_count_of_last_5_years_t32()
 
     # 4 <= AllDishonouredCheques ≤ 6	-10	T3203N10	کاربر بین 4 تا 6 چک برگشتی دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T32', 'T3203N10', 'کاربر بین 4 تا 6 چک برگشتی دارد', -1.30, -10, 4, 6)
+    rule = create_new_rule(rule, 3, 'T32', 'T3203N10', 'کاربر بین 4 تا 6 چک برگشتی دارد', 1.30, -10, 4, 6)
     rule.save()
 
     # 7 <= AllDishonouredCheques ≤ 10	-20	T3204N20	کاربر کاربر بین 7 تا 10 چک برگشتی دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T32', 'T3204N20', 'کاربر کاربر بین 7 تا 10 چک برگشتی دارد', -2.59, -20, 7, 10)
+    rule = create_new_rule(rule, 3, 'T32', 'T3204N20', 'کاربر کاربر بین 7 تا 10 چک برگشتی دارد', 2.59, -20, 7, 10)
     rule.save()
 
     # DishonouredCheques >= 11	-30	T3205N30	کاربر بیش از 10 چک برگشتی دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T32', 'T3205N30', 'کاربر بیش از 10 چک برگشتی دارد', -3.89, -30, 11, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'T32', 'T3205N30', 'کاربر بیش از 10 چک برگشتی دارد', 3.89, -30, 11, rules_max_val)
     rule.save()
     print('Timeliness(T) unfixed_returned_cheques_count_of_last_5_years_t32 rules are created.')
 
@@ -458,17 +458,17 @@ def import_rules_timeliness_past_due_loans_total_count_t33():
 
     # PastDueLoans = 2	-10	T3303N10	کاربر ۲ تسهیلات سررسید گذشته دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T33', 'T3303N10', 'کاربر ۲ تسهیلات سررسید گذشته دارد', -1.30, -10, 2, 2)
+    rule = create_new_rule(rule, 3, 'T33', 'T3303N10', 'کاربر ۲ تسهیلات سررسید گذشته دارد', 1.30, -10, 2, 2)
     rule.save()
 
     # PastDueLoans = 3	-20	T3304N20	کاربر ۳ تسهیلات سررسید گذشته دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T33', 'T3304N20', 'کاربر ۳ تسهیلات سررسید گذشته دارد', -2.59, -20, 3, 3)
+    rule = create_new_rule(rule, 3, 'T33', 'T3304N20', 'کاربر ۳ تسهیلات سررسید گذشته دارد', 2.59, -20, 3, 3)
     rule.save()
 
     # PastDueLoans >= 4	-30	T3305N30	کاربر بیش از ۳ تسهیلات سررسید گذشته دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T33', 'T3305N30', 'کاربر بیش از ۳ تسهیلات سررسید گذشته دارد', -3.89, -30, 4, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'T33', 'T3305N30', 'کاربر بیش از ۳ تسهیلات سررسید گذشته دارد', 3.89, -30, 4, rules_max_val)
     rule.save()
     print('Timeliness(T) past_due_loans_total_count_t33 rules are created.')
 
@@ -487,22 +487,22 @@ def import_rules_timeliness_arrear_loans_total_count_t34():
 
     # DelayedLoans = 1	-10	T3402N10	کاربر 1 تسهیلات معوق دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T34', 'T3402N10', 'کاربر 1 تسهیلات معوق دارد', -1.30, -10, 1, 1)
+    rule = create_new_rule(rule, 3, 'T34', 'T3402N10', 'کاربر 1 تسهیلات معوق دارد', 1.30, -10, 1, 1)
     rule.save()
 
     # DelayedLoans = 2	-20	T3403N20	کاربر ۲ تسهیلات معوق دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T34', 'T3403N20', 'کاربر ۲ تسهیلات معوق دارد', -2.59, -20, 2, 2)
+    rule = create_new_rule(rule, 3, 'T34', 'T3403N20', 'کاربر ۲ تسهیلات معوق دارد', 2.59, -20, 2, 2)
     rule.save()
 
     # DelayedLoans = 3	-30	T3404N30	کاربر ۳ تسهیلات معوق دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T34', 'T3404N30', 'کاربر ۳ تسهیلات معوق دارد', -3.89, -30, 3, 3)
+    rule = create_new_rule(rule, 3, 'T34', 'T3404N30', 'کاربر ۳ تسهیلات معوق دارد', 3.89, -30, 3, 3)
     rule.save()
 
     # DelayedLoans >= 4	-40	T3405N40	کاربر بیش از ۳ تسهیلات معوق دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T34', 'T3405N40', 'کاربر بیش از ۳ تسهیلات معوق دارد', -5.19, -40, 4, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'T34', 'T3405N40', 'کاربر بیش از ۳ تسهیلات معوق دارد', 5.19, -40, 4, rules_max_val)
     rule.save()
     print('Timeliness(T) arrear_loans_total_count_t34 rules are created.')
 
@@ -521,22 +521,22 @@ def import_rules_timeliness_suspicious_loans_total_count_t35():
 
     # DoubfulCollectionLoans = 1	-20	T3502N20	کاربر 1 تسهیلات مشکوک الوصول دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T35', 'T3502N20', 'کاربر 1 تسهیلات مشکوک الوصول دارد', -2.59, -20, 1, 1)
+    rule = create_new_rule(rule, 3, 'T35', 'T3502N20', 'کاربر 1 تسهیلات مشکوک الوصول دارد', 2.59, -20, 1, 1)
     rule.save()
 
     # DoubfulCollectionLoans = 2	-30	T3503N30	کاربر ۲ تسهیلات مشکوک الوصول دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T35', 'T3503N30', 'کاربر ۲ تسهیلات مشکوک الوصول دارد', -3.89, -30, 2, 2)
+    rule = create_new_rule(rule, 3, 'T35', 'T3503N30', 'کاربر ۲ تسهیلات مشکوک الوصول دارد', 3.89, -30, 2, 2)
     rule.save()
 
     # DoubfulCollectionLoans = 3	-40	T3504N40	کاربر ۳ تسهیلات مشکوک الوصول دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T35', 'T3504N40', 'کاربر ۳ تسهیلات مشکوک الوصول دارد', -5.19, -40, 3, 3)
+    rule = create_new_rule(rule, 3, 'T35', 'T3504N40', 'کاربر ۳ تسهیلات مشکوک الوصول دارد', 5.19, -40, 3, 3)
     rule.save()
 
     # DoubfulCollectionLoans >= 4	-50	T3505N50	کاربر بیش از ۳ تسهیلات مشکوک الوصول دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'T35', 'T3505N50', 'کاربر بیش از ۳ تسهیلات مشکوک الوصول دارد', -6.48, -50, 4, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'T35', 'T3505N50', 'کاربر بیش از ۳ تسهیلات مشکوک الوصول دارد', 6.48, -50, 4, rules_max_val)
     rule.save()
     print('Timeliness(T) suspicious_loans_total_count_t35 rules are created.')
 

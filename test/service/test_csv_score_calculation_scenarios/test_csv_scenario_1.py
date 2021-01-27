@@ -7,8 +7,10 @@ from data.done_trades import DoneTrade
 from data.loans import Loan
 from data.profile import Profile
 from data.undone_trades import UndoneTrade
+from infrastructure.caching.new.redis_caching_rules_masters import RedisCachingRulesMasters
 from infrastructure.caching.redis_caching import RedisCaching
-from infrastructure.constants import AVG_OF_ALL_USERS_UNFIXED_RETURNED_CHEQUES_TOTAL_BALANCE
+from infrastructure.constants import ALL_USERS_AVERAGE_UNFIXED_RETURNED_CHEQUES_AMOUNT, IDENTITIES_SCORE, HISTORIES_SCORE, VOLUMES_SCORE, \
+    TIMELINESS_SCORE, ALL_USERS_AVERAGE_PRINCIPAL_INTEREST_AMOUNT, ALL_USERS_AVERAGE_DEAL_AMOUNT
 from infrastructure.scoring_enums import ProfileMilitaryServiceStatusEnum
 from service.score_calculation_service import ScoreCalculationService
 
@@ -32,6 +34,7 @@ def calculate_score(scenarios_dicts: []):
     program.launch_app()
     rds = RedisCaching()
     cs = ScoreCalculationService(rds)
+    crm = RedisCachingRulesMasters(rds.rds)
 
     for scn_dict in scenarios_dicts:
         expected_score = scn_dict['Vscore']
@@ -55,7 +58,7 @@ def calculate_score(scenarios_dicts: []):
         dt.arrear_trades_count_between_last_3_to_12_months = scn_dict['A30DayDelay3-12M']
         dt.total_delay_days = scn_dict['AverageDelayRatio']
         # todo: 100000000 is fix Denominator that is all_other_users_done_trades_amount, it should be change later
-        dt.trades_total_balance = round(float(scn_dict['SDealAmountRatio']) * 100000000)
+        dt.trades_total_balance = round(float(scn_dict['SDealAmountRatio']) * ALL_USERS_AVERAGE_DEAL_AMOUNT)
         done_trades_score = cs.calculate_user_done_trades_score(user_id=0, done_trade_object=dt)
 
         udt = UndoneTrade()
@@ -69,7 +72,7 @@ def calculate_score(scenarios_dicts: []):
 
         ln = Loan()
         ln.loans_total_count = scn_dict['Loans']
-        ln.loans_total_balance = 70000000
+        ln.loans_total_balance = ALL_USERS_AVERAGE_PRINCIPAL_INTEREST_AMOUNT
         ln.past_due_loans_total_count = int(scn_dict['PastDueLoans'])
         ln.arrear_loans_total_count = int(scn_dict['DelayedLoans'])
         ln.suspicious_loans_total_count = int(scn_dict['DoubfulCollectionLoans'])
@@ -85,14 +88,40 @@ def calculate_score(scenarios_dicts: []):
         ch.unfixed_returned_cheques_count_between_last_3_to_12_months = scn_dict['DishonouredChequesL3-12M']
         ch.unfixed_returned_cheques_count_of_more_12_months = scn_dict['DishonouredChequesA12M']
         ch.unfixed_returned_cheques_count_of_last_5_years = scn_dict['AllDishonouredCheques']
-        ch.unfixed_returned_cheques_total_balance = round(float(scn_dict['DCAmountRatio']) * AVG_OF_ALL_USERS_UNFIXED_RETURNED_CHEQUES_TOTAL_BALANCE)
-        cheque_score = cs.calculate_user_cheques_score(user_id=0, cheque_object=ch)
+        ch.unfixed_returned_cheques_total_balance = round(float(scn_dict['DCAmountRatio']) * ALL_USERS_AVERAGE_UNFIXED_RETURNED_CHEQUES_AMOUNT)
+        cheque_score: [] = cs.calculate_user_cheques_score(user_id=0, cheque_object=ch)
 
-        final_score = profile_score + done_trades_score + undone_trades_score + loan_score + cheque_score
-        print('<><><><><><><> expected-score= {} and final-score = {} <><><><><><><>'.format(expected_score, final_score))
+        # total_pure_score = int(profile_score) + int(done_trades_score) + int(undone_trades_score) + int(loan_score) + int(cheque_score)
+
+        identities_pure_score = cs.scores_dict.get(IDENTITIES_SCORE)
+        identities_normalized_score = cs.calculate_identities_normalized_score(identities_pure_score)
+
+        histories_pure_score = cs.scores_dict.get(HISTORIES_SCORE)
+        histories_normalized_score = cs.calculate_histories_normalized_score(histories_pure_score)
+
+        volumes_pure_score = cs.scores_dict.get(VOLUMES_SCORE)
+        volumes_normalized_score = cs.calculate_volumes_normalized_score(volumes_pure_score)
+
+        timeliness_pure_score = cs.scores_dict.get(TIMELINESS_SCORE)
+        timeliness_normalized_score = cs.calculate_timeliness_normalized_score(timeliness_pure_score)
+
+        total_pure_score = identities_pure_score + histories_pure_score + volumes_pure_score + timeliness_pure_score
+        total_normalized_score = identities_normalized_score + histories_normalized_score + volumes_normalized_score + timeliness_normalized_score
+        print('<><><><><><><> expected-score= {} , total_pure_score = {} and total_normalized_score = {} '
+              '<><><><><><><>'.format(expected_score, total_pure_score, total_normalized_score))
+
+        # final_score = int(profile_score[0]) + int(done_trades_score[0]) + int(undone_trades_score[0]) + int(loan_score[0]) + int(cheque_score[0])
+        # normalized_final_score = profile_score[1] + done_trades_score[1] + undone_trades_score[1] + loan_score[1] + cheque_score[1]
+
+        # print('<><><><><><><> expected-score= {} , final-score = {} and normalized_final_score = {}
+        # <><><><><><><>'.format(expected_score, final_score,normalized_final_score))
 
 
 if __name__ == '__main__':
-    csv_file_path = '/home/vsq-docs-live/scoring/_@RISK-Files/Vscore-sample-scenario.csv'
+    # csv_file_path = '/home/vsq-docs-live/scoring/_@RISK-Files/Vscore-sample-scenario.csv'
+    # csv_file_path = '/home/vsq-docs-live/scoring/_@RISK-Files/new-scenarios/Vscore-scenario-1.csv'
+    # csv_file_path = '/home/vsq-docs-live/scoring/_@RISK-Files/Vscore-scenario-dr.csv'
+    # csv_file_path = '/home/vsq-docs-live/scoring/_@RISK-Files/Vscore-scenario-gh.csv'
+    csv_file_path = '/home/vsq-docs-live/scoring/_@RISK-Files/Vscore-scenario-soleimanikhah.csv'
     sd = read_scenarios_dicts_from_csv(csv_file_path)
     calculate_score(sd)

@@ -6,7 +6,7 @@ from data.rule.profile.rules_profile_recommended_to_others_counts import RulePro
 from data.rule.profile.rules_profile_sim_card_ownerships import RuleProfileSimCardOwnership
 from data.rule.profile.rules_profile_star_counts_avgs import RuleProfileStarCountAvg
 from data.rule.rules import Rule
-from infrastructure.constants import rules_max_days_val, rules_max_val
+from infrastructure.constants import rules_max_val, rules_max_val
 from service.util import create_rule_by_status_code, create_rule
 from src import program
 from src.infrastructure.scoring_enums import ProfileMilitaryServiceStatusEnum
@@ -96,7 +96,7 @@ def import_rules_profile_membership_days_counts_h5():
 
     #     MembershipDaysWithAtleast20SD >= 1081	    60	H0507P60	 عضویت بیش از 1081 روز
     rule = RuleProfileMembershipDaysCount()
-    rule.save(create_rule(rule, 'H0507P60', 1081, rules_max_days_val, 60, ' عضویت بیش از 1081 روز'))
+    rule.save(create_rule(rule, 'H0507P60', 1081, rules_max_val, 60, ' عضویت بیش از 1081 روز'))
 
 
 def import_rules_profile_recommended_to_others_counts_h8():

@@ -18,7 +18,7 @@ def import_rule_identity_master():
     print('Identities(I) rules are deleted.')
     # define Identities(I)' rules master: level 1
     rule = Rule()
-    rule = create_new_rule(rule, 1, None, 'I', 'اطلاعات هویتی', 10)
+    rule = create_new_rule(rule, 1, None, 'I', 'اطلاعات هویتی', 10, 100)
     rule.save()
     print('Identities(I) master rule is created.')
 
@@ -71,7 +71,7 @@ def import_rules_identity_military_service_status_i2():
 
     # MilServiceAbsent	-50	I0205N50        -5% 	غایب
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'I2', 'I0205N50', 'غایب', -5, -50, ProfileMilitaryServiceStatusEnum.ABSENT.value)
+    rule = create_new_rule(rule, 3, 'I2', 'I0205N50', 'غایب', 5, -50, ProfileMilitaryServiceStatusEnum.ABSENT.value)
     rule.save(rule)
     print('Identities(I) military_service_status_i2 rules are created.')
 

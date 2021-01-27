@@ -24,23 +24,23 @@ from service.util import get_score_from_dict, add_rule_model_to_dict_by_rds_scor
 # noinspection DuplicatedCode
 class RedisCachingRulesProfiles:
     recreate_caches = True
-    rds: [StrictRedis] = None
+    rds: StrictRedis = None
 
     def __init__(self, rds: StrictRedis) -> None:
         self.rds = rds
         super().__init__()
 
     def cache_rules(self):
-        self.cache_rules_profile_address_verifications()
-        self.cache_rules_profile_has_kycs()
-        self.cache_rules_profile_membership_days_counts()
-        self.cache_rules_profile_military_service_status()
-        self.cache_rules_profile_recommended_to_others_counts()
-        self.cache_rules_profile_sim_card_ownerships()
-        self.cache_rules_profile_star_counts_avgs()
+        self.cache_rules_profile_address_verifications_i4()
+        self.cache_rules_profile_has_kycs_i1()
+        self.cache_rules_profile_membership_days_counts_h5()
+        self.cache_rules_profile_military_service_status_i2()
+        self.cache_rules_profile_recommended_to_others_counts_h8()
+        self.cache_rules_profile_sim_card_ownerships_i3()
+        self.cache_rules_profile_star_counts_avgs_h9()
 
     # ---------------------------- set cache methods ----------------------------------- #
-    def cache_rules_profile_has_kycs(self):
+    def cache_rules_profile_has_kycs_i1(self):
         if self.recreate_caches:
             self.rds.delete(SET_RULES_PROFILE_HAS_KYCS)
         if not bool(self.rds.zcount(SET_RULES_PROFILE_HAS_KYCS, rules_min_val, rules_max_val)):
@@ -51,7 +51,7 @@ class RedisCachingRulesProfiles:
             self.rds.zadd(SET_RULES_PROFILE_HAS_KYCS, rdict)
         print('caching rules_profile_has_kycs are done.')
 
-    def cache_rules_profile_address_verifications(self):
+    def cache_rules_profile_address_verifications_i4(self):
         if self.recreate_caches:
             self.rds.delete(SET_RULES_PROFILE_ADDRESS_VERIFICATIONS)
         if not bool(self.rds.zcount(SET_RULES_PROFILE_ADDRESS_VERIFICATIONS, rules_min_val, rules_max_val)):
@@ -62,7 +62,7 @@ class RedisCachingRulesProfiles:
             self.rds.zadd(SET_RULES_PROFILE_ADDRESS_VERIFICATIONS, rdict)
         print('caching rules_profile_address_verifications are done.')
 
-    def cache_rules_profile_membership_days_counts(self):
+    def cache_rules_profile_membership_days_counts_h5(self):
         if self.recreate_caches:
             self.rds.delete(SET_RULES_PROFILE_MEMBERSHIP_DAYS_COUNTS)
         if not bool(self.rds.zcount(SET_RULES_PROFILE_MEMBERSHIP_DAYS_COUNTS, rules_min_val, rules_max_val)):
@@ -73,7 +73,7 @@ class RedisCachingRulesProfiles:
             self.rds.zadd(SET_RULES_PROFILE_MEMBERSHIP_DAYS_COUNTS, rdict)
         print('caching rules_profile_membership_days_counts are done.')
 
-    def cache_rules_profile_military_service_status(self):
+    def cache_rules_profile_military_service_status_i2(self):
         if self.recreate_caches:
             self.rds.delete(SET_RULES_PROFILE_MILITARY_SERVICE_STATUS)
         if not bool(self.rds.zcount(SET_RULES_PROFILE_MILITARY_SERVICE_STATUS, rules_min_val, rules_max_val)):
@@ -84,7 +84,7 @@ class RedisCachingRulesProfiles:
             self.rds.zadd(SET_RULES_PROFILE_MILITARY_SERVICE_STATUS, rdict)
         print('caching rules_profile_military_service_status are done.')
 
-    def cache_rules_profile_recommended_to_others_counts(self):
+    def cache_rules_profile_recommended_to_others_counts_h8(self):
         if self.recreate_caches:
             self.rds.delete(SET_RULES_PROFILE_RECOMMENDED_TO_OTHERS_COUNTS)
         if not bool(self.rds.zcount(SET_RULES_PROFILE_RECOMMENDED_TO_OTHERS_COUNTS, rules_min_val, rules_max_val)):
@@ -95,7 +95,7 @@ class RedisCachingRulesProfiles:
             self.rds.zadd(SET_RULES_PROFILE_RECOMMENDED_TO_OTHERS_COUNTS, rdict)
         print('caching rules_profile_recommended_to_others_counts are done.')
 
-    def cache_rules_profile_sim_card_ownerships(self):
+    def cache_rules_profile_sim_card_ownerships_i3(self):
         if self.recreate_caches:
             self.rds.delete(SET_RULES_PROFILE_SIM_CARD_OWNERSHIPS)
         if not bool(self.rds.zcount(SET_RULES_PROFILE_SIM_CARD_OWNERSHIPS, rules_min_val, rules_max_val)):
@@ -106,7 +106,7 @@ class RedisCachingRulesProfiles:
             self.rds.zadd(SET_RULES_PROFILE_SIM_CARD_OWNERSHIPS, rdict)
         print('caching rules_profile_sim_card_ownerships are done.')
 
-    def cache_rules_profile_star_counts_avgs(self):
+    def cache_rules_profile_star_counts_avgs_h9(self):
         if self.recreate_caches:
             self.rds.delete(SET_RULES_PROFILE_STAR_COUNTS_AVGS)
         if not bool(self.rds.zcount(SET_RULES_PROFILE_STAR_COUNTS_AVGS, rules_min_val, rules_max_val)):
@@ -118,30 +118,30 @@ class RedisCachingRulesProfiles:
         print('caching rules_profile_star_counts_avgs are done.')
 
     # ---------------------------- read cache methods ----------------------------------- #
-    def get_score_of_rules_profile_has_kycs(self, has_kyc):
+    def get_score_of_rules_profile_has_kycs_i1(self, has_kyc):
         scores = self.rds.zrangebyscore(SET_RULES_PROFILE_HAS_KYCS, int(has_kyc), rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_profile_address_verifications(self, address_verification):
+    def get_score_of_rules_profile_address_verifications_i4(self, address_verification):
         scores = self.rds.zrangebyscore(SET_RULES_PROFILE_ADDRESS_VERIFICATIONS, int(address_verification), rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_profile_membership_days_counts(self, membership_days_count):
+    def get_score_of_rules_profile_membership_days_counts_h5(self, membership_days_count):
         scores = self.rds.zrangebyscore(SET_RULES_PROFILE_MEMBERSHIP_DAYS_COUNTS, membership_days_count, rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_profile_military_service_status(self, military_service_status: ProfileMilitaryServiceStatusEnum):
+    def get_score_of_rules_profile_military_service_status_i2(self, military_service_status: ProfileMilitaryServiceStatusEnum):
         scores = self.rds.zrangebyscore(SET_RULES_PROFILE_MILITARY_SERVICE_STATUS, military_service_status.value, rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_profile_recommended_to_others_counts(self, recommended_to_others_count):
+    def get_score_of_rules_profile_recommended_to_others_counts_h8(self, recommended_to_others_count):
         scores = self.rds.zrangebyscore(SET_RULES_PROFILE_RECOMMENDED_TO_OTHERS_COUNTS, recommended_to_others_count, rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_profile_sim_card_ownerships(self, sim_card_ownership):
+    def get_score_of_rules_profile_sim_card_ownerships_i3(self, sim_card_ownership):
         scores = self.rds.zrangebyscore(SET_RULES_PROFILE_SIM_CARD_OWNERSHIPS, int(sim_card_ownership), rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_profile_star_counts_avgs(self, star_count_avg):
+    def get_score_of_rules_profile_star_counts_avgs_h9(self, star_count_avg):
         scores = self.rds.zrangebyscore(SET_RULES_PROFILE_STAR_COUNTS_AVGS, star_count_avg, rules_max_val)
         return get_score_from_dict(scores)

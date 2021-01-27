@@ -1,7 +1,7 @@
 from mongoengine.queryset.visitor import Q
 
 from data.rule.rules import Rule
-from infrastructure.constants import rules_max_days_val
+from infrastructure.constants import rules_max_val
 from service.util import create_new_rule
 from src import program
 
@@ -58,7 +58,7 @@ def import_rules_volume_done_trades_total_balance_ratios_v12():
 
     # SDealAmountRatio >= 2.001	50	V1206P50	نسبت بیش از 2 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V12', 'V1206P50', 'نسبت بیش از 2 می‌باشد', 6.41, 50, 2.001, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'V12', 'V1206P50', 'نسبت بیش از 2 می‌باشد', 6.41, 50, 2.001, rules_max_val)
     rule.save()
     print('Volumes(V) done_trades_total_balance_ratios_v12 rules are created.')
 
@@ -83,7 +83,7 @@ def import_rules_volume_undone_past_due_trades_total_balance_of_last_year_ratios
 
     # 0.5001 <= UnfinishedB30Din1YRatio ≤ 1	-10	V1303N10	نسبت بین 0.5001 و 1 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V13', 'V1303N10', 'نسبت بین 0.5001 و 1 می‌باشد', -1.28, -10, 0.5001, 1)
+    rule = create_new_rule(rule, 3, 'V13', 'V1303N10', 'نسبت بین 0.5001 و 1 می‌باشد', 1.28, -10, 0.5001, 1)
     rule.save()
 
     # todo: this rule is commented and handled its score by duplicating V1303N10 score
@@ -94,17 +94,17 @@ def import_rules_volume_undone_past_due_trades_total_balance_of_last_year_ratios
 
     # 1 < UnfinishedB30Din1YRatio ≤ 1.5	-20	V1305N20	نسبت بین 1.001 و 1.5 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V13', 'V1305N20', 'نسبت بین 1.001 و 1.5 می‌باشد', -2.56, -20, 1.001, 1.5)
+    rule = create_new_rule(rule, 3, 'V13', 'V1305N20', 'نسبت بین 1.001 و 1.5 می‌باشد', 2.56, -20, 1.001, 1.5)
     rule.save()
 
     # 1.501 <= UnfinishedB30Din1YRatio ≤ 2	-30	V1306N30	نسبت بین 1.501 و 2 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V13', 'V1306N30', 'نسبت بین 1.501 و 2 می‌باشد', -3.85, -30, 1.501, 2)
+    rule = create_new_rule(rule, 3, 'V13', 'V1306N30', 'نسبت بین 1.501 و 2 می‌باشد', 3.85, -30, 1.501, 2)
     rule.save()
 
     # UnfinishedB30Din1YRatio > 2	-40	V1307N40	نسبت بیش از 2 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V13', 'V1307N40', 'نسبت بیش از 2 می‌باشد', -5.13, -40, 3, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'V13', 'V1307N40', 'نسبت بیش از 2 می‌باشد', 5.13, -40, 3, rules_max_val)
     rule.save()
     print('Volumes(V) undone_past_due_trades_total_balance_of_last_year_ratios_v13 rules are created.')
 
@@ -129,7 +129,7 @@ def import_rules_volume_undone_arrear_trades_total_balance_of_last_year_ratios_v
 
     # 0.5001 <= UnfinishedB30Din1YRatio ≤ 1	-10	V1403N10	نسبت بین 0.5001 و 1 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V14', 'V1403N10', 'نسبت بین 0.5001 و 1 می‌باشد', -1.28, -10, 0.5001, 1)
+    rule = create_new_rule(rule, 3, 'V14', 'V1403N10', 'نسبت بین 0.5001 و 1 می‌باشد', 1.28, -10, 0.5001, 1)
     rule.save()
 
     # todo: this rule is commented and handled its score by duplicating V1403N10 score
@@ -140,17 +140,17 @@ def import_rules_volume_undone_arrear_trades_total_balance_of_last_year_ratios_v
 
     # 1 < UnfinishedB30Din1YRatio ≤ 1.5	-20	V1405N20	نسبت بین 1.001 و 1.5 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V14', 'V1405N20', 'نسبت بین 1.001 و 1.5 می‌باشد', -2.56, -20, 1.001, 1.5)
+    rule = create_new_rule(rule, 3, 'V14', 'V1405N20', 'نسبت بین 1.001 و 1.5 می‌باشد', 2.56, -20, 1.001, 1.5)
     rule.save()
 
     # 1.501 <= UnfinishedB30Din1YRatio ≤ 2	-30	V1406N30	نسبت بین 1.501 و 2 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V14', 'V1406N30', 'نسبت بین 1.501 و 2 می‌باشد', -3.85, -30, 1.501, 2)
+    rule = create_new_rule(rule, 3, 'V14', 'V1406N30', 'نسبت بین 1.501 و 2 می‌باشد', 3.85, -30, 1.501, 2)
     rule.save()
 
     # UnfinishedB30Din1YRatio > 2	-40	V1407N40	نسبت بیش از 2 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V14', 'V1407N40', 'نسبت بیش از 2 می‌باشد', -5.13, -40, 3, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'V14', 'V1407N40', 'نسبت بیش از 2 می‌باشد', 5.13, -40, 3, rules_max_val)
     rule.save()
     print('Volumes(V) undone_arrear_trades_total_balance_of_last_year_ratios_v14 rules are created.')
 
@@ -175,22 +175,22 @@ def import_rules_volume_undone_undue_trades_total_balance_of_last_year_ratios_v1
 
     # 1.001 < NotDueDealAmountRatio ≤ 1.5	-05	V1503N5	نسبت بین 1 و 1.5 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V15', 'V1503N5', 'نسبت بین 1 و 1.5 می‌باشد', -0.64, -5, 1.001, 1.5)
+    rule = create_new_rule(rule, 3, 'V15', 'V1503N5', 'نسبت بین 1 و 1.5 می‌باشد', 0.64, -5, 1.001, 1.5)
     rule.save()
 
     # 1.501 <= NotDueDealAmountRatio ≤ 2	-10	V1504N10	نسبت بین 1.5 و ۲ می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V15', 'V1504N10', 'نسبت بین 1.5 و ۲ می‌باشد', -1.28, -10, 1.501, 2)
+    rule = create_new_rule(rule, 3, 'V15', 'V1504N10', 'نسبت بین 1.5 و ۲ می‌باشد', 1.28, -10, 1.501, 2)
     rule.save()
 
     # 2.001 <= NotDueDealAmountRatio ≤ 3	-20	V1505N20	نسبت بین ۲ و ۳ می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V15', 'V1505N20', 'نسبت بین ۲ و ۳ می‌باشد', -2.56, 20, 2.001, 3)
+    rule = create_new_rule(rule, 3, 'V15', 'V1505N20', 'نسبت بین ۲ و ۳ می‌باشد', 2.56, 20, 2.001, 3)
     rule.save()
 
     # NotDueDealAmountRatio > 3	-30	V1506N30	نسبت بیش از ۳ می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V15', 'V1506N30', 'نسبت بیش از ۳ می‌باشد', -3.85, -30, 3.001, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'V15', 'V1506N30', 'نسبت بیش از ۳ می‌باشد', 3.85, -30, 3.001, rules_max_val)
     rule.save()
     print('Volumes(V) undone_undue_trades_total_balance_of_last_year_ratios_v15 rules are created.')
 
@@ -220,17 +220,17 @@ def import_rules_volume_loan_monthly_installments_total_balance_ratio_v16():
 
     # 1.001 <= MonthlyInstallments ≤ 1.2	-2	V1604N2	نسبت بین 1.001 و 1.2 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V16', 'V1604N2', 'نسبت بین 1.001 و 1.2 می‌باشد', -0.26, -2, 1.001, 1.2)
+    rule = create_new_rule(rule, 3, 'V16', 'V1604N2', 'نسبت بین 1.001 و 1.2 می‌باشد', 0.26, -2, 1.001, 1.2)
     rule.save()
 
     # 1.201 <= MonthlyInstallments ≤ 2	-10	V1605N10	نسبت بین 1.201 و 2 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V16', 'V1605N10', 'نسبت بین 1.201 و 2 می‌باشد', -1.28, -10, 1.201, 2)
+    rule = create_new_rule(rule, 3, 'V16', 'V1605N10', 'نسبت بین 1.201 و 2 می‌باشد', 1.28, -10, 1.201, 2)
     rule.save()
 
     # MonthlyInstallments >= 2.001	-20	V1606N20	نسبت بیش از 2 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V16', 'V1606N20', 'نسبت بیش از 2 می‌باشد', -2.56, -20, 2.001, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'V16', 'V1606N20', 'نسبت بیش از 2 می‌باشد', 2.56, -20, 2.001, rules_max_val)
     rule.save()
     print('Volumes(V) loan_monthly_installments_total_balance_ratio_v16 rules are created.')
 
@@ -256,22 +256,22 @@ def import_rules_volume_unfixed_returned_cheques_total_balance_ratio_v17():
 
     # 0.501 <= DCAmountRatio ≤ 1	-10	V1703N10	نسبت بین 0.501 و 1 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V17', 'V1703N10', 'نسبت بین 0.501 و 1 می‌باشد', -1.28, -10, 0.501, 1)
+    rule = create_new_rule(rule, 3, 'V17', 'V1703N10', 'نسبت بین 0.501 و 1 می‌باشد', 1.28, -10, 0.501, 1)
     rule.save()
 
     # 1.001 <= DCAmountRatio ≤ 1.5	-20	V1704N20	نسبت بین 1.001 و 1.5 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V17', 'V1704N20', 'نسبت بین 1.001 و 1.5 می‌باشد', -2.56, -20, 1.001, 1.5)
+    rule = create_new_rule(rule, 3, 'V17', 'V1704N20', 'نسبت بین 1.001 و 1.5 می‌باشد', 2.56, -20, 1.001, 1.5)
     rule.save()
 
     # 1.501 <= DCAmountRatio ≤ 2	-30	V1705N30	نسبت بین 1.501 و 2 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V17', 'V1705N30', 'نسبت بین 1.501 و 2 می‌باشد', -3.85, -30, 1.501, 2)
+    rule = create_new_rule(rule, 3, 'V17', 'V1705N30', 'نسبت بین 1.501 و 2 می‌باشد', 3.85, -30, 1.501, 2)
     rule.save()
 
     # DCAmountRatio >= 2.001	-40	V1706N40	نسبت بیش از 2 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V17', 'V1706N40', 'نسبت بیش از 2 می‌باشد', -5.13, -40, 2.001, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'V17', 'V1706N40', 'نسبت بیش از 2 می‌باشد', 5.13, -40, 2.001, rules_max_val)
     rule.save()
     print('Volumes(V) unfixed_returned_cheques_total_balance_ratio_v17 rules are created.')
 
@@ -302,17 +302,17 @@ def import_rules_volume_overdue_loans_total_balance_ratio_v18():
 
     # 1.001 <= CurrentLoanAmountRatio ≤ 1.5	-05	V1804N5	نسبت بین 1.001 و 1.5 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V18', 'V1804N5', 'نسبت بین 1.001 و 1.5 می‌باشد', -0.64, -5, 1.001, 1.5)
+    rule = create_new_rule(rule, 3, 'V18', 'V1804N5', 'نسبت بین 1.001 و 1.5 می‌باشد', 0.64, -5, 1.001, 1.5)
     rule.save()
 
     # 1.501 <= CurrentLoanAmountRatio ≤ 2	-10	V1805N10	نسبت بین 1.501 و 2 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V18', 'V1805N10', 'نسبت بین 1.501 و 2 می‌باشد', -1.28, -10, 1.501, 2)
+    rule = create_new_rule(rule, 3, 'V18', 'V1805N10', 'نسبت بین 1.501 و 2 می‌باشد', 1.28, -10, 1.501, 2)
     rule.save()
 
     # CurrentLoanAmountRatio >= 2.001	-20	V1806N20	نسبت بیش از 2 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V18', 'V1806N20', 'نسبت بیش از 2 می‌باشد', -2.56, -20, 2.001, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'V18', 'V1806N20', 'نسبت بیش از 2 می‌باشد', 2.56, -20, 2.001, rules_max_val)
     rule.save()
     print('Volumes(V) overdue_loans_total_balance_ratio_v18 rules are created.')
 
@@ -333,27 +333,27 @@ def import_rules_volume_past_due_loans_total_balance_ratio_v19():
 
     # 0.001 <= PastDueLoanAmountRatio ≤ 0.1	-05	V1902N5	نسبت بین 0.001 و 0.1 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V19', 'V1902N5', 'نسبت بین 0.001 و 0.1 می‌باشد', -0.64, -5, 0.001, 0.1)
+    rule = create_new_rule(rule, 3, 'V19', 'V1902N5', 'نسبت بین 0.001 و 0.1 می‌باشد', 0.64, -5, 0.001, 0.1)
     rule.save()
 
     # 0.101 <= PastDueLoanAmountRatio ≤ 0.2	-10	V1903N10	نسبت بین 0.101 و 0.2 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V19', 'V1903N10', 'نسبت بین 0.101 و 0.2 می‌باشد', -1.28, -10, 0.101, 0.2)
+    rule = create_new_rule(rule, 3, 'V19', 'V1903N10', 'نسبت بین 0.101 و 0.2 می‌باشد', 1.28, -10, 0.101, 0.2)
     rule.save()
 
     # 0.201 <= PastDueLoanAmountRatio ≤ 0.3	-20	V1904N20	نسبت بین 0.201 و 0.3 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V19', 'V1904N20', 'نسبت بین 0.201 و 0.3 می‌باشد', -2.56, -20, 0.201, 0.3)
+    rule = create_new_rule(rule, 3, 'V19', 'V1904N20', 'نسبت بین 0.201 و 0.3 می‌باشد', 2.56, -20, 0.201, 0.3)
     rule.save()
 
     # 0.301 <= PastDueLoanAmountRatio ≤ 0.5	-30	V1905N30	نسبت بین 0.301 و 0.5 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V19', 'V1905N30', 'نسبت بین 0.301 و 0.5 می‌باشد', -3.85, -30, 0.301, 0.5)
+    rule = create_new_rule(rule, 3, 'V19', 'V1905N30', 'نسبت بین 0.301 و 0.5 می‌باشد', 3.85, -30, 0.301, 0.5)
     rule.save()
 
     # PastDueLoanAmountRatio >= 0.501	-40	V1906N40	نسبت بیش از 0.5 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V19', 'V1906N40', 'نسبت بیش از 0.5 می‌باشد', -5.13, -40, 0.501, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'V19', 'V1906N40', 'نسبت بیش از 0.5 می‌باشد', 5.13, -40, 0.501, rules_max_val)
     rule.save()
     print('Volumes(V) past_due_loans_total_balance_ratio_v19 rules are created.')
 
@@ -374,27 +374,27 @@ def import_rules_volume_arrear_loans_total_balance_ratios_v20():
 
     # 0.001 <= DelayedLoanAmountRatio ≤ 0.1	-10	V2002N10	نسبت بین 0 و 0.1 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V20', 'V2002N10', 'نسبت بین 0 و 0.1 می‌باشد', -1.28, -10, 0.001, 0.1)
+    rule = create_new_rule(rule, 3, 'V20', 'V2002N10', 'نسبت بین 0 و 0.1 می‌باشد', 1.28, -10, 0.001, 0.1)
     rule.save()
 
     # 0.101 <= DelayedLoanAmountRatio ≤ 0.2	-20	V2003N20	نسبت بین 0.101 و 0.2 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V20', 'V2003N20', 'نسبت بین 0.101 و 0.2 می‌باشد', -2.56, -20, 0.101, 0.2)
+    rule = create_new_rule(rule, 3, 'V20', 'V2003N20', 'نسبت بین 0.101 و 0.2 می‌باشد', 2.56, -20, 0.101, 0.2)
     rule.save()
 
     # 0.201 <= DelayedLoanAmountRatio ≤ 0.3	-30	V2004N30	نسبت بین 0.201 و 0.3 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V20', 'V2004N30', 'نسبت بین 0.201 و 0.3 می‌باشد', -3.85, -30, 0.201, 0.3)
+    rule = create_new_rule(rule, 3, 'V20', 'V2004N30', 'نسبت بین 0.201 و 0.3 می‌باشد', 3.85, -30, 0.201, 0.3)
     rule.save()
 
     # 0.301 <= DelayedLoanAmountRatio ≤ 0.5	-40	V2005N40	نسبت بین  0.301و 0.5 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V20', 'V2005N40', 'نسبت بین  0.301و 0.5 می‌باشد', -5.13, -40, 0.301, 0.5)
+    rule = create_new_rule(rule, 3, 'V20', 'V2005N40', 'نسبت بین  0.301و 0.5 می‌باشد', 5.13, -40, 0.301, 0.5)
     rule.save()
 
     # DelayedLoanAmountRatio >= 0.501	-50	V2006N50	نسبت بیش از 0.5 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V20', 'V2006N50', 'نسبت بیش از 0.5 می‌باشد', -6.41, -50, 0.501, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'V20', 'V2006N50', 'نسبت بیش از 0.5 می‌باشد', 6.41, -50, 0.501, rules_max_val)
     rule.save()
     print('Volumes(V) arrear_loans_total_balance_ratios_v20 rules are created.')
 
@@ -415,27 +415,27 @@ def import_rules_volume_suspicious_loans_total_balance_ratio_v21():
 
     # 0.001 <= DoubtfulCollectionAmountRatio ≤ 0.1	-20	V2102N20	نسبت بین 0.001 و 0.1 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V21', 'V2102N20', 'نسبت بین 0.001 و 0.1 می‌باشد', -2.56, -20, 0.001, 0.1)
+    rule = create_new_rule(rule, 3, 'V21', 'V2102N20', 'نسبت بین 0.001 و 0.1 می‌باشد', 2.56, -20, 0.001, 0.1)
     rule.save()
 
     # 0.101 <= DoubtfulCollectionAmountRatio ≤ 0.2	-30	V2103N30	نسبت بین 0.101 و 0.2 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V21', 'V2103N30', 'نسبت بین 0.101 و 0.2 می‌باشد', -3.85, -30, 0.101, 0.2)
+    rule = create_new_rule(rule, 3, 'V21', 'V2103N30', 'نسبت بین 0.101 و 0.2 می‌باشد', 3.85, -30, 0.101, 0.2)
     rule.save()
 
     # 0.201 <= DoubtfulCollectionAmountRatio ≤ 0.3	-40	V2104N40	نسبت بین 0.201 و 0.3 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V21', 'V2104N40', 'نسبت بین 0.201 و 0.3 می‌باشد', -5.13, -40, 0.201, 0.3)
+    rule = create_new_rule(rule, 3, 'V21', 'V2104N40', 'نسبت بین 0.201 و 0.3 می‌باشد', 5.13, -40, 0.201, 0.3)
     rule.save()
 
     # 0.301 <= DoubtfulCollectionAmountRatio ≤ 0.5	-50	V2105N50	نسبت بین 0.301 و 0.5 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V21', 'V2105N50', 'نسبت بین 0.301 و 0.5 می‌باشد', -6.41, -50, 0.301, 0.5)
+    rule = create_new_rule(rule, 3, 'V21', 'V2105N50', 'نسبت بین 0.301 و 0.5 می‌باشد', 6.41, -50, 0.301, 0.5)
     rule.save()
 
     # DoubtfulCollectionAmountRatio >= 0.501	-60	V2106N60	نسبت بیش از 0.5 می‌باشد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'V21', 'V2106N60', 'نسبت بیش از 0.5 می‌باشد', -7.69, -60, 0.501, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'V21', 'V2106N60', 'نسبت بیش از 0.5 می‌باشد', 7.69, -60, 0.501, rules_max_val)
     rule.save()
     print('Volumes(V) suspicious_loans_total_balance_ratio_v21 rules are created.')
 

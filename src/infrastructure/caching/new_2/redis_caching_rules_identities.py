@@ -82,11 +82,11 @@ class RedisCachingRulesIdentities:
         scores = self.rds.zrangebyscore(SET_RULES_PROFILE_HAS_KYCS, int(has_kyc), rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_profile_military_service_status_i2(self, military_service_status: ProfileMilitaryServiceStatusEnum):
+    def get_score_of_rules_identity_military_service_status_i2(self, military_service_status: ProfileMilitaryServiceStatusEnum):
         scores = self.rds.zrangebyscore(SET_RULES_PROFILE_MILITARY_SERVICE_STATUS, military_service_status.value, rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_profile_sim_card_ownerships_i3(self, sim_card_ownership):
+    def get_score_of_rules_identity_sim_card_ownerships_i3(self, sim_card_ownership):
         scores = self.rds.zrangebyscore(SET_RULES_PROFILE_SIM_CARD_OWNERSHIPS, int(sim_card_ownership), rules_max_val)
         return get_score_from_dict(scores)
 

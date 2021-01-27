@@ -5,6 +5,7 @@ import program
 from infrastructure.caching.new.redis_caching_rules_cheques import RedisCachingRulesCheques
 from infrastructure.caching.new.redis_caching_rules_done_trades import RedisCachingRulesDoneTrades
 from infrastructure.caching.new.redis_caching_rules_loans import RedisCachingRulesLoans
+from infrastructure.caching.new.redis_caching_rules_masters import RedisCachingRulesMasters
 from infrastructure.caching.new.redis_caching_rules_profiles import RedisCachingRulesProfiles
 from infrastructure.caching.new.redis_caching_rules_undone_trades import RedisCachingRulesUndoneTrades
 from infrastructure.constants import redis_password
@@ -66,6 +67,7 @@ class RedisCaching:
         return self.rds_rules_loans_service
 
     def cache_rules(self):
+        RedisCachingRulesMasters(self.rds).cache_rules()
         RedisCachingRulesDoneTrades(self.rds).cache_rules()
         RedisCachingRulesUndoneTrades(self.rds).cache_rules()
         RedisCachingRulesProfiles(self.rds).cache_rules()

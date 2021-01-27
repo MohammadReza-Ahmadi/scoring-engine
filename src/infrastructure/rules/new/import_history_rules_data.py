@@ -1,7 +1,7 @@
 from mongoengine.queryset.visitor import Q
 
 from data.rule.rules import Rule
-from infrastructure.constants import rules_max_days_val
+from infrastructure.constants import rules_max_val
 from service.util import create_new_rule
 from src import program
 
@@ -63,7 +63,7 @@ def import_rules_history_membership_days_counts_h5():
 
     #     MembershipDaysWithAtleast20SD >= 1081	    60	H0507P60	 عضویت بیش از 1081 روز
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'H5', 'H0507P60', ' عضویت بیش از 1081 روز', 6.67, 60, 1081, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'H5', 'H0507P60', ' عضویت بیش از 1081 روز', 6.67, 60, 1081, rules_max_val)
     rule.save()
     print('Histories(H) membership_days_counts_h5 rules are created.')
 
@@ -137,7 +137,7 @@ def import_rules_history_done_timely_trades_between_last_3_to_12_months_h7():
     # Last1YSD >= 11	40	H0706P40	کاربر در یکسال گذشته بیش از 10 تعامل موفق با سایر کاربران داشته است
     rule = Rule()
     rule = create_new_rule(rule, 3, 'H7', 'H0706P40', 'کاربر در یکسال گذشته بیش از 10 تعامل موفق با سایر کاربران داشته است', 4.44, 40, 11,
-                           rules_max_days_val)
+                           rules_max_val)
     rule.save()
     print('Histories(H) done_timely_trades_between_last_3_to_12_months_h7 rules are created.')
 
@@ -176,7 +176,7 @@ def import_rules_history_recommended_to_others_counts_h8():
 
     # Recommendation > 30	50	H0806P50	پیشنهاد شده توسط بیش از 30 نفر
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'H8', 'H0806P50', 'پیشنهاد شده توسط بیش از 30 نفر', 5.56, 50, 30, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'H8', 'H0806P50', 'پیشنهاد شده توسط بیش از 30 نفر', 5.56, 50, 30, rules_max_val)
     rule.save()
     print('Histories(H) recommended_to_others_counts_h8 rules are created.')
 
@@ -254,27 +254,27 @@ def import_rules_history_undone_undue_trades_counts_h10():
 
     # NumNotDueDeal = 6	-1	H1007N1	کاربر 6 تعامل سررسید نشده دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'H10', 'H1007N1', 'کاربر 6 تعامل سررسید نشده دارد', -0.11, -1, 6, 6)
+    rule = create_new_rule(rule, 3, 'H10', 'H1007N1', 'کاربر 6 تعامل سررسید نشده دارد', 0.11, -1, 6, 6)
     rule.save()
 
     # 7 <= NumNotDueDeal ≤ 10	-10	H1008N10	کاربر بین 7 تا 10 تعامل سررسید نشده دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'H10', 'H1008N10', 'کاربر بین 7 تا 10 تعامل سررسید نشده دارد', -1.11, -10, 7, 10)
+    rule = create_new_rule(rule, 3, 'H10', 'H1008N10', 'کاربر بین 7 تا 10 تعامل سررسید نشده دارد', 1.11, -10, 7, 10)
     rule.save()
 
     # 11 <= NumNotDueDeal ≤ 20	-20	H1009N20	کاربر بین 11 تا 20 تعامل سررسید نشده دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'H10', 'H1009N20', 'کاربر بین 11 تا 20 تعامل سررسید نشده دارد', -2.22, -20, 11, 20)
+    rule = create_new_rule(rule, 3, 'H10', 'H1009N20', 'کاربر بین 11 تا 20 تعامل سررسید نشده دارد', 2.22, -20, 11, 20)
     rule.save()
 
     # 21 <= NumNotDueDeal ≤ 30	-30	H1010N30	کاربر بین 21 تا 30 تعامل سررسید نشده دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'H10', 'H1010N30', 'کاربر بین 21 تا 30 تعامل سررسید نشده دارد', -3.33, -30, 21, 30)
+    rule = create_new_rule(rule, 3, 'H10', 'H1010N30', 'کاربر بین 21 تا 30 تعامل سررسید نشده دارد', 3.33, -30, 21, 30)
     rule.save()
 
     # NotDueDeal >= 31	-50	H1011N50	کاربر بیش از 30 تعامل سررسید نشده دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'H10', 'H1011N50', 'کاربر بیش از 30 تعامل سررسید نشده دارد', -5.56, -50, 31, 999)
+    rule = create_new_rule(rule, 3, 'H10', 'H1011N50', 'کاربر بیش از 30 تعامل سررسید نشده دارد', 5.56, -50, 31, 999)
     rule.save()
     print('Histories(H) undone_undue_trades_counts_h10 rules are created.')
 
@@ -308,17 +308,17 @@ def import_rules_history_loans_total_count_h11():
 
     # Loans = 4	-20	H1105N20	کاربر ۴ تسهیلات در جریان دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'H11', 'H1105N20', 'کاربر ۴ تسهیلات در جریان دارد', -2.22, -20, 4, 4)
+    rule = create_new_rule(rule, 3, 'H11', 'H1105N20', 'کاربر ۴ تسهیلات در جریان دارد', 2.22, -20, 4, 4)
     rule.save()
 
     # Loans = 5	-30	H1106N30	کاربر ۵ تسهیلات در جریان دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'H11', 'H1106N30', 'کاربر ۵ تسهیلات در جریان دارد', -3.33, -30, 5, 5)
+    rule = create_new_rule(rule, 3, 'H11', 'H1106N30', 'کاربر ۵ تسهیلات در جریان دارد', 3.33, -30, 5, 5)
     rule.save()
 
     # Loans >= 6	-50	H1107N50	کاربر بیش از ۵ تسهیلات در جریان دارد
     rule = Rule()
-    rule = create_new_rule(rule, 3, 'H11', 'H1107N50', 'کاربر بیش از ۵ تسهیلات در جریان دارد', -5.56, -50, 6, rules_max_days_val)
+    rule = create_new_rule(rule, 3, 'H11', 'H1107N50', 'کاربر بیش از ۵ تسهیلات در جریان دارد', 5.56, -50, 6, rules_max_val)
     rule.save()
     print('Histories(H) loans_total_count_h11 rules are created.')
 

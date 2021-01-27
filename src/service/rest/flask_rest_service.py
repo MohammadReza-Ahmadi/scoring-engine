@@ -2,11 +2,15 @@ from flask import Flask, redirect, url_for, jsonify
 
 import program
 from data.profile import Profile
-from src.service import general_data_service as gs
 
 app = Flask(__name__)
 
 
+# @app.route('/score-gauge')
+# def get_score_gauge():
+
+
+# old part #----------------------
 @app.route('/')
 def home():
     return 'Hello, this is main page <h1>Hello</h1>'

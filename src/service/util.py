@@ -1,9 +1,11 @@
 import random
 import string
 
+from mongoengine.queryset.visitor import Q
+
 from data.rule.rule_model import RuleModel
 from data.rule.rules import Rule
-from infrastructure.constants import score_deliminator
+from infrastructure.constants import score_deliminator, NORMALIZATION_MAX_SCORE, ONE_HUNDRED
 
 
 def create_new_rule(rule: Rule, level, parent: str, code: str, title: str, impact_percent: float, score: int = None, min_val: float = None,
@@ -40,6 +42,10 @@ def get_score_from_dict(scores: {}):
     return int(scores[0].split(score_deliminator)[0])
 
 
+def get_max_score_from_dict(scores: {}):
+    return int(scores[len(scores)-1].split(score_deliminator)[0])
+
+
 def get_score_code_from_dict(scores: {}):
     return scores[0].split(score_deliminator)[1]
 
@@ -47,6 +53,18 @@ def get_score_code_from_dict(scores: {}):
 def add_rule_to_dict(rdict: {}, r: Rule):
     rdict.__setitem__((str(r.score) + score_deliminator + r.code), r.max)
     return rdict
+
+
+def calculate_normalized_score(parent_code: str, score: int):
+    rules: [Rule] = Rule.objects(Q(parent=parent_code, score=score))
+    # print(rules[0].impact_percent)
+    percent = rules[0].impact_percent
+    # normalized_score = round(percent * NORMALIZATION_MAX_SCORE / ONE_HUNDRED)
+    normalized_score = (percent * NORMALIZATION_MAX_SCORE / ONE_HUNDRED)
+    if score < 0:
+        normalized_score = (normalized_score * -1)
+    print('\nnormalized_score= {} , percent= {}'.format(normalized_score, percent))
+    return normalized_score
 
 
 def add_rule_model_to_dict(rdict: {}, r: RuleModel):
