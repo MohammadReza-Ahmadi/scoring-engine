@@ -3,8 +3,7 @@ import string
 
 from mongoengine.queryset.visitor import Q
 
-from data.rule.rule_model import RuleModel
-from data.rule.rules import Rule
+from data.rules import Rule
 from infrastructure.constants import score_deliminator, NORMALIZATION_MAX_SCORE, ONE_HUNDRED
 
 
@@ -21,29 +20,12 @@ def create_new_rule(rule: Rule, level, parent: str, code: str, title: str, impac
     return rule
 
 
-def create_rule(rule: RuleModel, code: str, min_val, max_val, score: int, impact_percent: float, desc: str):
-    rule.code = code
-    rule.min = min_val
-    rule.max = max_val
-    rule.score = score
-    rule.desc = desc
-    return rule
-
-
-def create_rule_by_status_code(rule: RuleModel, code: str, status_code: int, score: int, impact_percent: float, desc: str):
-    rule.code = code
-    rule.status_code = status_code
-    rule.score = score
-    rule.desc = desc
-    return rule
-
-
 def get_score_from_dict(scores: {}):
     return int(scores[0].split(score_deliminator)[0])
 
 
 def get_max_score_from_dict(scores: {}):
-    return int(scores[len(scores)-1].split(score_deliminator)[0])
+    return int(scores[len(scores) - 1].split(score_deliminator)[0])
 
 
 def get_score_code_from_dict(scores: {}):
@@ -65,16 +47,6 @@ def calculate_normalized_score(parent_code: str, score: int):
         normalized_score = (normalized_score * -1)
     print('\nnormalized_score= {} , percent= {}'.format(normalized_score, percent))
     return normalized_score
-
-
-def add_rule_model_to_dict(rdict: {}, r: RuleModel):
-    rdict.__setitem__((str(r.score) + score_deliminator + r.code), r.max)
-    return rdict
-
-
-def add_rule_model_to_dict_by_rds_score(rdict: {}, r: RuleModel, rds_score: int):
-    rdict.__setitem__((str(r.score) + score_deliminator + r.code), rds_score)
-    return rdict
 
 
 def add_item_to_dict(rdict: {}, key, value):

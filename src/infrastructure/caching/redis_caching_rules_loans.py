@@ -1,21 +1,16 @@
-from typing import List
-
+from mongoengine.queryset.visitor import Q
 from redis import StrictRedis
 
-from data.rule.loan.rules_loan_arrear_total_balance_ratios import RuleArrearLoansTotalBalanceRatio
-from data.rule.loan.rules_loan_arrear_total_counts import RuleArrearLoansTotalCount
-from data.rule.loan.rules_loan_monthly_installments_total_balance_ratios import RuleLoanMonthlyInstallmentsTotalBalanceRatio
-from data.rule.loan.rules_loan_total_counts import RuleLoansTotalCount
-from data.rule.loan.rules_loan_overdue_total_balance_ratios import RuleLoanOverdueTotalBalanceRatio
-from data.rule.loan.rules_loan_past_due_total_balance_ratios import RuleLoanPastDueTotalBalanceRatio
-from data.rule.loan.rules_loan_past_due_total_counts import RulePastDueLoansTotalCount
-from data.rule.loan.rules_loan_suspicious_total_balance_ratios import RuleSuspiciousLoansTotalBalanceRatio
-from data.rule.loan.rules_loan_suspicious_total_counts import RuleSuspiciousLoansTotalCount
+from data.rules import Rule
+from infrastructure.constants import V20_RULES_LOAN_ARREAR_TOTAL_BALANCE_RATIOS, T34_RULES_LOAN_ARREAR_TOTAL_COUNTS, \
+    V16_RULES_LOAN_MONTHLY_INSTALLMENTS_TOTAL_BALANCE_RATIOS, \
+    H11_RULES_LOAN_TOTAL_COUNTS, V18_RULES_LOAN_OVERDUE_TOTAL_BALANCE_RATIOS, V19_RULES_LOAN_PAST_DUE_TOTAL_BALANCE_RATIOS, \
+    T33_RULES_LOAN_PAST_DUE_TOTAL_COUNTS, V21_RULES_LOAN_SUSPICIOUS_TOTAL_BALANCE_RATIOS, T35_RULES_LOAN_SUSPICIOUS_TOTAL_COUNTS
 from infrastructure.constants import rules_max_val, rules_min_val, \
     SET_RULES_LOAN_ARREAR_TOTAL_BALANCE_RATIOS, SET_RULES_LOAN_ARREAR_TOTAL_COUNTS, SET_RULES_LOAN_MONTHLY_INSTALLMENTS_TOTAL_BALANCE_RATIOS, \
     SET_RULES_LOAN_TOTAL_COUNTS, SET_RULES_LOAN_OVERDUE_TOTAL_BALANCE_RATIOS, SET_RULES_LOAN_PAST_DUE_TOTAL_BALANCE_RATIOS, \
     SET_RULES_LOAN_PAST_DUE_TOTAL_COUNTS, SET_RULES_LOAN_SUSPICIOUS_TOTAL_BALANCE_RATIOS, SET_RULES_LOAN_SUSPICIOUS_TOTAL_COUNTS
-from service.util import add_rule_model_to_dict, get_score_from_dict
+from service.util import get_score_from_dict, add_rule_to_dict
 
 
 # noinspection DuplicatedCode
@@ -28,149 +23,149 @@ class RedisCachingRulesLoans:
         super().__init__()
 
     def cache_rules(self):
-        self.cache_rules_arrear_loans_total_balance_ratios()
-        self.cache_rules_arrear_loans_total_counts()
-        self.cache_rules_loan_monthly_installments_total_balance_ratios()
-        self.cache_rules_loans_total_counts()
-        self.cache_rules_overdue_loans_total_balance_ratios()
-        self.cache_rules_past_due_loans_total_balance_ratios()
-        self.cache_rules_past_due_loans_total_counts()
-        self.cache_rules_suspicious_loans_total_balance_ratios()
-        self.cache_rules_suspicious_loans_total_counts()
+        self.cache_rules_arrear_loans_total_balance_ratios_v20()
+        self.cache_rules_arrear_loans_total_counts_t34()
+        self.cache_rules_loan_monthly_installments_total_balance_ratios_v16()
+        self.cache_rules_loans_total_counts_h11()
+        self.cache_rules_overdue_loans_total_balance_ratios_v18()
+        self.cache_rules_past_due_loans_total_balance_ratios_v19()
+        self.cache_rules_past_due_loans_total_counts_t33()
+        self.cache_rules_suspicious_loans_total_balance_ratios_v21()
+        self.cache_rules_suspicious_loans_total_counts_t35()
 
     # ---------------------------- set cache methods ----------------------------------- #
-    def cache_rules_arrear_loans_total_balance_ratios(self):
+    def cache_rules_arrear_loans_total_balance_ratios_v20(self):
         if self.recreate_caches:
             self.rds.delete(SET_RULES_LOAN_ARREAR_TOTAL_BALANCE_RATIOS)
         if not bool(self.rds.zcount(SET_RULES_LOAN_ARREAR_TOTAL_BALANCE_RATIOS, rules_min_val, rules_max_val)):
-            rules: List[RuleArrearLoansTotalBalanceRatio] = RuleArrearLoansTotalBalanceRatio.objects()
+            rules: [Rule] = Rule.objects(Q(parent=V20_RULES_LOAN_ARREAR_TOTAL_BALANCE_RATIOS))
             rdict = {}
             for r in rules:
-                add_rule_model_to_dict(rdict, r)
+                add_rule_to_dict(rdict, r)
             self.rds.zadd(SET_RULES_LOAN_ARREAR_TOTAL_BALANCE_RATIOS, rdict)
         print('caching rules_arrear_loans_total_balance_ratios are done.')
 
-    def cache_rules_arrear_loans_total_counts(self):
+    def cache_rules_arrear_loans_total_counts_t34(self):
         if self.recreate_caches:
             self.rds.delete(SET_RULES_LOAN_ARREAR_TOTAL_COUNTS)
         if not bool(self.rds.zcount(SET_RULES_LOAN_ARREAR_TOTAL_COUNTS, rules_min_val, rules_max_val)):
-            rules: List[RuleArrearLoansTotalCount] = RuleArrearLoansTotalCount.objects()
+            rules: [Rule] = Rule.objects(Q(parent=T34_RULES_LOAN_ARREAR_TOTAL_COUNTS))
             rdict = {}
             for r in rules:
-                add_rule_model_to_dict(rdict, r)
+                add_rule_to_dict(rdict, r)
             self.rds.zadd(SET_RULES_LOAN_ARREAR_TOTAL_COUNTS, rdict)
         print('caching rules_arrear_loans_total_counts are done.')
 
-    def cache_rules_loan_monthly_installments_total_balance_ratios(self):
+    def cache_rules_loan_monthly_installments_total_balance_ratios_v16(self):
         if self.recreate_caches:
             self.rds.delete(SET_RULES_LOAN_MONTHLY_INSTALLMENTS_TOTAL_BALANCE_RATIOS)
         if not bool(self.rds.zcount(SET_RULES_LOAN_MONTHLY_INSTALLMENTS_TOTAL_BALANCE_RATIOS, rules_min_val, rules_max_val)):
-            rules: List[RuleLoanMonthlyInstallmentsTotalBalanceRatio] = RuleLoanMonthlyInstallmentsTotalBalanceRatio.objects()
+            rules: [Rule] = Rule.objects(Q(parent=V16_RULES_LOAN_MONTHLY_INSTALLMENTS_TOTAL_BALANCE_RATIOS))
             rdict = {}
             for r in rules:
-                add_rule_model_to_dict(rdict, r)
+                add_rule_to_dict(rdict, r)
             self.rds.zadd(SET_RULES_LOAN_MONTHLY_INSTALLMENTS_TOTAL_BALANCE_RATIOS, rdict)
         print('caching rules_loan_monthly_installments_total_balance_ratios are done.')
 
-    def cache_rules_loans_total_counts(self):
+    def cache_rules_loans_total_counts_h11(self):
         if self.recreate_caches:
             self.rds.delete(SET_RULES_LOAN_TOTAL_COUNTS)
         if not bool(self.rds.zcount(SET_RULES_LOAN_TOTAL_COUNTS, rules_min_val, rules_max_val)):
-            rules: List[RuleLoansTotalCount] = RuleLoansTotalCount.objects()
+            rules: [Rule] = Rule.objects(Q(parent=H11_RULES_LOAN_TOTAL_COUNTS))
             rdict = {}
             for r in rules:
-                add_rule_model_to_dict(rdict, r)
+                add_rule_to_dict(rdict, r)
             self.rds.zadd(SET_RULES_LOAN_TOTAL_COUNTS, rdict)
         print('caching rules_loans_total_counts are done.')
 
-    def cache_rules_overdue_loans_total_balance_ratios(self):
+    def cache_rules_overdue_loans_total_balance_ratios_v18(self):
         if self.recreate_caches:
             self.rds.delete(SET_RULES_LOAN_OVERDUE_TOTAL_BALANCE_RATIOS)
         if not bool(self.rds.zcount(SET_RULES_LOAN_OVERDUE_TOTAL_BALANCE_RATIOS, rules_min_val, rules_max_val)):
-            rules: List[RuleLoanOverdueTotalBalanceRatio] = RuleLoanOverdueTotalBalanceRatio.objects()
+            rules: [Rule] = Rule.objects(Q(parent=V18_RULES_LOAN_OVERDUE_TOTAL_BALANCE_RATIOS))
             rdict = {}
             for r in rules:
-                add_rule_model_to_dict(rdict, r)
+                add_rule_to_dict(rdict, r)
             self.rds.zadd(SET_RULES_LOAN_OVERDUE_TOTAL_BALANCE_RATIOS, rdict)
         print('caching rules_overdue_loans_total_balance_ratios are done.')
 
-    def cache_rules_past_due_loans_total_balance_ratios(self):
+    def cache_rules_past_due_loans_total_balance_ratios_v19(self):
         if self.recreate_caches:
             self.rds.delete(SET_RULES_LOAN_PAST_DUE_TOTAL_BALANCE_RATIOS)
         if not bool(self.rds.zcount(SET_RULES_LOAN_PAST_DUE_TOTAL_BALANCE_RATIOS, rules_min_val, rules_max_val)):
-            rules: List[RuleLoanPastDueTotalBalanceRatio] = RuleLoanPastDueTotalBalanceRatio.objects()
+            rules: [Rule] = Rule.objects(Q(parent=V19_RULES_LOAN_PAST_DUE_TOTAL_BALANCE_RATIOS))
             rdict = {}
             for r in rules:
-                add_rule_model_to_dict(rdict, r)
+                add_rule_to_dict(rdict, r)
             self.rds.zadd(SET_RULES_LOAN_PAST_DUE_TOTAL_BALANCE_RATIOS, rdict)
         print('caching rules_past_due_loans_total_balance_ratios are done.')
 
-    def cache_rules_past_due_loans_total_counts(self):
+    def cache_rules_past_due_loans_total_counts_t33(self):
         if self.recreate_caches:
             self.rds.delete(SET_RULES_LOAN_PAST_DUE_TOTAL_COUNTS)
         if not bool(self.rds.zcount(SET_RULES_LOAN_PAST_DUE_TOTAL_COUNTS, rules_min_val, rules_max_val)):
-            rules: List[RulePastDueLoansTotalCount] = RulePastDueLoansTotalCount.objects()
+            rules: [Rule] = Rule.objects(Q(parent=T33_RULES_LOAN_PAST_DUE_TOTAL_COUNTS))
             rdict = {}
             for r in rules:
-                add_rule_model_to_dict(rdict, r)
+                add_rule_to_dict(rdict, r)
             self.rds.zadd(SET_RULES_LOAN_PAST_DUE_TOTAL_COUNTS, rdict)
         print('caching rules_past_due_loans_total_counts are done.')
 
-    def cache_rules_suspicious_loans_total_balance_ratios(self):
+    def cache_rules_suspicious_loans_total_balance_ratios_v21(self):
         if self.recreate_caches:
             self.rds.delete(SET_RULES_LOAN_SUSPICIOUS_TOTAL_BALANCE_RATIOS)
         if not bool(self.rds.zcount(SET_RULES_LOAN_SUSPICIOUS_TOTAL_BALANCE_RATIOS, rules_min_val, rules_max_val)):
-            rules: List[RuleSuspiciousLoansTotalBalanceRatio] = RuleSuspiciousLoansTotalBalanceRatio.objects()
+            rules: [Rule] = Rule.objects(Q(parent=V21_RULES_LOAN_SUSPICIOUS_TOTAL_BALANCE_RATIOS))
             rdict = {}
             for r in rules:
-                add_rule_model_to_dict(rdict, r)
+                add_rule_to_dict(rdict, r)
             self.rds.zadd(SET_RULES_LOAN_SUSPICIOUS_TOTAL_BALANCE_RATIOS, rdict)
         print('caching rules_suspicious_loans_total_balance_ratios are done.')
 
-    def cache_rules_suspicious_loans_total_counts(self):
+    def cache_rules_suspicious_loans_total_counts_t35(self):
         if self.recreate_caches:
             self.rds.delete(SET_RULES_LOAN_SUSPICIOUS_TOTAL_COUNTS)
         if not bool(self.rds.zcount(SET_RULES_LOAN_SUSPICIOUS_TOTAL_COUNTS, rules_min_val, rules_max_val)):
-            rules: List[RuleSuspiciousLoansTotalCount] = RuleSuspiciousLoansTotalCount.objects()
+            rules: [Rule] = Rule.objects(Q(parent=T35_RULES_LOAN_SUSPICIOUS_TOTAL_COUNTS))
             rdict = {}
             for r in rules:
-                add_rule_model_to_dict(rdict, r)
+                add_rule_to_dict(rdict, r)
             self.rds.zadd(SET_RULES_LOAN_SUSPICIOUS_TOTAL_COUNTS, rdict)
         print('caching rules_suspicious_loans_total_counts are done.')
 
     # ---------------------------- read cache methods ----------------------------------- #
-    def get_score_of_rules_arrear_loans_total_balance_ratios(self, arrear_total_balance_ratio):
+    def get_score_of_rules_arrear_loans_total_balance_ratios_v20(self, arrear_total_balance_ratio):
         scores = self.rds.zrangebyscore(SET_RULES_LOAN_ARREAR_TOTAL_BALANCE_RATIOS, arrear_total_balance_ratio, rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_arrear_loans_total_counts(self, arrear_loans_total_count):
+    def get_score_of_rules_arrear_loans_total_counts_t34(self, arrear_loans_total_count):
         scores = self.rds.zrangebyscore(SET_RULES_LOAN_ARREAR_TOTAL_COUNTS, arrear_loans_total_count, rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_loan_monthly_installments_total_balance_ratios(self, installments_total_balance_ratio):
+    def get_score_of_rules_loan_monthly_installments_total_balance_ratios_v16(self, installments_total_balance_ratio):
         scores = self.rds.zrangebyscore(SET_RULES_LOAN_MONTHLY_INSTALLMENTS_TOTAL_BALANCE_RATIOS, installments_total_balance_ratio, rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_loans_total_counts(self, loans_total_count):
+    def get_score_of_rules_loans_total_counts_h11(self, loans_total_count):
         scores = self.rds.zrangebyscore(SET_RULES_LOAN_TOTAL_COUNTS, loans_total_count, rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_overdue_loans_total_balance_ratios(self, overdue_total_balance_ratio):
+    def get_score_of_rules_overdue_loans_total_balance_ratios_v18(self, overdue_total_balance_ratio):
         scores = self.rds.zrangebyscore(SET_RULES_LOAN_OVERDUE_TOTAL_BALANCE_RATIOS, overdue_total_balance_ratio, rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_past_due_loans_total_balance_ratios(self, past_due_total_balance_ratio):
+    def get_score_of_rules_past_due_loans_total_balance_ratios_v19(self, past_due_total_balance_ratio):
         scores = self.rds.zrangebyscore(SET_RULES_LOAN_PAST_DUE_TOTAL_BALANCE_RATIOS, past_due_total_balance_ratio, rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_past_due_loans_total_counts(self, past_due_loans_total_count):
+    def get_score_of_rules_past_due_loans_total_counts_t33(self, past_due_loans_total_count):
         scores = self.rds.zrangebyscore(SET_RULES_LOAN_PAST_DUE_TOTAL_COUNTS, past_due_loans_total_count, rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_suspicious_loans_total_balance_ratios(self, suspicious_total_balance_ratio):
+    def get_score_of_rules_suspicious_loans_total_balance_ratios_v21(self, suspicious_total_balance_ratio):
         scores = self.rds.zrangebyscore(SET_RULES_LOAN_SUSPICIOUS_TOTAL_BALANCE_RATIOS, suspicious_total_balance_ratio, rules_max_val)
         return get_score_from_dict(scores)
 
-    def get_score_of_rules_suspicious_loans_total_counts(self, suspicious_loans_total_count):
+    def get_score_of_rules_suspicious_loans_total_counts_t35(self, suspicious_loans_total_count):
         scores = self.rds.zrangebyscore(SET_RULES_LOAN_SUSPICIOUS_TOTAL_COUNTS, suspicious_loans_total_count, rules_max_val)
         return get_score_from_dict(scores)

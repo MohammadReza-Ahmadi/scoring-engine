@@ -7,8 +7,8 @@ from data.done_trades import DoneTrade
 from data.loans import Loan
 from data.profile import Profile
 from data.undone_trades import UndoneTrade
-from infrastructure.caching.new.redis_caching_rules_masters import RedisCachingRulesMasters
 from infrastructure.caching.redis_caching import RedisCaching
+from infrastructure.caching.redis_caching_rules_masters import RedisCachingRulesMasters
 from infrastructure.constants import ALL_USERS_AVERAGE_UNFIXED_RETURNED_CHEQUES_AMOUNT, IDENTITIES_SCORE, HISTORIES_SCORE, VOLUMES_SCORE, \
     TIMELINESS_SCORE, ALL_USERS_AVERAGE_PRINCIPAL_INTEREST_AMOUNT, ALL_USERS_AVERAGE_DEAL_AMOUNT
 from infrastructure.scoring_enums import ProfileMilitaryServiceStatusEnum
