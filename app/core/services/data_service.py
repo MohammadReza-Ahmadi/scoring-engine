@@ -14,6 +14,7 @@ from app.core.models.done_trades import DoneTrade
 from app.core.models.dtos.cheque_status_dto import ChequesStatusDTO
 from app.core.models.dtos.loan_status_dto import LoansStatusDTO
 from app.core.models.dtos.score_boundaries_dto import ScoreBoundariesDTO
+from app.core.models.dtos.score_changes_dto import ScoreChangesDTO
 from app.core.models.dtos.score_details_dto import ScoreDetailsDTO
 from app.core.models.dtos.score_distribution_dto import ScoreDistributionDTO
 from app.core.models.dtos.score_status_dto import ScoreStatusDTO
@@ -21,11 +22,12 @@ from app.core.models.dtos.vosouq_status_dto import VosouqStatusDTO
 from app.core.models.loans import Loan
 from app.core.models.profile import Profile
 from app.core.models.rules import Rule
+from app.core.models.score_changes import ScoreChange
 from app.core.models.score_gauges import ScoreGauge
 from app.core.models.undone_trades import UndoneTrade
 from app.core.services.pipelines_generator import generate_scores_distributions_pipeline
 from app.core.services.util import create_score_status_dto, create_vosouq_status_dto, calculate_dates_diff, create_loan_status_dto, create_cheque_status_dto, \
-    get_zero_if_null, create_score_details_dto, get_second_item
+    get_zero_if_null, create_score_details_dto, get_second_item, create_score_changes_dto
 from app.core.settings import min_score, max_score, distribution_count
 
 
@@ -169,6 +171,15 @@ class DataService:
             return Cheque()
         return Cheque.parse_obj(dic)
 
+    # SCORE CHANGEs SERVICES ................................................
+    def get_user_score_changes(self, user_id: int) -> List[ScoreChange]:
+        if user_id is None:
+            raise ScoringException(3, 'user_id can not be None!')
+        dic = self.db.scoreChanges.find({USER_ID: user_id})
+        if dic is None or len(dic) == 0:
+            return []
+        return parse_obj_as(List[ScoreChange], dic)
+
     # REST SERVICES ................................................
     def get_score_boundaries(self) -> ScoreBoundariesDTO:
         rb = self.get_master_rules_boundaries_dict()
@@ -260,3 +271,12 @@ class DataService:
             score_range: [] = k.split(SCORE_DISTRIBUTION_SEPARATOR)
             score_distro_dtos.append(ScoreDistributionDTO(from_score=score_range[ZERO], to_score=score_range[ONE], count=score_distro_dict[k]))
         return score_distro_dtos
+
+    def get_score_changes(self, user_id: int) -> List[ScoreChangesDTO]:
+        if user_id is None:
+            raise ScoringException(3, 'user_id can not be None!')
+        score_changes: [ScoreChange] = self.get_user_score_changes(user_id)
+        sch_dtos: [ScoreChangesDTO] = []
+        for sch in score_changes:
+            sch_dtos.append(create_score_changes_dto(sch))
+        return sch_dtos

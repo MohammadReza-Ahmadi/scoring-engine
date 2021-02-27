@@ -8,15 +8,17 @@ from app.core.constants import score_deliminator, NORMALIZATION_MAX_SCORE, ONE_H
 from app.core.models.cheques import Cheque
 from app.core.models.dtos.cheque_status_dto import ChequesStatusDTO
 from app.core.models.dtos.loan_status_dto import LoansStatusDTO
+from app.core.models.dtos.score_changes_dto import ScoreChangesDTO
 from app.core.models.dtos.score_details_dto import ScoreDetailsDTO
 from app.core.models.dtos.score_status_dto import ScoreStatusDTO
 from app.core.models.dtos.vosouq_status_dto import VosouqStatusDTO
 from app.core.models.loans import Loan
 from app.core.models.profile import Profile
 from app.core.models.rules import Rule
-
-
 # noinspection DuplicatedCode
+from app.core.models.score_changes import ScoreChange
+
+
 def create_new_rule(level, parent: str, code: str, title: str, impact_percent: float, score: int = None, min_val: float = None, max_val: float = None):
     rule = Rule()
     rule.level = level
@@ -89,6 +91,14 @@ def create_score_details_dto(pf: Profile) -> ScoreDetailsDTO:
     sdd.volumes_score = get_not_none_value(pf.volumes_score, sdd.volumes_score)
     sdd.timeliness_score = get_not_none_value(pf.timeliness_score, sdd.timeliness_score)
     return sdd
+
+
+def create_score_changes_dto(sch: ScoreChange) -> ScoreChangesDTO:
+    scd: ScoreChangesDTO = ScoreChangesDTO()
+    scd.title = sch.reason_desc
+    scd.date = sch.date
+    scd.score_change = sch.score_change
+    return scd
 
 
 def calculate_dates_diff(start: datetime, end: datetime) -> {}:

@@ -7,6 +7,7 @@ from app.core.data.caching.redis_caching import RedisCaching
 from app.core.models.dtos.cheque_status_dto import ChequesStatusDTO
 from app.core.models.dtos.loan_status_dto import LoansStatusDTO
 from app.core.models.dtos.score_boundaries_dto import ScoreBoundariesDTO
+from app.core.models.dtos.score_changes_dto import ScoreChangesDTO
 from app.core.models.dtos.score_details_dto import ScoreDetailsDTO
 from app.core.models.dtos.score_distribution_dto import ScoreDistributionDTO
 from app.core.models.dtos.score_status_dto import ScoreStatusDTO
@@ -66,6 +67,12 @@ async def get_score_details(userId: int):
 @router.get("/score-distributions", response_model=List[ScoreDistributionDTO])
 async def get_score_distribution():
     return ds.get_score_distributions()
+
+
+# noinspection PyPep8Naming
+@router.get("/score-changes/{userId}", response_model=List[ScoreChangesDTO])
+async def get_score_distribution(userId: int):
+    return ds.get_score_changes(userId)
 
 
 # Just Test, should be removed
